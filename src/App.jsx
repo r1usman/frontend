@@ -1,17 +1,31 @@
 // Main App.js (entry point for the app)
-import { BrowserRouter, Routes, Route } from 'react-router-dom'; // Make sure to import 'react-router-dom' properly
+import { BrowserRouter, Routes, Route } from "react-router-dom"; // Make sure to import 'react-router-dom' properly
 import "./index.css"; // Your global CSS
-import LandingPage from "./landingPage/landingPage.jsx";
 import DisplayDashboard from "./DashBoard/DisplayDashboard.jsx";
 import PythonCourse from "./DefaultCourses/Python/App.jsx";
 
+import { StudentsSection } from "./managecourse/dashboard/StudentsSection";
+import { DashboardLayout } from "./managecourse/layouts/DashboardLayout";
+import AssignmentHistory from "./managecourse/pages/AssignmentHistory";
+import ContentBox from "./managecourse/pages/ContentBox";
+import { CourseManagement } from "./managecourse/pages/CourseManagement";
+import EditCoursePage from "./managecourse/pages/EditCoursePage";
+import TestHistory from "./managecourse/pages/TestHistory";
+
 function App() {
   return (
-    <BrowserRouter>  {/* BrowserRouter wraps the entire app to enable routing */}
-      <Routes> 
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/Dash" element={<DisplayDashboard />} />
-        <Route path="/0/*" element={<PythonCourse />} /> {/* Use '*' to allow nested routes */}
+    <BrowserRouter>
+      <Routes>
+        <Route path="/dash" element={<DisplayDashboard />} />
+        <Route path="/0/*" element={<PythonCourse />} />
+        <Route path="course" element={<DashboardLayout />}>
+          <Route index element={<CourseManagement />} />
+          <Route path="edit" element={<EditCoursePage />} />
+          <Route path="students" element={<StudentsSection />} />
+          <Route path="curriculum" element={<ContentBox />} />
+          <Route path="test" element={<TestHistory />} />
+          <Route path="assign" element={<AssignmentHistory />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
