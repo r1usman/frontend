@@ -1,0 +1,60 @@
+.w3-content {
+  @apply text-gray-800 leading-relaxed;
+}
+
+.w3-content h2 {
+  @apply text-2xl font-bold text-[#646464] mt-8 mb-4;
+}
+
+.w3-content h3 {
+  @apply text-xl font-semibold text-[#646464] mt-6 mb-3;
+}
+
+.w3-content p {
+  @apply mb-4 text-gray-700;
+}
+
+.w3-content ul {
+  @apply mb-6 space-y-2 list-disc pl-6;
+}
+
+.w3-content li {
+  @apply text-gray-700;
+}
+
+.w3-content code {
+  @apply bg-gray-100 text-[#646464] px-1.5 py-0.5 rounded font-mono text-sm;
+}
+
+.w3-content pre {
+  @apply bg-gray-100 p-4 rounded-lg mb-4 overflow-x-auto;
+}
+
+.w3-content pre code {
+  @apply bg-transparent p-0;
+}
+
+.w3-content a {
+  @apply text-[#306998] hover:text-blue-700 underline;
+}
+
+.w3-content blockquote {
+  @apply border-l-4 border-[#306998] bg-blue-50 p-4 mb-4 italic text-gray-700;
+}
+
+.w3-content table {
+  @apply w-full border-collapse mb-4;
+}
+
+.w3-content th,
+.w3-content td {
+  @apply border border-gray-300 px-4 py-2;
+}
+
+.w3-content th {
+  @apply bg-gray-100 font-semibold text-left;
+}
+
+.w3-content tr:nth-child(even) {
+  @apply bg-gray-50;
+}

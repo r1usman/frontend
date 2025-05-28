@@ -1,5 +1,6 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const CourseCard = ({
   title,
@@ -7,7 +8,8 @@ const CourseCard = ({
   buttonText,
   color,
   icon,
-  progress
+  progress,
+  onClick, // Handler for card click
 }) => {
  
   const progressColor =
@@ -20,11 +22,11 @@ const CourseCard = ({
   return (
     <div
       className={`${color} p-4 rounded-lg w-80 flex-shrink-0 transition-transform duration-200 hover:bg-opacity-80 cursor-pointer hover:shadow-lg`}
+      onClick={onClick} // Trigger the passed onClick event when card is clicked
     >
       <h3 className="text-white font-semibold text-lg mb-2">{title}</h3>
       <p className="text-white text-xs mb-4">{description}</p>
       
-    
       <div className="">
         <div className="text-xs text-white mb-2">Progress</div>
         <div className="h-2 bg-gray-300 rounded-full">
@@ -44,6 +46,16 @@ const CourseCard = ({
 };
 
 const CourseContinue = () => {
+  const navigate = useNavigate(); // Hook to navigate to other pages
+  
+  // Handler to be triggered on card click
+  const handleCardClick = (courseId) => {
+    if(courseId == "python")
+    {
+      navigate("/0")
+    }
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
@@ -65,8 +77,8 @@ const CourseContinue = () => {
           buttonText="Start Learning"
           color="bg-gradient-to-br from-cyan-500 to-blue-600"
           icon={<span className="text-white text-lg">🐍</span>}
-          
           progress={70}
+          onClick={() => handleCardClick('python')} // Pass courseId to handler
         />
         <CourseCard
           title="Java Programming"
@@ -74,8 +86,8 @@ const CourseContinue = () => {
           buttonText="Start Learning"
           color="bg-gradient-to-br from-orange-400 to-red-500"
           icon={<span className="text-white text-lg">☕</span>}
-          
           progress={50}
+          onClick={() => handleCardClick('java')} // Pass courseId to handler
         />
         <CourseCard
           title="C++ Programming"
@@ -84,6 +96,7 @@ const CourseContinue = () => {
           color="bg-gradient-to-br from-purple-500 to-indigo-600"
           icon={<span className="text-white text-lg">➕</span>}
           progress={80} 
+          onClick={() => handleCardClick('cpp')} 
         />
       </div>
     </div>
