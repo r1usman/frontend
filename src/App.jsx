@@ -12,6 +12,8 @@ import { CourseManagement } from "./managecourse/pages/CourseManagement";
 import EditCoursePage from "./managecourse/pages/EditCoursePage";
 import TestHistory from "./managecourse/pages/TestHistory";
 
+import Problemset from "./problemset/Problemset";
+
 function App() {
   return (
     <BrowserRouter>
@@ -26,6 +28,8 @@ function App() {
           <Route path="test" element={<TestHistory />} />
           <Route path="assign" element={<AssignmentHistory />} />
         </Route>
+
+        <Route path="/problemset" element={<Problemset />} />
       </Routes>
     </BrowserRouter>
   );
