@@ -147,14 +147,6 @@ const AssignmentHistory: React.FC = () => {
   return (
     <Layout>
       <div>
-        <PageHeader
-          title="Collaborative Assignments"
-          description="View and manage all your collaborative assignments"
-          buttonText="Schedule New Assignment"
-          buttonIcon={<PlusCircle className="h-4 w-4 mr-2" />}
-          onButtonClick={handleScheduleNewAssignment}
-        />
-
         <div className="mt-6">
           <FilterBar
             onSearch={handleSearch}

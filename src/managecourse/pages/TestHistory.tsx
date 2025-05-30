@@ -128,14 +128,6 @@ const TestHistory: React.FC = () => {
   return (
     <Layout>
       <div>
-        <PageHeader
-          title="Coding Tests"
-          description="View and manage all your coding tests"
-          buttonText="Schedule New Test"
-          buttonIcon={<PlusCircle className="h-4 w-4 mr-2" />}
-          onButtonClick={handleScheduleNewTest}
-        />
-
         <div className="mt-6">
           <FilterBar
             onSearch={handleSearch}
