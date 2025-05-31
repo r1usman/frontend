@@ -1,17 +1,50 @@
-// Main App.js (entry point for the app)
-import { BrowserRouter, Routes, Route } from 'react-router-dom'; // Make sure to import 'react-router-dom' properly
-import "./index.css"; // Your global CSS
-import LandingPage from "./landingPage/landingPage.jsx";
-import DisplayDashboard from "./DashBoard/DisplayDashboard.jsx";
+// App.js (main entry point)
+import React, { useContext } from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+
+import "./index.css";
+
+// Top‐level pages (outside of /Mod)
+import LandingPage from "./LandingPage2.0/LandingPage.jsx";
+import UserDashboard from "./DashBoard/DisplayDashboard.jsx";
+import AdminDashboard from "./DashBoard/AdminDashboard.jsx"
 import PythonCourse from "./DefaultCourses/Python/App.jsx";
 
+// Competition wrapper handles everything under /Mod/*
+import CompetitionWrapper from "./Competition/CompetitionWrapper.jsx";
+
+import {UserContext} from "./GlobalContext/UserContext.jsx"
+import Login from "./Competition/pages/Login.jsx";
+import Signup from "./Authentication/Signup.jsx";
+
 function App() {
+
+  const {role} = useContext(UserContext)
   return (
-    <BrowserRouter>  {/* BrowserRouter wraps the entire app to enable routing */}
-      <Routes> 
+    <BrowserRouter>
+      <Routes>
+      
         <Route path="/" element={<LandingPage />} />
-        <Route path="/Dash" element={<DisplayDashboard />} />
-        <Route path="/0/*" element={<PythonCourse />} /> {/* Use '*' to allow nested routes */}
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Signup" element={<Signup/>} />
+        <Route path="/Dash" element={
+          role === "student" ?
+          <UserDashboard />
+          :
+          <AdminDashboard />
+        } />
+
+        <Route path="/0/*" element={<PythonCourse />} />
+
+        <Route path="/Mod/*" element={<CompetitionWrapper />} />
+
+
+     
       </Routes>
     </BrowserRouter>
   );
