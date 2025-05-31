@@ -108,9 +108,6 @@ const CourseContent: React.FC = () => {
             <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
               Course Content
             </h1>
-            {/* <p className="text-slate-600 text-sm md:text-base">
-              Manage your course sections and linked resources.
-            </p> */}
           </div>
           <button
             onClick={() => setAddSectionOpen(!addSectionOpen)}
@@ -129,27 +126,6 @@ const CourseContent: React.FC = () => {
       )}
 
       <div className="flex-1 flex flex-col min-h-0">
-        {/* {sections.length > 0 && (
-          <div className="mb-4 flex justify-end">
-            <button
-              onClick={handleToggleAllSections}
-              className="px-4 py-2 text-sm font-medium text-indigo-700 bg-indigo-50 rounded-lg hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all duration-300 ease-in-out flex items-center shadow-sm"
-            >
-              {areAllSectionsOpen ? (
-                <>
-                  <ChevronUp size={16} className="mr-1.5" />
-                  Collapse All
-                </>
-              ) : (
-                <>
-                  <ChevronDown size={16} className="mr-1.5" />
-                  Expand All
-                </>
-              )}
-            </button>
-          </div>
-        )} */}
-
         <div className="flex-1 min-h-0 overflow-y-auto rounded-xl bg-white shadow-sm border border-slate-100">
           {sections.length > 0 ? (
             <div className="p-4 space-y-4">

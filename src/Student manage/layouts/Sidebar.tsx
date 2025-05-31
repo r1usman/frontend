@@ -21,11 +21,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   // For example, if this sidebar is for routes under "/dashboard/course/:id/",
   // then to: "edit" will link to "/dashboard/course/:id/edit".
   const navItems = [
-    { name: "Overview", to: "", icon: <LayoutDashboard size={20} /> }, // Represents the index route of this section
-    { name: "Students", to: "students", icon: <Users size={20} /> },
     {
       name: "Curriculum",
-      to: "curriculum",
+      to: "",
       icon: <MessageSquare size={20} />,
     },
     { name: "Assignments", to: "assign", icon: <Star size={20} /> },
@@ -34,7 +32,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       to: "test",
       icon: <Megaphone size={20} />,
     },
-    { name: "Settings", to: "edit", icon: <Settings size={20} /> },
   ];
 
   return (

@@ -8,20 +8,24 @@ import { StudentsSection } from "./managecourse/dashboard/StudentsSection";
 import { DashboardLayout } from "./managecourse/layouts/DashboardLayout";
 import AssignmentHistory from "./managecourse/pages/AssignmentHistory";
 import ContentBox from "./managecourse/pages/ContentBox";
+import TestHistory from "./managecourse/pages/TestHistory";
+import { DashboardLayout as StudentDL } from "./student manage/layouts/DashboardLayout";
+import StudentAH from "./student manage/pages/AssignmentHistory";
+import StudentCB from "./student manage/pages/ContentBox";
+import StudentTH from "./student manage/pages/TestHistory";
 import { CourseManagement } from "./managecourse/pages/CourseManagement";
 import EditCoursePage from "./managecourse/pages/EditCoursePage";
-import TestHistory from "./managecourse/pages/TestHistory";
-
-import Problemset from "./problemset/Problemset";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/dash" element={<DisplayDashboard />} />
+        <Route path="/" element={<DisplayDashboard />} />
         <Route path="/0/*" element={<PythonCourse />} />
-        <Route path="course" element={<DashboardLayout />}>
-          <Route index element={<CourseManagement />} />
+
+        <Route index element={<DashboardLayout />} />
+        <Route path="ic" element={<DashboardLayout />}>
+          <Route path="" element={<CourseManagement />} />
           <Route path="edit" element={<EditCoursePage />} />
           <Route path="students" element={<StudentsSection />} />
           <Route path="curriculum" element={<ContentBox />} />
@@ -29,7 +33,11 @@ function App() {
           <Route path="assign" element={<AssignmentHistory />} />
         </Route>
 
-        <Route path="/problemset" element={<Problemset />} />
+        <Route path="sc" element={<StudentDL />}>
+          <Route index element={<StudentCB />} />
+          <Route path="test" element={<TestHistory />} />
+          <Route path="assign" element={<AssignmentHistory />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
