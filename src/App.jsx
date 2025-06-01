@@ -30,6 +30,7 @@ import { CourseManagement } from "./managecourse/pages/CourseManagement";
 import EditCoursePage from "./managecourse/pages/EditCoursePage";
 import TestHistory from "./managecourse/pages/TestHistory";
 import StudentCourseView from "./Student manage/pages/StudentCourseView.js";
+import ProblemsetPage from "./problemset/Problemset.jsx";
 
 function App() {
   const { role } = useContext(UserContext);
@@ -57,7 +58,8 @@ function App() {
           <Route path="assign" element={<AssignmentHistory />} />
         </Route>
 
-        <Route path="sc" element={<StudentCourseView />}></Route>
+        <Route path="sc" element={<StudentCourseView />} />
+        <Route path="problemset" element={<ProblemsetPage />} />
 
         <Route
           path="/lc"
