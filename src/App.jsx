@@ -1,37 +1,35 @@
 // App.js (main entry point)
-import React, { useContext } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import "./index.css";
 
 // Top‐level pages (outside of /Mod)
-import LandingPage from "./LandingPage2.0/LandingPage.jsx";
-import UserDashboard from "./DashBoard/DisplayDashboard.jsx";
 import AdminDashboard from "./DashBoard/AdminDashboard.jsx";
+import UserDashboard from "./DashBoard/DisplayDashboard.jsx";
+import LandingPage from "./LandingPage2.0/LandingPage.jsx";
 // Main App.js (entry point for the app)
-import "./index.css"; // Your global CSS
-import DisplayDashboard from "./DashBoard/DisplayDashboard.jsx";
 import PythonCourse from "./DefaultCourses/Python/App.jsx";
+import "./index.css"; // Your global CSS
 
 // Competition wrapper handles everything under /Mod/*
 import CompetitionWrapper from "./Competition/CompetitionWrapper.jsx";
 
-import { UserContext } from "./GlobalContext/UserContext.jsx";
+import ForgetPassword from "./Authentication/ForgetPassword.jsx";
 import Login from "./Authentication/Login.jsx";
 import Signup from "./Authentication/Signup.jsx";
-import ForgetPassword from "./Authentication/ForgetPassword.jsx";
+import { UserContext } from "./GlobalContext/UserContext.jsx";
 
+import InstructorInterface from "./liveclass/pages/InstructorInterface.js";
+import StudentInterface from "./liveclass/pages/StudentInterface.js";
 import { StudentsSection } from "./managecourse/dashboard/StudentsSection";
 import { DashboardLayout } from "./managecourse/layouts/DashboardLayout";
 import AssignmentHistory from "./managecourse/pages/AssignmentHistory";
 import ContentBox from "./managecourse/pages/ContentBox";
-import TestHistory from "./managecourse/pages/TestHistory";
-import { DashboardLayout as StudentDL } from "./student manage/layouts/DashboardLayout";
-import StudentAH from "./student manage/pages/AssignmentHistory";
-import StudentCB from "./student manage/pages/ContentBox";
-import StudentTH from "./student manage/pages/TestHistory";
 import { CourseManagement } from "./managecourse/pages/CourseManagement";
 import EditCoursePage from "./managecourse/pages/EditCoursePage";
+import TestHistory from "./managecourse/pages/TestHistory";
+import StudentCourseView from "./Student manage/pages/StudentCourseView.js";
 
 function App() {
   const { role } = useContext(UserContext);
@@ -59,11 +57,14 @@ function App() {
           <Route path="assign" element={<AssignmentHistory />} />
         </Route>
 
-        <Route path="sc" element={<StudentDL />}>
-          <Route index element={<StudentCB />} />
-          <Route path="test" element={<TestHistory />} />
-          <Route path="assign" element={<AssignmentHistory />} />
-        </Route>
+        <Route path="sc" element={<StudentCourseView />}></Route>
+
+        <Route
+          path="/lc"
+          element={
+            role === "student" ? <StudentInterface /> : <InstructorInterface />
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

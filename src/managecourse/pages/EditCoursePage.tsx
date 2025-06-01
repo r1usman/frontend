@@ -117,6 +117,9 @@ const EditCoursePage: React.FC = () => {
         <CoursePreview course={course} onClose={togglePreview} />
       ) : (
         <>
+          <div className=" mx-auto  py-8">
+            <CourseForm course={course} setCourse={setCourse} />
+          </div>
           <CourseHeader
             title={course.title}
             course={course}
@@ -124,9 +127,6 @@ const EditCoursePage: React.FC = () => {
             onPublish={handlePublish}
             onPreview={togglePreview}
           />
-          <div className="max-w-5xl mx-auto px-4 py-8">
-            <CourseForm course={course} setCourse={setCourse} />
-          </div>
         </>
       )}
     </div>

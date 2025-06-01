@@ -42,7 +42,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       {/* Mobile sidebar backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-40 bg-gray-600 bg-opacity-75 lg:hidden"
+          className="fixed inset-0 z-30 bg-indigo-500 bg-opacity-75 lg:hidden"
           onClick={onClose}
           aria-hidden="true" // Added for accessibility
         />
@@ -51,7 +51,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       {/* Sidebar */}
       <div
         className={`
-          fixed inset-y-0 left-0 z-50 w-72 bg-white shadow-lg transform
+          fixed inset-y-0 left-0 z-50 w-72 bg-indigo-600 shadow-lg transform
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
           lg:translate-x-0 transition-transform duration-300 ease-in-out
         `}
@@ -80,7 +80,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           {/* Course info */}
 
           {/* Navigation */}
-          <nav className="flex-1 px-2 py-4 space-y-1 overflow-y-auto ">
+          <nav className="flex-1 px-2 py-4 space-y-1 overflow-y-auto  ">
             {navItems.map((item) => (
               <NavLink
                 key={item.name}
@@ -96,8 +96,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                   group transition-all duration-200
                   ${
                     isActive
-                      ? "bg-blue-50 text-blue-700"
-                      : "text-gray-700 hover:bg-gray-100"
+                      ? "font-semibold text-indigo-700 	bg-white"
+                      : "text-white bg-transparent	 hover:text-white hover:bg-indigo-800"
                   }
                 `
                 }
@@ -108,7 +108,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                   <>
                     <span
                       className={`mr-3 ${
-                        isActive ? "text-blue-700" : "text-gray-500"
+                        isActive ? "text-blue-700" : "text-white"
                       }`}
                     >
                       {item.icon}
@@ -128,7 +128,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                   course?.published ? "bg-green-500" : "bg-amber-500"
                 }`}
               />
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-white">
                 {course?.published ? "Course Published" : "Draft Mode"}
               </span>
             </div>

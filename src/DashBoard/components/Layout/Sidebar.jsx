@@ -1,16 +1,15 @@
 // Sidebar.jsx
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
 import {
-  LayoutDashboard,
+  BarChart2,
   BookOpen,
   Calendar,
   FileText,
-  BarChart2,
+  LayoutDashboard,
+  LogOut,
   MessageSquare,
   Settings,
-  LogOut,
 } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 
 /**
  * NavItem now takes:
@@ -47,7 +46,7 @@ const navItems = [
   {
     label: "Courses",
     icon: <BookOpen size={18} />,
-    path: "/courses",
+    path: "",
     tooltip: "Browse your courses",
     permission: "user",
   },
