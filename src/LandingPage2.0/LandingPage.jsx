@@ -40,7 +40,7 @@ function LandingPage() {
         <Courses />
         <Competition />
         <LiveClasses />
-        <Testimonials />
+
       </main>
       <Footer />
 
