@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import { CourseOverview } from "../managecourse/dashboard/CourseOverview";
 
 const AdminDashboard = () => {
-  return (
-    <div>AdminDashboard</div>
-  )
-}
+  return <CourseOverview />;
+};
 
-export default AdminDashboard
+export default AdminDashboard;
