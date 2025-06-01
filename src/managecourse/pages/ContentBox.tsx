@@ -1,5 +1,5 @@
 import React from "react";
-import CourseContent from "../contentbox/CourseContent";
+import CourseContent from "../contentbox/InstructorCourseContent";
 
 function ContentBox() {
   return (

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Sidebar } from "./Sidebar";
 import { MobileNav } from "./MobileNav";
 import { Outlet } from "react-router";
+import Header from "./Header";
 
 interface DashboardLayoutProps {}
 
@@ -10,6 +11,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({}) => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Header />
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <MobileNav onOpenSidebar={() => setSidebarOpen(true)} />
 

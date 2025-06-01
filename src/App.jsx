@@ -1,27 +1,27 @@
 // App.js (main entry point)
-import React, { useContext } from "react";
-
+import { useContext } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import "./index.css";
 
 // Top‐level pages (outside of /Mod)
-import LandingPage from "./LandingPage2.0/LandingPage.jsx";
+import AdminDashboard from "./DashBoard/AdminDashboard.jsx";
 import UserDashboard from "./DashBoard/DisplayDashboard.jsx";
-import AdminDashboard from "./DashBoard/AdminDashboard.jsx"
+import LandingPage from "./LandingPage2.0/LandingPage.jsx";
 // Main App.js (entry point for the app)
-import { BrowserRouter, Routes, Route } from "react-router-dom"; // Make sure to import 'react-router-dom' properly
-import "./index.css"; // Your global CSS
-import DisplayDashboard from "./DashBoard/DisplayDashboard.jsx";
 import PythonCourse from "./DefaultCourses/Python/App.jsx";
+import "./index.css"; // Your global CSS
 
 // Competition wrapper handles everything under /Mod/*
 import CompetitionWrapper from "./Competition/CompetitionWrapper.jsx";
 
-import {UserContext} from "./GlobalContext/UserContext.jsx"
+import ForgetPassword from "./Authentication/ForgetPassword.jsx";
 import Login from "./Authentication/Login.jsx";
 import Signup from "./Authentication/Signup.jsx";
-import ForgetPassword from "./Authentication/ForgetPassword.jsx"
- 
+import { UserContext } from "./GlobalContext/UserContext.jsx";
+
+import InstructorInterface from "./liveclass/pages/InstructorInterface.js";
+import StudentInterface from "./liveclass/pages/StudentInterface.js";
 import { StudentsSection } from "./managecourse/dashboard/StudentsSection";
 import { DashboardLayout } from "./managecourse/layouts/DashboardLayout";
 import AssignmentHistory from "./managecourse/pages/AssignmentHistory";
@@ -29,32 +29,27 @@ import ContentBox from "./managecourse/pages/ContentBox";
 import { CourseManagement } from "./managecourse/pages/CourseManagement";
 import EditCoursePage from "./managecourse/pages/EditCoursePage";
 import TestHistory from "./managecourse/pages/TestHistory";
-
-import Problemset from "./problemset/Problemset";
-
+import StudentCourseView from "./Student manage/pages/StudentCourseView.js";
+import ProblemsetPage from "./problemset/Problemset.jsx";
 
 function App() {
-
-  const {role} = useContext(UserContext)
+  const { role } = useContext(UserContext);
   return (
     <BrowserRouter>
       <Routes>
-      
         <Route path="/" element={<LandingPage />} />
-        <Route path="/Login" element={<Login/>} />
-        <Route path="/Signup" element={<Signup/>} />
-        <Route path="/ForgetPassword" element={<ForgetPassword/>} />
-        <Route path="/Dash" element={
-          role === "student" ?
-          <UserDashboard />
-          :
-          <AdminDashboard />
-        } />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Signup" element={<Signup />} />
+        <Route path="/ForgetPassword" element={<ForgetPassword />} />
+        <Route
+          path="/Dash"
+          element={role === "student" ? <UserDashboard /> : <AdminDashboard />}
+        />
 
         <Route path="/0/*" element={<PythonCourse />} />
 
         <Route path="/Mod/*" element={<CompetitionWrapper />} />
-        <Route path="course" element={<DashboardLayout />}>
+        <Route path="ic" element={<DashboardLayout />}>
           <Route index element={<CourseManagement />} />
           <Route path="edit" element={<EditCoursePage />} />
           <Route path="students" element={<StudentsSection />} />
@@ -63,8 +58,15 @@ function App() {
           <Route path="assign" element={<AssignmentHistory />} />
         </Route>
 
-        <Route path="/problemset" element={<Problemset />} />
+        <Route path="sc" element={<StudentCourseView />} />
+        <Route path="problemset" element={<ProblemsetPage />} />
 
+        <Route
+          path="/lc"
+          element={
+            role === "student" ? <StudentInterface /> : <InstructorInterface />
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

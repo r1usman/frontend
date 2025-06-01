@@ -1,16 +1,13 @@
-import React from "react";
 import {
   LayoutDashboard,
-  BookOpen,
-  Users,
-  MessageSquare,
-  Star,
-  Settings,
   Megaphone,
-  DollarSign,
+  MessageSquare,
+  Settings,
+  Star,
+  Users,
   X,
 } from "lucide-react";
-import { useCourse } from "../../context/CourseContext"; // Assuming this context is correctly set up
+import React from "react";
 import { NavLink } from "react-router-dom"; // Changed from 'react-router'
 import { mockCourse as course } from "./data";
 interface SidebarProps {
@@ -45,7 +42,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       {/* Mobile sidebar backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-40 bg-gray-600 bg-opacity-75 lg:hidden"
+          className="fixed inset-0 z-30 bg-indigo-500 bg-opacity-75 lg:hidden"
           onClick={onClose}
           aria-hidden="true" // Added for accessibility
         />
@@ -54,7 +51,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       {/* Sidebar */}
       <div
         className={`
-          fixed inset-y-0 left-0 z-50 w-72 bg-white shadow-lg transform
+          fixed inset-y-0 left-0 z-50 w-72 bg-indigo-600 shadow-lg transform
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
           lg:translate-x-0 transition-transform duration-300 ease-in-out
         `}
@@ -73,42 +70,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               <X size={24} />
             </button>
           </div>
-
-          {/* Course info */}
-          <div className="px-4 py-5 border-b border-gray-200">
-            <div className="flex items-center">
-              <div className="h-12 w-12 rounded-md bg-blue-600 flex items-center justify-center text-white font-medium text-lg">
-                {course?.title?.charAt(0)?.toUpperCase() || "C"}
-              </div>
-              <div className="ml-3">
-                <h2 className="text-sm font-medium text-gray-900 line-clamp-1">
-                  {course?.title || "Course Title"}
-                </h2>
-                <p className="text-xs text-gray-500 mt-0.5">
-                  Last updated: {course?.lastUpdated || "Recently"}
-                </p>
-              </div>
+          <div className="px-4 py-6 flex items-center">
+            <div className="bg-amber-500 rounded-lg p-2 mr-2">
+              <span className="font-bold text-gray-900">St</span>
             </div>
-
-            <div className="mt-4 grid grid-cols-2 gap-2 text-center">
-              <div className="bg-gray-50 rounded-md p-2">
-                <p className="text-xs text-gray-500">Students</p>
-                <p className="text-lg font-semibold">
-                  {course?.students ?? 0}
-                </p>{" "}
-                {/* Use ?? for default value */}
-              </div>
-              <div className="bg-gray-50 rounded-md p-2">
-                <p className="text-xs text-gray-500">Revenue</p>
-                <p className="text-lg font-semibold">
-                  ${course?.revenue ?? "0"} {/* Use ?? for default value */}
-                </p>
-              </div>
-            </div>
+            <span className="font-bold text-xl">studify.</span>
           </div>
 
+          {/* Course info */}
+
           {/* Navigation */}
-          <nav className="flex-1 px-2 py-4 space-y-1 overflow-y-auto">
+          <nav className="flex-1 px-2 py-4 space-y-1 overflow-y-auto  ">
             {navItems.map((item) => (
               <NavLink
                 key={item.name}
@@ -124,8 +96,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                   group transition-all duration-200
                   ${
                     isActive
-                      ? "bg-blue-50 text-blue-700"
-                      : "text-gray-700 hover:bg-gray-100"
+                      ? "font-semibold text-indigo-700 	bg-white"
+                      : "text-white bg-transparent	 hover:text-white hover:bg-indigo-800"
                   }
                 `
                 }
@@ -136,7 +108,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                   <>
                     <span
                       className={`mr-3 ${
-                        isActive ? "text-blue-700" : "text-gray-500"
+                        isActive ? "text-blue-700" : "text-white"
                       }`}
                     >
                       {item.icon}
@@ -156,7 +128,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                   course?.published ? "bg-green-500" : "bg-amber-500"
                 }`}
               />
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-white">
                 {course?.published ? "Course Published" : "Draft Mode"}
               </span>
             </div>

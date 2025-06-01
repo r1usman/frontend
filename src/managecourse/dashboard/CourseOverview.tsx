@@ -91,45 +91,8 @@ export const CourseOverview: React.FC = () => {
         ))}
       </div>
 
-      <div className="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-2">
+      <div className="mt-5 grid grid-cols-1 gap-5 ">
         {/* Revenue Card */}
-        <div className="bg-white overflow-hidden rounded-lg shadow-sm border border-gray-200">
-          <div className="p-5">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-medium text-gray-900">Revenue</h3>
-              <div className="bg-blue-50 text-blue-700 px-2.5 py-0.5 rounded-full text-xs font-medium">
-                This Month
-              </div>
-            </div>
-
-            <div className="mt-4 flex items-center">
-              <div className="flex-shrink-0 rounded-md p-2 bg-green-50">
-                <DollarSign size={20} className="text-green-600" />
-              </div>
-              <div className="ml-3">
-                <div className="text-2xl font-bold text-gray-900">
-                  ${course.stats.revenueThisMonth.toLocaleString()}
-                </div>
-                <div className="text-sm text-gray-500">
-                  <span className="text-green-600 font-medium">+8.2%</span> vs
-                  last month
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-6 h-16 relative">
-              {/* This would be a real chart in production */}
-              <div className="absolute inset-0 flex items-end space-x-2">
-                <div className="w-1/6 bg-blue-100 rounded-t h-6"></div>
-                <div className="w-1/6 bg-blue-200 rounded-t h-8"></div>
-                <div className="w-1/6 bg-blue-300 rounded-t h-4"></div>
-                <div className="w-1/6 bg-blue-400 rounded-t h-12"></div>
-                <div className="w-1/6 bg-blue-500 rounded-t h-10"></div>
-                <div className="w-1/6 bg-blue-600 rounded-t h-14"></div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* Recent Activity Card */}
         <div className="bg-white overflow-hidden rounded-lg shadow-sm border border-gray-200">

@@ -2,15 +2,16 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
-  LayoutDashboard,
+  BarChart2,
   BookOpen,
   Calendar,
   FileText,
-  BarChart2,
+  LayoutDashboard,
+  LogOut,
   MessageSquare,
   Settings,
-  LogOut
-} from 'lucide-react';
+} from "lucide-react";
+
 
 // Tailwind classes
 const ACTIVE_CLASS = 'bg-gray-700  text-white font-semibold shadow-md';
@@ -24,6 +25,14 @@ const NavItem = ({ icon, label, path, isActive, tooltip }) => (
     className={`flex items-center px-4 py-3 rounded-lg transition-colors duration-200 ${
       isActive ? ACTIVE_CLASS : INACTIVE_CLASS
     }`}
+    // className={`
+    //   flex items-center px-4 py-3 rounded-lg transition-colors duration-200 
+    //   ${
+    //     isActive
+    //       ? "bg-blue-500 text-white"
+    //       : "text-gray-300 hover:bg-gray-800 hover:text-white"
+    //   }
+    // `}
   >
     <div className="w-5 h-5 mr-3">{icon}</div>
     <span className="text-sm font-medium">{label}</span>
@@ -33,54 +42,57 @@ const NavItem = ({ icon, label, path, isActive, tooltip }) => (
 // Navigation config array
 const navItems = [
   {
-    label: 'Dashboard',
+    label: "Dashboard",
     icon: <LayoutDashboard size={18} />,
     path: '/Dash',
     tooltip: 'View your dashboard',
-    permission: 'user'
+    permission: 'user',
+    path: "/Dash",
+    tooltip: "View your dashboard",
+    permission: "user",
   },
   {
-    label: 'Courses',
+    label: "Courses",
     icon: <BookOpen size={18} />,
-    path: '/courses',
-    tooltip: 'Browse your courses',
-    permission: 'user'
+    path: "",
+    tooltip: "Browse your courses",
+    permission: "user",
   },
   {
-    label: 'Events',
+    label: "Events",
     icon: <Calendar size={18} />,
-    path: '/Mod/*',
-    tooltip: 'Check your calendar',
-    permission: 'user'
+    path: "/Mod/*",
+    tooltip: "Check your calendar",
+    permission: "user",
   },
   {
-    label: 'Assignment',
+    label: "Assignment",
     icon: <FileText size={18} />,
-    path: '/assignments',
-    tooltip: 'See your tasks',
-    permission: 'user'
+    path: "/assignments",
+    tooltip: "See your tasks",
+    permission: "user",
   },
   {
-    label: 'Analytics',
+    label: "Analytics",
     icon: <BarChart2 size={18} />,
-    path: '/analytics',
-    tooltip: 'Track performance',
-    permission: 'admin'
+    path: "/analytics",
+    tooltip: "Track performance",
+    permission: "admin",
   },
   {
-    label: 'Messages',
+    label: "Messages",
     icon: <MessageSquare size={18} />,
-    path: '/messages',
-    tooltip: 'Read messages',
-    permission: 'user'
+    path: "/messages",
+    tooltip: "Read messages",
+    permission: "user",
   },
   {
-    label: 'Settings',
+    label: "Settings",
     icon: <Settings size={18} />,
-    path: '/settings',
-    tooltip: 'Account settings',
-    permission: 'user'
-  }
+    path: "/settings",
+    tooltip: "Account settings",
+    permission: "user",
+  },
 ];
 
 export const Sidebar = () => {

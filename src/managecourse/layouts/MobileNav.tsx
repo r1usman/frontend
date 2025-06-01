@@ -1,5 +1,5 @@
-import React from 'react';
-import { Menu } from 'lucide-react';
+import React from "react";
+import { Menu } from "lucide-react";
 
 interface MobileNavProps {
   onOpenSidebar: () => void;
@@ -15,7 +15,9 @@ export const MobileNav: React.FC<MobileNavProps> = ({ onOpenSidebar }) => {
       >
         <Menu size={24} />
       </button>
-      <span className="ml-4 text-lg font-medium text-gray-900">Course Dashboard</span>
+      <span className="ml-4 text-lg font-medium text-gray-900">
+        Course Dashboard
+      </span>
     </div>
   );
 };
