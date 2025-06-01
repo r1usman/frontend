@@ -20,8 +20,8 @@ import Login from "./Authentication/Login.jsx";
 import Signup from "./Authentication/Signup.jsx";
 import { UserContext } from "./GlobalContext/UserContext.jsx";
 
-import InstructorInterface from "./liveclass/pages/InstructorInterface.js";
-import StudentInterface from "./liveclass/pages/StudentInterface.js";
+import LiveClassInstructor from "./liveclass/pages/InstructorInterface.js";
+import LiveClassStudent from "./liveclass/pages/StudentInterface.js";
 import { StudentsSection } from "./managecourse/dashboard/StudentsSection";
 import { DashboardLayout } from "./managecourse/layouts/DashboardLayout";
 import AssignmentHistory from "./managecourse/pages/AssignmentHistory";
@@ -59,14 +59,13 @@ function App() {
         </Route>
 
         <Route path="sc" element={<StudentCourseView />} />
-        <Route path="problemset" element={<ProblemsetPage />} />
+        <Route path="sc" element={<StudentCourseView />} />
+        <Route path="sc" element={<StudentCourseView />} />
 
-        <Route
-          path="/lc"
-          element={
-            role === "student" ? <StudentInterface /> : <InstructorInterface />
-          }
-        />
+        <Route path="lci" element={<LiveClassInstructor />} />
+        <Route path="lcs" element={<LiveClassStudent />} />
+
+        <Route path="problemset" element={<ProblemsetPage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -42,7 +42,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       {/* Mobile sidebar backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-30 bg-indigo-500 bg-opacity-75 lg:hidden"
+          className="fixed inset-0 z-40 bg-indigo-500 bg-opacity-75 lg:hidden"
           onClick={onClose}
           aria-hidden="true" // Added for accessibility
         />

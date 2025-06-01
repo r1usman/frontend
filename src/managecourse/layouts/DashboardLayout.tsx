@@ -10,7 +10,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({}) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="  min-h-screen bg-gray-50">
       <Header />
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <MobileNav onOpenSidebar={() => setSidebarOpen(true)} />
