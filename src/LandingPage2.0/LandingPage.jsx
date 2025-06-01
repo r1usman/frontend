@@ -9,6 +9,7 @@ import Courses from './components/Courses';
 import Competition from './components/Competition';
 import LiveClasses from './components/LiveClasses';
 import Testimonials from './components/Testimonials';
+import ProblemsetPage from '../problemset/Problemset';
 import Footer from './components/Footer';
 
 function LandingPage() {
@@ -40,6 +41,7 @@ function LandingPage() {
         <Courses />
         <Competition />
         <LiveClasses />
+        <ProblemsetPage/>
 
       </main>
       <Footer />

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, Code, LogIn } from 'lucide-react';
 import { Link } from 'react-scroll';
 import { useNavigate } from 'react-router';
+import { Link as RouterLink } from 'react-router-dom';
 
 
 const navLinks = [
@@ -10,6 +11,8 @@ const navLinks = [
   { name: 'Competition', to: 'competition' },
   { name: 'Collaboration', to: 'collaboration' },
   { name: 'Live Classes', to: 'live-classes' },
+  {name: 'Problem Set', to: 'problem-set'}
+  // { name: 'Practice', to: 'practice' },
 ];
 
 const Header = () => {
@@ -22,22 +25,51 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // const renderNavLinks = (isMobile = false) =>
+  // navLinks.map(({ name, to }) => (
+  //   <Link
+  //     key={name}
+  //     to={to}
+  //     spy={true}
+  //     smooth={true}
+  //     offset={-80}
+  //     duration={500}
+  //     activeClass="text-indigo-600 font-semibold"
+  //     className="cursor-pointer font-semibold hover:text-indigo-600 transition"
+  //     onClick={() => isMobile && setIsMenuOpen(false)}
+  //   >
+  //     {name}
+  //   </Link>
+  // ));
+
   const renderNavLinks = (isMobile = false) =>
-  navLinks.map(({ name, to }) => (
-    <Link
-      key={name}
-      to={to}
-      spy={true}
-      smooth={true}
-      offset={-80}
-      duration={500}
-      activeClass="text-indigo-600 font-semibold"
-      className="cursor-pointer font-semibold hover:text-indigo-600 transition"
-      onClick={() => isMobile && setIsMenuOpen(false)}
-    >
-      {name}
-    </Link>
-  ));
+  navLinks.map(({ name, to }) =>
+    name === 'Problem Set' ? (
+      <RouterLink
+        key={name}
+        to="/problemset"
+        onClick={() => isMobile && setIsMenuOpen(false)}
+        className="cursor-pointer font-semibold hover:text-indigo-600 transition"
+      >
+        {name}
+      </RouterLink>
+    ) : (
+      <Link
+        key={name}
+        to={to}
+        spy={true}
+        smooth={true}
+        offset={-80}
+        duration={500}
+        activeClass="text-indigo-600 font-semibold"
+        className="cursor-pointer font-semibold hover:text-indigo-600 transition"
+        onClick={() => isMobile && setIsMenuOpen(false)}
+      >
+        {name}
+      </Link>
+    )
+  );
+
   const navigate = useNavigate()
 
   const NavigateToSignup = ()=>{
@@ -49,6 +81,10 @@ const Header = () => {
 
   const NavigateToLogin = ()=>{
     navigate("/Login")
+  }
+
+  const NavigateToProblemSetPage = ()=>{
+    navigate("../../problemset")
   }
 
   return (
@@ -68,6 +104,7 @@ const Header = () => {
           {/* Desktop nav */}
           <nav className="hidden md:flex space-x-8">
             {renderNavLinks()}
+           
           </nav>
 
           {/* Auth Buttons */}
