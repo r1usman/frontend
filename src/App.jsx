@@ -17,8 +17,9 @@ import PythonCourse from "./DefaultCourses/Python/App.jsx";
 import CompetitionWrapper from "./Competition/CompetitionWrapper.jsx";
 
 import { UserContext } from "./GlobalContext/UserContext.jsx";
-import Login from "./Competition/pages/Login.jsx";
+import Login from "./Authentication/Login.jsx";
 import Signup from "./Authentication/Signup.jsx";
+import ForgetPassword from "./Authentication/ForgetPassword.jsx";
 
 import { StudentsSection } from "./managecourse/dashboard/StudentsSection";
 import { DashboardLayout } from "./managecourse/layouts/DashboardLayout";
@@ -40,6 +41,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Signup" element={<Signup />} />
+        <Route path="/ForgetPassword" element={<ForgetPassword />} />
         <Route
           path="/Dash"
           element={role === "student" ? <UserDashboard /> : <AdminDashboard />}

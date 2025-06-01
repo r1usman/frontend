@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-import { Menu, X, Code } from 'lucide-react';
+import { Menu, X, Code, LogIn } from 'lucide-react';
 import { Link } from 'react-scroll';
+import { useNavigate } from 'react-router';
 
 
 const navLinks = [
@@ -37,6 +38,18 @@ const Header = () => {
       {name}
     </Link>
   ));
+  const navigate = useNavigate()
+
+  const NavigateToSignup = ()=>{
+    console.log("lkl");
+    navigate("/Signup")
+    
+    
+  }
+
+  const NavigateToLogin = ()=>{
+    navigate("/Login")
+  }
 
   return (
     <header
@@ -59,10 +72,10 @@ const Header = () => {
 
           {/* Auth Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <button className="px-4 py-2 text-indigo-600 border border-indigo-600 rounded-lg hover:bg-indigo-50 transition">
+            <button onClick={NavigateToLogin} className="px-4 py-2 text-indigo-600 border border-indigo-600 rounded-lg hover:bg-indigo-50 transition">
               Sign In
             </button>
-            <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+            <button onClick={NavigateToSignup} className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
               Get Started
             </button>
           </div>
@@ -84,10 +97,10 @@ const Header = () => {
             <nav className="flex flex-col space-y-3">
               {renderNavLinks(true)}
               <div className="flex flex-col space-y-2 pt-3">
-                <button className="px-4 py-2 text-indigo-600 border border-indigo-600 rounded-lg hover:bg-indigo-50 transition w-full">
+                <button onClick={NavigateToLogin} className="px-4 py-2 text-indigo-600 border border-indigo-600 rounded-lg hover:bg-indigo-50 transition w-full">
                   Sign In
                 </button>
-                <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition w-full">
+                <button onClick={NavigateToSignup} className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition w-full">
                   Get Started
                 </button>
               </div>

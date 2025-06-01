@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { ChevronDown, ChevronRight, X } from 'lucide-react';
+import { ChevronDown, ChevronRight, X , ChevronLeft } from 'lucide-react';
 import { usePythonTopics } from '../contexts/PythonTopicContext';
 
 
@@ -69,8 +69,7 @@ const Sidebar = ({ isOpen, onClose }) => {
           }`}
       >
         <div className={`$ absolute top-3 left-3  flex  items-center gap-4  `} onClick={HandleClick}> 
-          <div className='border rounded-full p-2 hover:bg-white'> <X size={20} /></div>
-          <div className='text-lg capitalize'>back</div>
+          <div className='border rounded-full border-amber-500 p-2 text-amber-500 ring-2 hover:bg-white'> <ChevronLeft size={20} /></div>
         </div>
 
         <div className="p-4 h-full overflow-y-auto">
