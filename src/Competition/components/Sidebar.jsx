@@ -1,7 +1,7 @@
 // Sidebar.jsx
 import React, { useContext } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Code, Trophy, Users, Clock, LogOut } from 'lucide-react';
+import { Code, Trophy, Users, Clock, LogOut, Home } from 'lucide-react';
 import { UserContext } from '../../GlobalContext/UserContext';
 
 export const Sidebar = ({ user }) => {
@@ -16,11 +16,13 @@ export const Sidebar = ({ user }) => {
   const navItems =
     role === 'instructor'
       ? [
-          { label: 'Competitions', icon: <Trophy size={18} />, path: '/competitions' },
-          { label: 'Problems', icon: <Code size={18} />, path: '/problems' },
-          { label: 'Students', icon: <Users size={18} />, path: '/students' },
+          { label: 'Home', icon: <Home size={18} />, path: '/Dash' },
+          { label: 'Competitions', icon: <Trophy size={18} />, path: '/Mod/competitions' },
+          { label: 'Problems', icon: <Code size={18} />, path: '/Mod/problems' },
+          { label: 'Students', icon: <Users size={18} />, path: '/Mod/students' },
         ]
       : [
+          { label: 'Home', icon: <Home size={18} />, path: '/Dash' },
           {
             label: 'Competitions',
             icon: <Trophy size={18} />,
@@ -49,13 +51,11 @@ export const Sidebar = ({ user }) => {
 
       {/* User Info Card */}
       <div className="p-4 mb-4 space-y-2">
-        <div className="bg-indigo-800 rounded-lg p-3">
-          <p className="text-sm opacity-80">Welcome</p>
-          <p className="text-sm opacity-80">User</p>
+        <div className="bg-indigo-800 rounded-lg p-3 flex gap-2">
+          <span className="text-sm font-semibold">Good afternoon, Sarah 👋</span>
+
         </div>
-        <p onClick={BackHome} className="hover:text-amber-500 cursor-pointer">
-          Home
-        </p>
+        
       </div>
 
       {/* Navigation Links */}

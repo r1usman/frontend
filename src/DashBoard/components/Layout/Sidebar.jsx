@@ -1,4 +1,6 @@
 // Sidebar.jsx
+import React from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   BarChart2,
   BookOpen,
@@ -9,37 +11,43 @@ import {
   MessageSquare,
   Settings,
 } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
 
-/**
- * NavItem now takes:
- *  - icon (the Lucide icon element)
- *  - label (string)
- *  - path  (string: where to navigate)
- */
-const NavItem = ({ icon, label, path, isActive }) => (
+
+// Tailwind classes
+const ACTIVE_CLASS = 'bg-gray-700  text-white font-semibold shadow-md';
+const INACTIVE_CLASS = 'text-gray-400 hover:text-white hover:bg-gray-700';
+
+// NavItem Component
+const NavItem = ({ icon, label, path, isActive, tooltip }) => (
   <Link
     to={path}
-    className={`
-      flex items-center px-4 py-3 rounded-lg transition-colors duration-200 
-      ${
-        isActive
-          ? "bg-blue-500 text-white"
-          : "text-gray-300 hover:bg-gray-800 hover:text-white"
-      }
-    `}
+    title={tooltip}
+    className={`flex items-center px-4 py-3 rounded-lg transition-colors duration-200 ${
+      isActive ? ACTIVE_CLASS : INACTIVE_CLASS
+    }`}
+    // className={`
+    //   flex items-center px-4 py-3 rounded-lg transition-colors duration-200 
+    //   ${
+    //     isActive
+    //       ? "bg-blue-500 text-white"
+    //       : "text-gray-300 hover:bg-gray-800 hover:text-white"
+    //   }
+    // `}
   >
     <div className="w-5 h-5 mr-3">{icon}</div>
     <span className="text-sm font-medium">{label}</span>
   </Link>
 );
 
-// Navigation config array (no longer hard-coding `active: true`; we'll compute it)
+// Navigation config array
 const navItems = [
   {
     label: "Dashboard",
     icon: <LayoutDashboard size={18} />,
-    path: "/dashboard",
+    path: '/Dash',
+    tooltip: 'View your dashboard',
+    permission: 'user',
+    path: "/Dash",
     tooltip: "View your dashboard",
     permission: "user",
   },
@@ -88,53 +96,50 @@ const navItems = [
 ];
 
 export const Sidebar = () => {
-  // Use React Router’s useLocation to know the current URL path:
   const location = useLocation();
   const currentPath = location.pathname;
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    navigate("/Login");
+  };
 
   return (
-    <aside className="w-64 hidden md:flex flex-col bg-gray-900 text-white">
+    <aside className="w-64 hidden md:flex flex-col bg-gray-800 text-gray-300">
       {/* Logo / Branding */}
       <div className="px-4 py-6 flex items-center">
         <div className="bg-amber-500 rounded-lg p-2 mr-2">
-          <span className="font-bold text-gray-900">St</span>
+          <span className="font-bold text-gray-900">CA</span>
         </div>
-        <span className="font-bold text-xl">studify.</span>
+        <span className="font-bold text-xl">Code Ascend</span>
       </div>
 
       {/* Navigation Links */}
       <nav className="flex-1 px-2 py-4 space-y-1">
         {navItems.map((item, idx) => {
-          // Determine if this NavItem should be active by matching currentPath.
-          // You could use a more sophisticated matching (e.g. startsWith) if needed.
-          const isActive = currentPath === item.path;
+          const cleanPath = item.path.replace('/*', '');
+          const isActive =
+            currentPath === cleanPath || currentPath.startsWith(cleanPath + '/');
 
           return (
             <NavItem
               key={idx}
               icon={item.icon}
               label={item.label}
-              path={item.path}
+              path={cleanPath}
               isActive={isActive}
+              tooltip={item.tooltip}
             />
           );
         })}
       </nav>
 
-      {/* Learning Hours Card */}
-      <div className="px-4 py-6 bg-gray-800 rounded-lg mx-2 mb-4">
-        <div className="flex flex-col items-center">
-          <div className="w-12 h-12 mb-2 bg-blue-100 rounded-full flex items-center justify-center">
-            <span className="text-blue-600 font-bold">76</span>
-          </div>
-          <p className="text-xs text-gray-400">learning hours</p>
-          <p className="text-xs text-gray-400">keep it going!</p>
-        </div>
-      </div>
-
       {/* Logout Button */}
-      <div className="px-4 py-3 border-t border-gray-800">
-        <button className="flex items-center w-full text-gray-300 hover:text-white transition-colors duration-200">
+      <div className="px-4 py-3 border-t border-purple-800/30">
+        <button
+          onClick={handleLogout}
+          className="flex items-center w-full text-white hover:text-white transition-colors duration-200"
+        >
           <LogOut size={18} className="mr-3" />
           <span className="text-sm font-medium">Log out</span>
         </button>

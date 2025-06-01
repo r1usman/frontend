@@ -53,7 +53,7 @@ const InstructorCompetitions = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Competitions</h1>
         <Link
-          to="/competitions/new"
+          to="/Mod/competitions/new"
           className="flex items-center space-x-2 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
         >
           <Plus size={18} />
@@ -78,14 +78,14 @@ const InstructorCompetitions = () => {
             <div key={competition.id} className="bg-white rounded-lg shadow overflow-hidden">
               <div className="p-6">
                 <div className="flex justify-between items-start">
-                  <h2 className="text-xl font-bold mb-2">{competition.name}</h2>
+                  <h2 className="text-xl font-bold mb-2 min-h-16 ">{competition.name}</h2>
                   {getStatusBadge(competition.startTime, competition.endTime)}
                 </div>
                 <p className="text-gray-600 mb-4 line-clamp-2">
                   {competition.description}
                 </p>
                 <div className="space-y-2 text-sm text-gray-500">
-                  <div className="flex justify-between">
+                  <div className="flex justify-between ">
                     <span>Start:</span>
                     <span>
                       {format(new Date(competition.startTime), 'MMM d, yyyy HH:mm')}
@@ -105,15 +105,15 @@ const InstructorCompetitions = () => {
               </div>
               <div className="bg-gray-50 px-6 py-3 flex justify-between">
                 <Link
-                  to={`/competitions/${competition.id}/leaderboard`}
+                  to={`/Mod/competitions/${competition.id}/leaderboard`}
                   className="text-indigo-600 hover:text-indigo-800 flex items-center space-x-1"
                 >
                   <Users size={16} />
                   <span>Leaderboard</span>
                 </Link>
-                <div className="flex space-x-3">
+                <div className="flex space-x-3 items-center">
                   <Link
-                    to={`/competitions/${competition.id}/edit`}
+                    to={`/Mod/competitions/${competition.id}/edit`}
                     className="text-gray-600 hover:text-gray-800"
                   >
                     <Edit size={16} />
@@ -133,29 +133,30 @@ const InstructorCompetitions = () => {
 
       {/* Delete Confirmation Modal */}
       {showDeleteModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full">
-            <h3 className="text-lg font-bold mb-4">Confirm Deletion</h3>
-            <p className="mb-6">
-              Are you sure you want to delete this competition? This action cannot be undone.
-            </p>
-            <div className="flex justify-end space-x-3">
-              <button
-                onClick={() => setShowDeleteModal(false)}
-                className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleDelete}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+  <div className="fixed inset-0 bg-white/30 backdrop-blur-sm flex items-center justify-center z-50">
+    <div className="bg-white rounded-lg p-6 max-w-md w-full shadow-lg">
+      <h3 className="text-lg font-bold mb-4">Confirm Deletion</h3>
+      <p className="mb-6">
+        Are you sure you want to delete this competition? This action cannot be undone.
+      </p>
+      <div className="flex justify-end space-x-3">
+        <button
+          onClick={() => setShowDeleteModal(false)}
+          className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={handleDelete}
+          className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };

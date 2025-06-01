@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { ChevronDown, ChevronRight, X , ChevronLeft } from 'lucide-react';
 import { usePythonTopics } from '../contexts/PythonTopicContext';
 
@@ -69,8 +69,16 @@ const Sidebar = ({ isOpen, onClose }) => {
           }`}
       >
         <div className={`$ absolute top-3 left-3  flex  items-center gap-4  `} onClick={HandleClick}> 
-          <div className='border rounded-full border-amber-500 p-2 text-amber-500 ring-2 hover:bg-white'> <ChevronLeft size={20} /></div>
+            {/* <div className='border rounded-full border-amber-500 p-2 text-amber-500 ring-2 hover:bg-white'> <ChevronLeft size={20} /></div> */}
+          <Link to="/" className="flex items-center gap-2">
+            <div className="h-10 w-10 bg-white text-black rounded-full flex items-center justify-center">
+              <span className="text-python-blue text-xl font-bold">Py</span>
+            </div>
+            <h1 className="text-xl font-bold hidden sm:block">Python</h1>
+          </Link>
+        
         </div>
+      
 
         <div className="p-4 h-full overflow-y-auto">
           <h2 className="text-lg font-bold text-python-blue mb-4">Python Topics</h2>
