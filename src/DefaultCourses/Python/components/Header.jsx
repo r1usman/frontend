@@ -25,12 +25,7 @@ const Header = ({ onMenuClick }) => {
             >
               <Menu size={24} />
             </button>
-            <Link to="/" className="flex items-center gap-2 ml-60">
-              <div className="h-10 w-10 bg-white text-black rounded-full flex items-center justify-center">
-                <span className="text-python-blue text-xl font-bold">Py</span>
-              </div>
-              <h1 className="text-xl font-bold hidden sm:block">Python</h1>
-            </Link>
+            
           </div>
 
           <div className="flex items-center gap-2">

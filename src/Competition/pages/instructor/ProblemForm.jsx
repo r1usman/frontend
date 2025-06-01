@@ -185,7 +185,7 @@ const ProblemForm = () => {
     <div>
       <div className="flex items-center mb-6">
         <button
-          onClick={() => navigate('/problems')}
+          onClick={() => navigate('/Mod/problems')}
           className="mr-4 text-gray-600 hover:text-gray-800"
         >
           <ArrowLeft size={20} />
@@ -232,7 +232,7 @@ const ProblemForm = () => {
                 value={formData.description}
                 onChange={handleChange}
                 rows={5}
-                className={`w-full px-3 py-2 border rounded-md ${
+                className={`w-full px-3 py-2 border rounded-md resize-none ${
                   errors.description ? 'border-red-500' : 'border-gray-300'
                 }`}
               />
@@ -255,7 +255,7 @@ const ProblemForm = () => {
                 value={formData.inputFormat}
                 onChange={handleChange}
                 rows={3}
-                className={`w-full px-3 py-2 border rounded-md ${
+                className={`w-full px-3 py-2 border rounded-md resize-none ${
                   errors.inputFormat ? 'border-red-500' : 'border-gray-300'
                 }`}
               />
@@ -278,7 +278,7 @@ const ProblemForm = () => {
                 value={formData.outputFormat}
                 onChange={handleChange}
                 rows={3}
-                className={`w-full px-3 py-2 border rounded-md ${
+                className={`w-full px-3 py-2 border rounded-md resize-none ${
                   errors.outputFormat ? 'border-red-500' : 'border-gray-300'
                 }`}
               />
@@ -358,7 +358,7 @@ const ProblemForm = () => {
                             handleSampleTestCaseChange(index, 'input', e.target.value)
                           }
                           rows={3}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                          className="w-full px-3 py-2 border  border-gray-300 rounded-md resize-none"
                         />
                       </div>
                       <div>
@@ -373,7 +373,7 @@ const ProblemForm = () => {
                             handleSampleTestCaseChange(index, 'output', e.target.value)
                           }
                           rows={3}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                          className="w-full px-3 py-2 border resize-none border-gray-300 rounded-md"
                         />
                       </div>
                     </div>
@@ -432,7 +432,7 @@ const ProblemForm = () => {
                             handleHiddenTestCaseChange(index, 'input', e.target.value)
                           }
                           rows={3}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                          className="w-full px-3 py-2 border resize-none border-gray-300 rounded-md"
                         />
                       </div>
                       <div>
@@ -447,7 +447,7 @@ const ProblemForm = () => {
                             handleHiddenTestCaseChange(index, 'output', e.target.value)
                           }
                           rows={3}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                          className="w-full px-3 py-2 border resize-none border-gray-300 rounded-md"
                         />
                       </div>
                     </div>

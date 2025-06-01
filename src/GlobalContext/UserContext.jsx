@@ -9,7 +9,7 @@ export const UserContext = createContext({
 
 // 2) Provider component that wraps your app (or part of it)
 export function UserProvider({ children }) {
-  const [role, setRole] = useState("student");
+  const [role, setRole] = useState("instructor");
 
   // Function to set role to "student" or "instructor"
   const loginAs = (newRole) => {
@@ -24,6 +24,10 @@ export function UserProvider({ children }) {
   const logout = () => {
     setRole(null);
   };
+
+
+
+
 
   // The context value we supply to any descendants
   const value = {

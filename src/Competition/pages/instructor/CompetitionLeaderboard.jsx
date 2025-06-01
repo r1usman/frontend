@@ -32,7 +32,7 @@ const CompetitionLeaderboard = () => {
   return (
     <div>
       <div className="flex items-center mb-6">
-        <Link to="/competitions" className="mr-4 text-gray-600 hover:text-gray-800">
+        <Link to="/Mod/competitions" className="mr-4 text-gray-600 hover:text-gray-800">
           <ArrowLeft size={20} />
         </Link>
         <h1 className="text-2xl font-bold">

@@ -115,4 +115,4 @@ export const submissions = [
 ];
 
 // Current user (for demo purposes)
-export const currentUser = users[1]; // Default to instructor
+export const currentUser = users[0]; // Default to instructor

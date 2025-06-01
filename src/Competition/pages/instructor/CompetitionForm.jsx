@@ -135,7 +135,7 @@ const CompetitionForm = () => {
     <div>
       <div className="flex items-center mb-6">
         <button
-          onClick={() => navigate('/competitions')}
+          onClick={() => navigate('/Mod/competitions')}
           className="mr-4 text-gray-600 hover:text-gray-800"
         >
           <ArrowLeft size={20} />
@@ -177,7 +177,7 @@ const CompetitionForm = () => {
                 value={formData.description}
                 onChange={handleChange}
                 rows={3}
-                className={`w-full px-3 py-2 border rounded-md ${
+                className={`w-full px-3 py-2 border rounded-md resize-none ${
                   errors.description ? 'border-red-500' : 'border-gray-300'
                 }`}
               />
