@@ -1,6 +1,6 @@
 // Sidebar.jsx
-import React from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import React, { useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   BarChart2,
   BookOpen,
@@ -11,11 +11,11 @@ import {
   MessageSquare,
   Settings,
 } from "lucide-react";
-
+import { UserContext } from "../../../GlobalContext/UserContext";
 
 // Tailwind classes
-const ACTIVE_CLASS = 'bg-gray-700  text-white font-semibold shadow-md';
-const INACTIVE_CLASS = 'text-gray-400 hover:text-white hover:bg-gray-700';
+const ACTIVE_CLASS = "bg-gray-700  text-white font-semibold shadow-md";
+const INACTIVE_CLASS = "text-gray-400 hover:text-white hover:bg-gray-700";
 
 // NavItem Component
 const NavItem = ({ icon, label, path, isActive, tooltip }) => (
@@ -26,7 +26,7 @@ const NavItem = ({ icon, label, path, isActive, tooltip }) => (
       isActive ? ACTIVE_CLASS : INACTIVE_CLASS
     }`}
     // className={`
-    //   flex items-center px-4 py-3 rounded-lg transition-colors duration-200 
+    //   flex items-center px-4 py-3 rounded-lg transition-colors duration-200
     //   ${
     //     isActive
     //       ? "bg-blue-500 text-white"
@@ -40,66 +40,63 @@ const NavItem = ({ icon, label, path, isActive, tooltip }) => (
 );
 
 // Navigation config array
-const navItems = [
-  {
-    label: "Dashboard",
-    icon: <LayoutDashboard size={18} />,
-    path: '/Dash',
-    tooltip: 'View your dashboard',
-    permission: 'user',
-    path: "/Dash",
-    tooltip: "View your dashboard",
-    permission: "user",
-  },
-  {
-    label: "Courses",
-    icon: <BookOpen size={18} />,
-    path: "",
-    tooltip: "Browse your courses",
-    permission: "user",
-  },
-  {
-    label: "Events",
-    icon: <Calendar size={18} />,
-    path: "/Mod/*",
-    tooltip: "Check your calendar",
-    permission: "user",
-  },
-  {
-    label: "Assignment",
-    icon: <FileText size={18} />,
-    path: "/assignments",
-    tooltip: "See your tasks",
-    permission: "user",
-  },
-  {
-    label: "Analytics",
-    icon: <BarChart2 size={18} />,
-    path: "/analytics",
-    tooltip: "Track performance",
-    permission: "admin",
-  },
-  {
-    label: "Messages",
-    icon: <MessageSquare size={18} />,
-    path: "/messages",
-    tooltip: "Read messages",
-    permission: "user",
-  },
-  {
-    label: "Settings",
-    icon: <Settings size={18} />,
-    path: "/settings",
-    tooltip: "Account settings",
-    permission: "user",
-  },
-];
 
 export const Sidebar = () => {
   const location = useLocation();
+  const { role } = useContext(UserContext);
   const currentPath = location.pathname;
   const navigate = useNavigate();
-
+  const navItems = [
+    {
+      label: "Dashboard",
+      icon: <LayoutDashboard size={18} />,
+      path: "/Dash",
+      tooltip: "View your dashboard",
+      permission: "user",
+    },
+    {
+      label: "Courses",
+      icon: <BookOpen size={18} />,
+      path: role === "student" ? "/student/courses" : "/instructor/courses",
+      tooltip: "Browse your courses",
+      permission: "user",
+    },
+    {
+      label: "Events",
+      icon: <Calendar size={18} />,
+      path: "/Mod/*",
+      tooltip: "Check your calendar",
+      permission: "user",
+    },
+    {
+      label: "Assignment",
+      icon: <FileText size={18} />,
+      path: "/assignments",
+      tooltip: "See your tasks",
+      permission: "user",
+    },
+    {
+      label: "Analytics",
+      icon: <BarChart2 size={18} />,
+      path: "/analytics",
+      tooltip: "Track performance",
+      permission: "admin",
+    },
+    {
+      label: "Messages",
+      icon: <MessageSquare size={18} />,
+      path: "/messages",
+      tooltip: "Read messages",
+      permission: "user",
+    },
+    {
+      label: "Settings",
+      icon: <Settings size={18} />,
+      path: "/settings",
+      tooltip: "Account settings",
+      permission: "user",
+    },
+  ];
   const handleLogout = () => {
     navigate("/Login");
   };
@@ -117,9 +114,10 @@ export const Sidebar = () => {
       {/* Navigation Links */}
       <nav className="flex-1 px-2 py-4 space-y-1">
         {navItems.map((item, idx) => {
-          const cleanPath = item.path.replace('/*', '');
+          const cleanPath = item.path.replace("/*", "");
           const isActive =
-            currentPath === cleanPath || currentPath.startsWith(cleanPath + '/');
+            currentPath === cleanPath ||
+            currentPath.startsWith(cleanPath + "/");
 
           return (
             <NavItem

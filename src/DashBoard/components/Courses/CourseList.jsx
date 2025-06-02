@@ -1,5 +1,7 @@
-import React from 'react';
-import { BookOpen, Clock, ChevronRight } from 'lucide-react';
+import React, { useContext } from "react";
+import { BookOpen, Clock, ChevronRight } from "lucide-react";
+import { Link } from "react-router";
+import { UserContext } from "../../../GlobalContext/UserContext";
 
 const CourseItem = ({
   title,
@@ -8,10 +10,12 @@ const CourseItem = ({
   instructorAvatar,
   duration,
   level,
-  image
+  image,
 }) => {
+  console.log("hello");
+
   return (
-    <div className="flex border border-gray-100 rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-200 bg-white">
+    <div className="cursor-pointer flex border border-gray-100 rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-200 bg-white">
       <div className="w-32 h-24 overflow-hidden flex-shrink-0">
         <img src={image} alt={title} className="w-full h-full object-cover" />
       </div>
@@ -28,7 +32,15 @@ const CourseItem = ({
               <p className="text-xs text-gray-600">{instructor}</p>
             </div>
           </div>
-          <div className={`text-xs ${category === 'Illustrations' ? 'text-red-500' : category === 'Mobile Design' ? 'text-blue-500' : 'text-purple-500'}`}>
+          <div
+            className={`text-xs ${
+              category === "Illustrations"
+                ? "text-red-500"
+                : category === "Mobile Design"
+                ? "text-blue-500"
+                : "text-purple-500"
+            }`}
+          >
             {category}
           </div>
         </div>
@@ -52,7 +64,9 @@ const CourseList = () => {
     <div>
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-medium">Your courses</h2>
-        <button className="text-sm text-blue-500 hover:text-blue-700 transition-colors">See all</button>
+        <button className="text-sm text-blue-500 hover:text-blue-700 transition-colors">
+          See all
+        </button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">

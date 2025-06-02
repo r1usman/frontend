@@ -42,16 +42,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       {/* Mobile sidebar backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-40 bg-indigo-500 bg-opacity-75 lg:hidden"
+          className="fixed inset-0 z-40  bg-gray-800 text-gray-300 bg-opacity-75 lg:hidden"
           onClick={onClose}
           aria-hidden="true" // Added for accessibility
         />
       )}
 
-      {/* Sidebar */}
+      {/* Sidebar
+      flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200
+      */}
       <div
         className={`
-          fixed inset-y-0 left-0 z-50 w-72 bg-indigo-600 shadow-lg transform
+          fixed inset-y-0 left-0 z-50 w-72  bg-gray-900  text-white shadow-lg transform
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
           lg:translate-x-0 transition-transform duration-300 ease-in-out
         `}
@@ -59,9 +61,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         <div className="flex flex-col h-full">
           {/* Mobile close button */}
           <div className="flex items-center justify-between p-4 lg:hidden">
-            <span className="text-lg font-semibold text-gray-900">
-              Dashboard
-            </span>
+            <span className="text-lg font-semibold ">Dashboard</span>
             <button
               onClick={onClose}
               className="text-gray-500 hover:text-gray-700"
@@ -72,9 +72,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           </div>
           <div className="px-4 py-6 flex items-center">
             <div className="bg-amber-500 rounded-lg p-2 mr-2">
-              <span className="font-bold text-gray-900">St</span>
+              <span className="font-bold text-gray-900">CD</span>
             </div>
-            <span className="font-bold text-xl">studify.</span>
+            <span className="font-bold text-xl">Code Ascend.</span>
           </div>
 
           {/* Course info */}
@@ -96,8 +96,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                   group transition-all duration-200
                   ${
                     isActive
-                      ? "font-semibold text-indigo-700 	bg-white"
-                      : "text-white bg-transparent	 hover:text-white hover:bg-indigo-800"
+                      ? ` bg-gray-800 text-white`
+                      : ` text-gray-300 hover:bg-gray-800 hover:text-white`
                   }
                 `
                 }

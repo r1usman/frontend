@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Search, SlidersHorizontal, X } from 'lucide-react';
+import React, { useState } from "react";
+import { Search, SlidersHorizontal, X } from "lucide-react";
 
 interface FilterOption {
   label: string;
@@ -23,10 +23,10 @@ const FilterBar: React.FC<FilterBarProps> = ({
   onSortChange,
   showFilters = true,
 }) => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [showFilterMenu, setShowFilterMenu] = useState(false);
-  const [selectedStatus, setSelectedStatus] = useState('all');
-  const [selectedSort, setSelectedSort] = useState('newest');
+  const [selectedStatus, setSelectedStatus] = useState("all");
+  const [selectedSort, setSelectedSort] = useState("newest");
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -35,8 +35,8 @@ const FilterBar: React.FC<FilterBarProps> = ({
   };
 
   const handleClearSearch = () => {
-    setSearchTerm('');
-    onSearch('');
+    setSearchTerm("");
+    onSearch("");
   };
 
   const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -85,7 +85,11 @@ const FilterBar: React.FC<FilterBarProps> = ({
               <SlidersHorizontal className="h-4 w-4" />
             </button>
 
-            <div className={`flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full ${showFilterMenu ? 'block' : 'hidden sm:flex'}`}>
+            <div
+              className={`flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full ${
+                showFilterMenu ? "block" : "hidden sm:flex"
+              }`}
+            >
               <select
                 value={selectedStatus}
                 onChange={handleStatusChange}

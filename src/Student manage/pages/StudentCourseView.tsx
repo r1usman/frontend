@@ -92,7 +92,7 @@ const StudentCourseView: React.FC = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen pb-12">
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className=" mx-auto px-8 py-8">
         <CourseHeader
           title={courseData.title}
           instructor={courseData.instructor}

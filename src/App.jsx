@@ -31,6 +31,8 @@ import EditCoursePage from "./managecourse/pages/EditCoursePage";
 import TestHistory from "./managecourse/pages/TestHistory";
 import StudentCourseView from "./Student manage/pages/StudentCourseView.js";
 import ProblemsetPage from "./problemset/Problemset.jsx";
+import InstructorDashboard from "./DashBoard/components/course section/pages/InstructorDashboard.js";
+import StudentDashboard from "./DashBoard/components/course section/pages/StudentDashboard.js";
 
 function App() {
   const { role } = useContext(UserContext);
@@ -43,8 +45,12 @@ function App() {
         <Route path="/ForgetPassword" element={<ForgetPassword />} />
         <Route
           path="/Dash"
-          element={role === "student" ? <UserDashboard /> : <AdminDashboard />}
-        />
+          element={
+            role !== "instructor" ? <UserDashboard /> : <AdminDashboard />
+          }
+        ></Route>
+        <Route path="/student/courses" element={<InstructorDashboard />} />
+        <Route path="/instructor/courses" element={<StudentDashboard />} />
 
         <Route path="/0/*" element={<PythonCourse />} />
 

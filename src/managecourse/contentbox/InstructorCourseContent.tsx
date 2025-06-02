@@ -102,7 +102,7 @@ const CourseContent: React.FC = () => {
         onClose={() => setGlobalAlertMessage("")}
       />
 
-      <header className="mb-6 bg-white rounded-xl px-6 pt-6 shadow-sm border border-slate-100">
+      {/* <header className="mb-6 bg-white rounded-xl px-6 pt-6 shadow-sm border border-slate-100">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
           <div>
             <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
@@ -117,7 +117,7 @@ const CourseContent: React.FC = () => {
             {addSectionOpen ? "Hide Form" : "Add Section"}
           </button>
         </div>
-      </header>
+      </header> */}
 
       {addSectionOpen && (
         <div className="mb-6 animate-slideDown">

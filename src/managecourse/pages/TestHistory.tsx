@@ -128,7 +128,7 @@ const TestHistory: React.FC = () => {
   return (
     <Layout>
       <div>
-        <div className="mt-6">
+        <div className="">
           <FilterBar
             onSearch={handleSearch}
             statusOptions={statusOptions}
@@ -138,7 +138,7 @@ const TestHistory: React.FC = () => {
           />
 
           {filteredTests.length > 0 ? (
-            <div className="mt-6 space-y-4 mx-auto">
+            <div className=" space-y-4 mx-auto">
               {filteredTests.map((test) => (
                 <TestCard key={test.id} test={test} />
               ))}

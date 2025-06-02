@@ -16,7 +16,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({}) => {
       <MobileNav onOpenSidebar={() => setSidebarOpen(true)} />
 
       <div className="lg:pl-72">
-        <main className=" px-4 sm:px-6 lg:px-8">
+        <main className=" px-8 pl-8">
           <Outlet />
         </main>
       </div>

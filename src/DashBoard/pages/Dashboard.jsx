@@ -1,10 +1,10 @@
-import React from 'react';
-import  CourseContinue  from '../components/Courses/CourseContinue';
-import  CourseList  from '../components/Courses/CourseList';
-import AssignmentList  from '../components/Assignments/AssignmentList';
-import { ProgressStats } from '../components/Statistics/ProgressStats';
-import { StudyStats } from '../components/Statistics/StudyStats';
-import { MentorList } from '../components/MentorStatus/MentorList';
+import React from "react";
+import CourseContinue from "../components/Courses/CourseContinue";
+import CourseList from "../components/Courses/CourseList";
+import AssignmentList from "../components/Assignments/AssignmentList";
+import { ProgressStats } from "../components/Statistics/ProgressStats";
+import { StudyStats } from "../components/Statistics/StudyStats";
+import { MentorList } from "../components/MentorStatus/MentorList";
 
 export const Dashboard = () => {
   return (
@@ -14,7 +14,7 @@ export const Dashboard = () => {
         <CourseList />
         <MentorList />
       </div>
-      
+
       <div className="space-y-8">
         <StudyStats />
         <ProgressStats />

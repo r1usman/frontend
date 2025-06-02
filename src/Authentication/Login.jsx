@@ -1,16 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
-import { validateEmail } from './AuthAssest/valideEmail';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import BoxAnimation from '../assests/Animation/BoxAnimation';
-import CustomDiv from './Components/RightBar.jsx/CustomDiv';
+import React, { useContext, useEffect, useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import { validateEmail } from "./AuthAssest/valideEmail";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import BoxAnimation from "../assests/Animation/BoxAnimation";
+import CustomDiv from "./Components/RightBar.jsx/CustomDiv";
 // import OAuth from './OAuth';
 // import { UserContext } from '../GlobalContext/UserContext';
 const Login = () => {
-  const [email, setemail] = useState('');
-  const [password, setpassword] = useState('');
-  const [error, seterror] = useState('');
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+  const [error, seterror] = useState("");
   const [hide, sethide] = useState(true); // State to toggle password visibility
   const navigate = useNavigate();
   // const {updateUser} = useContext(UserContext)
@@ -28,8 +28,7 @@ const Login = () => {
   //     const User = result.data.user;
   //     const Token = result.data.token;
   //     updateUser(User, Token)
-      
-      
+
   //     console.log(User);
   //     if(User)
   //       navigate("/dashboard")
@@ -38,10 +37,9 @@ const Login = () => {
 
   //   } catch (error) {
   //     if (error.response) {
-  //         console.log("Error Status:", error.response.status); 
-  //         console.log("Error Data:", error.response.data);     
+  //         console.log("Error Status:", error.response.status);
+  //         console.log("Error Data:", error.response.data);
 
-    
   //         seterror(error.response.data.message || "Unauthorized Access");
   //     } else if (error.request) {
   //         console.log("No response received:", error.request);
@@ -58,20 +56,20 @@ const Login = () => {
     e.preventDefault();
 
     if (!validateEmail(email)) {
-      seterror('Please Enter valid email');
+      seterror("Please Enter valid email");
       return;
     }
     if (!password) {
-      seterror('Please Enter the Password');
+      seterror("Please Enter the Password");
       return;
     }
-    seterror('');
-    sendData()
+    seterror("");
+    // sendData()
   };
 
   useEffect(() => {
     setTimeout(() => {
-      seterror('');
+      seterror("");
     }, 5000);
   }, [error]);
 
@@ -97,7 +95,7 @@ const Login = () => {
                   Please enter your details to log in
                 </p>
               </div>
-              <form  className="flex flex-col gap-2">
+              <form className="flex flex-col gap-2">
                 <div className="flex flex-col space-y-2 ">
                   <label htmlFor="" className="font-semibold">
                     Email
@@ -115,7 +113,7 @@ const Login = () => {
                   <div className="relative flex w-[60%] items-center">
                     <input
                       className="w-full  rounded-[4px] border border-slate-200 bg-slate-100 p-2 pr-10 text-slate-700 placeholder:text-slate-700 focus:outline-none"
-                      type={hide ? 'password' : 'text'} 
+                      type={hide ? "password" : "text"}
                       value={password}
                       placeholder="Password"
                       onChange={(e) => setpassword(e.target.value)}
@@ -146,33 +144,42 @@ const Login = () => {
                   <div className="w-full border-t border-gray-300"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="bg-[#FAFAFA] px-4 text-gray-400">or continue with</span>
+                  <span className="bg-[#FAFAFA] px-4 text-gray-400">
+                    or continue with
+                  </span>
                 </div>
               </div>
-              <button type="button" className="w-[60%] flex items-center justify-center gap-2 rounded-md   border border-gray-200 bg-white px-4 py-2 text-sm
-                   text-center font-medium text-gray-700 transition-all hover:bg-gray-50 active:bg-gray-100;">
-                <img src="https://www.google.com/favicon.ico" alt="" className="w-5 h-5" />
+              <button
+                type="button"
+                className="w-[60%] flex items-center justify-center gap-2 rounded-md   border border-gray-200 bg-white px-4 py-2 text-sm
+                   text-center font-medium text-gray-700 transition-all hover:bg-gray-50 active:bg-gray-100;"
+              >
+                <img
+                  src="https://www.google.com/favicon.ico"
+                  alt=""
+                  className="w-5 h-5"
+                />
                 Sign in with Google
               </button>
               {/* <div className='w-[60%]'><OAuth /></div> */}
-              <div className='flex items-center gap-40'>
+              <div className="flex items-center gap-40">
                 <p className="text-xs">
-                Don't have an account?{' '}
-                <span
-                  className="text-task_primary cursor-pointer underline"
-                  onClick={() => navigate('/SignUp')}
-                >
-                  Sign Up
-                </span>
-              </p>
-              <p className="text-xs">
-                <span
-                  className="text-task_primary cursor-pointer underline"
-                  onClick={() => navigate('/ForgetPassword')}
-                >
-                  Forget Password
-                </span>
-              </p>
+                  Don't have an account?{" "}
+                  <span
+                    className="text-task_primary cursor-pointer underline"
+                    onClick={() => navigate("/SignUp")}
+                  >
+                    Sign Up
+                  </span>
+                </p>
+                <p className="text-xs">
+                  <span
+                    className="text-task_primary cursor-pointer underline"
+                    onClick={() => navigate("/ForgetPassword")}
+                  >
+                    Forget Password
+                  </span>
+                </p>
               </div>
             </div>
           </div>
