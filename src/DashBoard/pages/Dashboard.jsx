@@ -5,6 +5,8 @@ import AssignmentList from "../components/Assignments/AssignmentList";
 import { ProgressStats } from "../components/Statistics/ProgressStats";
 import { StudyStats } from "../components/Statistics/StudyStats";
 import { MentorList } from "../components/MentorStatus/MentorList";
+import PracticeProblemProfileLeft from "../components/PracticeProblemProfile/PracticeProblemProfileLeft";
+import PracticeProblemProfileRight from "../components/PracticeProblemProfile/PracticeProblemProfileRight";
 
 export const Dashboard = () => {
   return (
@@ -12,13 +14,16 @@ export const Dashboard = () => {
       <div className="lg:col-span-2 space-y-8">
         <CourseContinue />
         <CourseList />
-        <MentorList />
+
+        <PracticeProblemProfileLeft />
       </div>
 
       <div className="space-y-8">
-        <StudyStats />
-        <ProgressStats />
+        {/* <StudyStats /> */}
+        {/* <ProgressStats /> */}
         <AssignmentList />
+        <MentorList />
+        <PracticeProblemProfileRight />
       </div>
     </div>
   );

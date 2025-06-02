@@ -18,26 +18,28 @@ const ACTIVE_CLASS = "bg-gray-700  text-white font-semibold shadow-md";
 const INACTIVE_CLASS = "text-gray-400 hover:text-white hover:bg-gray-700";
 
 // NavItem Component
-const NavItem = ({ icon, label, path, isActive, tooltip }) => (
-  <Link
-    to={path}
-    title={tooltip}
-    className={`flex items-center px-4 py-3 rounded-lg transition-colors duration-200 ${
-      isActive ? ACTIVE_CLASS : INACTIVE_CLASS
-    }`}
-    // className={`
-    //   flex items-center px-4 py-3 rounded-lg transition-colors duration-200
-    //   ${
-    //     isActive
-    //       ? "bg-blue-500 text-white"
-    //       : "text-gray-300 hover:bg-gray-800 hover:text-white"
-    //   }
-    // `}
-  >
-    <div className="w-5 h-5 mr-3">{icon}</div>
-    <span className="text-sm font-medium">{label}</span>
-  </Link>
-);
+const NavItem = ({ icon, label, path, isActive, tooltip }) => {
+  return (
+    <Link
+      to={path}
+      title={tooltip}
+      className={`flex items-center px-4 py-3 rounded-lg transition-colors duration-200 ${
+        isActive ? ACTIVE_CLASS : INACTIVE_CLASS
+      }`}
+      // className={`
+      //   flex items-center px-4 py-3 rounded-lg transition-colors duration-200
+      //   ${
+      //     isActive
+      //       ? "bg-blue-500 text-white"
+      //       : "text-gray-300 hover:bg-gray-800 hover:text-white"
+      //   }
+      // `}
+    >
+      <div className="w-5 h-5 mr-3">{icon}</div>
+      <span className="text-sm font-medium">{label}</span>
+    </Link>
+  );
+};
 
 // Navigation config array
 
