@@ -14,14 +14,15 @@ export const Dashboard = () => {
       <div className="lg:col-span-2 space-y-8">
         <CourseContinue />
         <CourseList />
-        <MentorList />
+       
         <PracticeProblemProfileLeft/>
       </div>
       
       <div className="space-y-8">
-        <StudyStats />
-        <ProgressStats />
+        {/* <StudyStats /> */}
+        {/* <ProgressStats /> */}
         <AssignmentList />
+         <MentorList />
         <PracticeProblemProfileRight/>
       </div>
 

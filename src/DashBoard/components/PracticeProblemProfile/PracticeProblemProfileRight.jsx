@@ -4,7 +4,7 @@ export default function PracticeProblemProfileRight() {
   return (
     <div className="space-y-6">
       {/* Community Stats */}
-      <div className="bg-white rounded-lg p-6">
+      <div className="bg-white rounded-lg p-4 shadow-sm">
         <h2 className="text-lg font-bold text-gray-900 mb-4">Community Stats</h2>
         
         <div className="space-y-4">
@@ -69,7 +69,7 @@ export default function PracticeProblemProfileRight() {
       </div>
 
       {/* Languages */}
-      <div className="bg-white rounded-lg p-6">
+      <div className="bg-white rounded-lg p-4 shadow-sm">
         <h2 className="text-lg font-bold text-gray-900 mb-4">Languages</h2>
         
         <div className="space-y-3">
@@ -92,7 +92,7 @@ export default function PracticeProblemProfileRight() {
       </div>
 
       {/* Skills */}
-      <div className="bg-white rounded-lg p-6">
+      <div className="bg-white rounded-lg p-4 shadow-sm">
         <h2 className="text-lg font-bold text-gray-900 mb-4">Skills</h2>
         <div className="text-sm text-gray-500">No skills to show</div>
       </div>

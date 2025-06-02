@@ -54,7 +54,7 @@ const navItems = [
   {
     label: "Courses",
     icon: <BookOpen size={18} />,
-    path: "",
+    path: "/courses",
     tooltip: "Browse your courses",
     permission: "user",
   },

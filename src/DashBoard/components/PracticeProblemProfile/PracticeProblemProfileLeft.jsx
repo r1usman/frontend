@@ -142,8 +142,8 @@ import React from 'react';
 
 export default function PracticeProblemProfileLeft() {
   return (
-    <div className="space-y-6">
-      <h2 className="text-lg font-bold text-gray-900">Stats</h2>
+    <div className="bg-white rounded-lg p-4 shadow-sm">
+      <h2 className="text-lg font-bold text-gray-900">Student Statistics</h2>
 
       {/* Stats Circle and Problem Count */}
       <div className="bg-white rounded-lg p-6">
