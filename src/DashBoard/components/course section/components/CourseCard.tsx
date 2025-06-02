@@ -37,7 +37,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
   };
 
   return (
-    <Link to={role === "student" ? "/ic" : "/sc"}>
+    <Link to={role === "student" ? "/sc" : "/ic"}>
       <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden flex flex-col h-full">
         <div className="relative h-40">
           <img

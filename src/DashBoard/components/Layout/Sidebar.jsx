@@ -59,7 +59,7 @@ export const Sidebar = () => {
     {
       label: "Courses",
       icon: <BookOpen size={18} />,
-      path: role === "student" ? "/student/courses" : "/instructor/courses",
+      path: role === "instructor" ? "/instructor/courses" : "/student/courses",
       tooltip: "Browse your courses",
       permission: "user",
     },
