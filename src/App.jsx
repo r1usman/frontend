@@ -33,6 +33,7 @@ import StudentCourseView from "./Student manage/pages/StudentCourseView.js";
 import ProblemsetPage from "./problemset/Problemset.jsx";
 import InstructorDashboard from "./DashBoard/components/course section/pages/InstructorDashboard.js";
 import StudentDashboard from "./DashBoard/components/course section/pages/StudentDashboard.js";
+import ProblemPage from "./problemset/ProblemPage";
 
 function App() {
   const { role } = useContext(UserContext);
@@ -72,6 +73,7 @@ function App() {
         <Route path="lcs" element={<LiveClassStudent />} />
 
         <Route path="problemset" element={<ProblemsetPage />} />
+        <Route path="problemset/:id" element={<ProblemPage />} />
       </Routes>
     </BrowserRouter>
   );
