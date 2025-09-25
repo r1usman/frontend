@@ -5,9 +5,7 @@ import { Dashboard } from "./pages/Dashboard";
 function DisplayDashboard() {
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800 font-sans">
-      <Layout>
-        <Dashboard />
-      </Layout>
+      <Dashboard />
     </div>
   );
 }

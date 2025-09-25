@@ -34,7 +34,8 @@ import ProblemsetPage from "./problemset/Problemset.jsx";
 import InstructorDashboard from "./DashBoard/components/course section/pages/InstructorDashboard.js";
 import StudentDashboard from "./DashBoard/components/course section/pages/StudentDashboard.js";
 import ProblemPage from "./problemset/ProblemPage";
-
+import Protected from './Components/ProtectRoutes/ProtectRoutes.jsx'
+import DefaultLayout from "./DashBoard/components/Layout/DefaultLayout.jsx";
 function App() {
   const { role } = useContext(UserContext);
   return (
@@ -44,12 +45,38 @@ function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="/Signup" element={<Signup />} />
         <Route path="/ForgetPassword" element={<ForgetPassword />} />
-        <Route
+
+
+        <Route path='/Student' 
+          element={
+            <Protected allowed={['Student']}>
+              <DefaultLayout/>
+            </Protected>
+          }
+          >
+          <Route path='Dashboard' element={<UserDashboard/>}/>
+          
+        </Route>
+        <Route path='/Instructor' 
+          element={
+            <Protected allowed={['Instructor']}>
+                <DefaultLayout/>
+            </Protected>
+          }
+          
+          >
+          <Route path='Dashboard' element={<AdminDashboard/>}/>
+        
+        </Route>
+
+
+        
+        {/* <Route
           path="/Dash"
           element={
             role !== "instructor" ? <UserDashboard /> : <AdminDashboard />
           }
-        ></Route>
+        ></Route> */}
         <Route path="/student/courses" element={<InstructorDashboard />} />
         <Route path="/instructor/courses" element={<StudentDashboard />} />
 

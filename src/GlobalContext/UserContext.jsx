@@ -1,40 +1,46 @@
-import React, { createContext, useState } from "react";
+import axios from "axios";
+import { createContext, useEffect, useState } from "react";
+import { API_PATH } from "../Utility/ApiPath"
+import AxiosInstance from "../Utility/AxiosInstances";
 
-export const UserContext = createContext({
-  role: null,         
-  loginAs: (newRole) => {},
-  logout: () => {},       
-});
+export const UserContext = createContext();
 
+const UserProvider = ({ children }) => {
 
-// 2) Provider component that wraps your app (or part of it)
-export function UserProvider({ children }) {
-  const [role, setRole] = useState("instructor");
+    const [User, setUser] = useState(null)
+    const [loading, setLoading] = useState(true);
+    console.log("User",User);
+    
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {   
+                const result = await AxiosInstance.get(API_PATH.AUTH.PROFILE)
+                console.log("result",result.data.user);
+        
+                setUser(result.data.user);
+            } catch (error) {
+                console.error('Error fetching user profile:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchUserData();
+    },[]);
 
-  // Function to set role to "student" or "instructor"
-  const loginAs = (newRole) => {
-    if (newRole === "student" || newRole === "instructor") {
-      setRole(newRole);
-    } else {
-      console.warn(`Invalid role "${newRole}". Must be "student" or "instructor".`);
+    const updateUser = (user, token) => {
+        setUser(user);
+        localStorage.setItem("token", token);
+        setLoading(false);
     }
-  };
 
-  // Function to clear role (log out)
-  const logout = () => {
-    setRole(null);
-  };
-
-
-
-
-
-  // The context value we supply to any descendants
-  const value = {
-    role,
-    loginAs,
-    logout,
-  };
-
-  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+    const clearUser = () => {
+        setUser(null)
+        localStorage.removeItem("token");
+    }
+    return (
+        <UserContext.Provider value={{ updateUser, clearUser, User, loading }}>
+            {children}
+        </UserContext.Provider>
+    )
 }
+export default UserProvider

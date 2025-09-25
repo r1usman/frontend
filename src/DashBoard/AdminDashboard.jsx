@@ -4,9 +4,7 @@ import { Layout } from "./components/Layout";
 
 const AdminDashboard = () => {
   return (
-    <Layout>
-      <CourseOverview />
-    </Layout>
+   <CourseOverview />
   );
 };
 

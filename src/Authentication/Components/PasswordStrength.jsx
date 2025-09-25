@@ -12,24 +12,24 @@ const PasswordStrength = ({password , placeholder, setpassword , ToggleHide ,hid
     const pass = e.target.value;
     setpassword(pass);
 
-    const stats = {
-      length: pass.length >= 8,
-      hasUpperCase: /[A-Z]/.test(pass),
-      hasLowerCase: /[a-z]/.test(pass),
-      hasDigit: /[0-9]/.test(pass),
-      hasSpecialChar: /[^A-Za-z0-9]/.test(pass),
-    };
+    // const stats = {
+    //   length: pass.length >= 8,
+    //   hasUpperCase: /[A-Z]/.test(pass),
+    //   hasLowerCase: /[a-z]/.test(pass),
+    //   hasDigit: /[0-9]/.test(pass),
+    //   hasSpecialChar: /[^A-Za-z0-9]/.test(pass),
+    // };
 
-    const score = Object.values(stats).filter((item)=>item).length;
-    console.log(score);
+    // const score = Object.values(stats).filter((item)=>item).length;
+    // console.log(score);
     
 
-    let strength = score === 5 ? "strong" : score >= 3 ? "Medium" : "weak";
-    setMessage(strength);
-    setProgress(`${(score / 5) * 100}%`);
-    setPassStatus(strength);
+    // let strength = score === 5 ? "strong" : score >= 3 ? "Medium" : "weak";
+    // setMessage(strength);
+    // setProgress(`${(score / 5) * 100}%`);
+    // setPassStatus(strength);
 
-    console.log(stats);
+    // console.log(stats);
   };
 
   const getActiveColor = () => {

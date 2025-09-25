@@ -1,4 +1,6 @@
 import axios from "axios";
+import AxiosInstance from "../../Utility/AxiosInstances";
+import { API_PATH } from "../../Utility/ApiPath";
 
 const UploadImage = async (imageFile) => {
     const formData = new FormData();
@@ -6,7 +8,7 @@ const UploadImage = async (imageFile) => {
     console.log("imagefile", imageFile);
 
     try {
-        const response = await axios.post("http://localhost:3000/api/Auth/uploadImg", formData,
+        const response = await AxiosInstance.post(API_PATH.AUTH.UPLOAD_PROFILE_IMG, formData,
             {
                 headers: {
                     "Content-Type": "multipart/form-data"

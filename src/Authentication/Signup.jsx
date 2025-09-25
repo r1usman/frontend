@@ -1,34 +1,34 @@
 import React, {  useEffect, useState } from 'react';
-import { Eye, EyeOff, LogIn, Upload } from 'lucide-react';
 import { validateEmail } from './AuthAssest/valideEmail';
-import axios from 'axios';
+
 import {useNavigate} from "react-router-dom"
 import PhotoSelector from './Components/PhotoSelector';
 import CustomDiv from './Components/RightBar.jsx/CustomDiv';
 import PasswordStrength from './Components/PasswordStrength';
 import UploadImage from './Components/UploadImage';
-import { isExists, set } from 'date-fns';
+import AxiosInstance from '../Utility/AxiosInstances';
+import { API_PATH } from '../Utility/ApiPath';
 
 const SignUp = () => {
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
+
+
   const [name, setname] = useState('')
   const [PassStatus, setPassStatus] = useState('')
   const [ConfirmPass, setConfirmPass] = useState('')
   const [role, setrole] = useState("")
-  console.log("role",role);
-  
- 
 
   const [error, seterror] = useState('');
   const [hide, sethide] = useState(true); 
   const [ProfilePic, setProfilePic] = useState("")
   
+  console.log(email , password , name , PassStatus , ConfirmPass , role);
+  
   
   const navigate = useNavigate();
 
     const sendData = async()=>{
-      console.log("here");
       
       try {
         const uploadImage = await UploadImage(ProfilePic);
@@ -36,25 +36,48 @@ const SignUp = () => {
       
         const profileImageUrl = uploadImage.Image || "";
 
-        // console.log("image", profileImageUrl);
-
-        const response = await axios.post("http://localhost:3000/api/Auth/VerifyEmail",{  email })
-        console.log("email ",response.data.isExist);
-
-        if(response.data.isExist == false)
+        const VerifyEmail = await AxiosInstance.post(API_PATH.AUTH.VERIFY_EMAIL,{ email })
+        console.log(VerifyEmail.data);
+        
+        if(VerifyEmail.data.isExist)
         {
-            navigate("/otp", {
-              state: {
-                name,
-                email,
-                password,
-                profileImageUrl,
-                role
-              }
-          });
+            seterror(VerifyEmail.data.Message)
         }
         
+          const result = await AxiosInstance.post(API_PATH.AUTH.REGISTER,{
+                  name,
+                  email,
+                  password,
+                  profileImageUrl,
+                  role
+          })
+
+          if(result.data)
+          {
+            console.log(result.data.Message);
+            navigate("/Login")
+          }
+          else
+          {
+             navigate("/")
+          }
         
+        
+
+        // if(response.data.isExist == false)
+        // {
+        //     navigate("/otp", {
+        //       state: {
+        //         name,
+        //         email,
+        //         password,
+        //         profileImageUrl,
+        //         role
+        //       }
+        //   });
+        // }  
+        
+          
 
       //
 
@@ -108,11 +131,11 @@ const SignUp = () => {
         seterror("Please Enter the Password")
         return;
       }
-     if(PassStatus !=='strong')
-      {
-        seterror("Strong Password is Required")
-        return;
-      }
+    //  if(PassStatus !=='strong')
+    //   {
+    //     seterror("Strong Password is Required")
+    //     return;
+    //   }
       if(!ProfilePic)
       {
         seterror("Image is Not Selected")
@@ -143,7 +166,6 @@ const SignUp = () => {
     sethide((prev) => !prev);
   };
 
-  // console.log(ProfilePic , "ProfilePic");
   
 
   return (
@@ -215,10 +237,10 @@ const SignUp = () => {
                           name="role"
                           id="role"
                         >
-                          <option value="student" className="bg-slate-100 text-slate-700">
+                          <option value="Student" className="bg-slate-100 text-slate-700">
                             Student
                           </option>
-                          <option value="instructor" className="bg-slate-100 text-slate-700">
+                          <option value="Instructor" className="bg-slate-100 text-slate-700">
                             Instructor
                           </option>
                         </select>
