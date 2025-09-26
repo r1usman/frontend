@@ -2,8 +2,6 @@
 import { useContext } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import "./index.css";
-
 // Top‐level pages (outside of /Mod)
 import AdminDashboard from "./DashBoard/AdminDashboard.jsx";
 import UserDashboard from "./DashBoard/DisplayDashboard.jsx";
@@ -18,26 +16,17 @@ import CompetitionWrapper from "./Competition/CompetitionWrapper.jsx";
 import ForgetPassword from "./Authentication/ForgetPassword.jsx";
 import Login from "./Authentication/Login.jsx";
 import Signup from "./Authentication/Signup.jsx";
-import { UserContext } from "./GlobalContext/UserContext.jsx";
-
-import LiveClassInstructor from "./liveclass/pages/InstructorInterface.js";
-import LiveClassStudent from "./liveclass/pages/StudentInterface.js";
-import { StudentsSection } from "./managecourse/dashboard/StudentsSection";
-import { DashboardLayout } from "./managecourse/layouts/DashboardLayout";
-import AssignmentHistory from "./managecourse/pages/AssignmentHistory";
-import ContentBox from "./managecourse/pages/ContentBox";
-import { CourseManagement } from "./managecourse/pages/CourseManagement";
-import EditCoursePage from "./managecourse/pages/EditCoursePage";
-import TestHistory from "./managecourse/pages/TestHistory";
-import StudentCourseView from "./Student manage/pages/StudentCourseView.js";
-import ProblemsetPage from "./problemset/Problemset.jsx";
-import InstructorDashboard from "./DashBoard/components/course section/pages/InstructorDashboard.js";
-import StudentDashboard from "./DashBoard/components/course section/pages/StudentDashboard.js";
-import ProblemPage from "./problemset/ProblemPage";
-import Protected from './Components/ProtectRoutes/ProtectRoutes.jsx'
+import Protected from "./Components/ProtectRoutes/ProtectRoutes.jsx";
 import DefaultLayout from "./DashBoard/components/Layout/DefaultLayout.jsx";
+import { UserContext } from "./GlobalContext/UserContext.jsx";
+import CourseDetail from "./liveclass/pages/CourseDetail.jsx";
+import ProblemPage from "./problemset/ProblemPage";
+import ProblemsetPage from "./problemset/Problemset.jsx";
+import S_CourseDetail from "./liveclass/pages/S_CourseDetail.jsx";
+import S_ShowCourses from "./liveclass/pages/S_ShowCourses.jsx";
+import ShowCourses from "./liveclass/pages/ShowCourses.jsx";
 function App() {
-  const { role } = useContext(UserContext);
+  // const { role } = useContext(UserContext);
   return (
     <BrowserRouter>
       <Routes>
@@ -46,58 +35,41 @@ function App() {
         <Route path="/Signup" element={<Signup />} />
         <Route path="/ForgetPassword" element={<ForgetPassword />} />
 
-
-        <Route path='/Student' 
+        <Route
+          path="/student"
           element={
-            <Protected allowed={['Student']}>
-              <DefaultLayout/>
+            <Protected allowed={["Student"]}>
+              <S_ShowCourses />
             </Protected>
           }
-          >
-          <Route path='Dashboard' element={<UserDashboard/>}/>
-          
+        >
+          <Route path="courses/:studentId" element={<UserDashboard />} />
         </Route>
-        <Route path='/Instructor' 
+        <Route
+          path="instructor"
           element={
-            <Protected allowed={['Instructor']}>
-                <DefaultLayout/>
+            <Protected allowed={["Instructor"]}>
+              <ShowCourses />
             </Protected>
           }
-          
-          >
-          <Route path='Dashboard' element={<AdminDashboard/>}/>
-        
+        >
+          <Route path="courses" element={<AdminDashboard />} />
         </Route>
 
-
-        
         {/* <Route
           path="/Dash"
           element={
             role !== "instructor" ? <UserDashboard /> : <AdminDashboard />
           }
         ></Route> */}
-        <Route path="/student/courses" element={<InstructorDashboard />} />
-        <Route path="/instructor/courses" element={<StudentDashboard />} />
+        <Route path="/instructor/courses" element={<ShowCourses />} />
+        <Route path="/student/courses" element={<S_ShowCourses />} />
+        <Route path="/instructor/course/:id" element={<CourseDetail />} />
+        <Route path="/student/course/:id" element={<S_CourseDetail />} />
 
         <Route path="/0/*" element={<PythonCourse />} />
 
         <Route path="/Mod/*" element={<CompetitionWrapper />} />
-        <Route path="ic" element={<DashboardLayout />}>
-          <Route index element={<CourseManagement />} />
-          <Route path="edit" element={<EditCoursePage />} />
-          <Route path="students" element={<StudentsSection />} />
-          <Route path="curriculum" element={<ContentBox />} />
-          <Route path="test" element={<TestHistory />} />
-          <Route path="assign" element={<AssignmentHistory />} />
-        </Route>
-
-        <Route path="sc" element={<StudentCourseView />} />
-        <Route path="sc" element={<StudentCourseView />} />
-        <Route path="sc" element={<StudentCourseView />} />
-
-        <Route path="lci" element={<LiveClassInstructor />} />
-        <Route path="lcs" element={<LiveClassStudent />} />
 
         <Route path="problemset" element={<ProblemsetPage />} />
         <Route path="problemset/:id" element={<ProblemPage />} />

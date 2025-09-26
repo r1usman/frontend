@@ -7,7 +7,7 @@ import BoxAnimation from "../assests/Animation/BoxAnimation";
 import CustomDiv from "./Components/RightBar.jsx/CustomDiv";
 // import OAuth from './OAuth';
 
-import { UserContext } from '../GlobalContext/UserContext';
+import { UserContext } from "../GlobalContext/UserContext";
 import AxiosInstance from "../Utility/AxiosInstances";
 import { API_PATH } from "../Utility/ApiPath";
 
@@ -15,45 +15,41 @@ const Login = () => {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const [error, seterror] = useState("");
-  const [hide, sethide] = useState(true); 
+  const [hide, sethide] = useState(true);
   const navigate = useNavigate();
-  const {updateUser} = useContext(UserContext)
+  const { updateUser } = useContext(UserContext);
 
-  const sendData = async()=>{
+  const sendData = async () => {
     try {
-
-      const result = await AxiosInstance.post(API_PATH.AUTH.LOGIN , {email , password})
-      if(result)
-      {
+      const result = await AxiosInstance.post(API_PATH.AUTH.LOGIN, {
+        email,
+        password,
+      });
+      if (result) {
         const User = result.data.user;
         const Token = result.data.token;
-        updateUser(User, Token)
+        updateUser(User, Token);
 
-        if(User.status == "Instructor")
-          navigate("/Instructor/Dashboard")
-        else
-          navigate("/Student/Dashboard")
+        if (User.status == "Instructor") navigate("/instructor/courses");
+        else navigate(`/student/courses/${User._id}`);
 
         console.log("Authorized");
-      } 
-      
-
+      }
     } catch (error) {
       if (error.response) {
-          console.log("Error Status:", error.response.status);
-          console.log("Error Data:", error.response.data);
+        console.log("Error Status:", error.response.status);
+        console.log("Error Data:", error.response.data);
 
-          seterror(error.response.data.message || "Unauthorized Access");
+        seterror(error.response.data.message || "Unauthorized Access");
       } else if (error.request) {
-          console.log("No response received:", error.request);
-          seterror("Server is not responding.");
+        console.log("No response received:", error.request);
+        seterror("Server is not responding.");
       } else {
-          console.log("Request error:", error.message);
-          seterror("An unexpected error occurred.");
+        console.log("Request error:", error.message);
+        seterror("An unexpected error occurred.");
       }
-  }
-
-  }
+    }
+  };
 
   const handelRequest = async (e) => {
     e.preventDefault();
@@ -67,7 +63,7 @@ const Login = () => {
       return;
     }
     seterror("");
-    sendData()
+    sendData();
   };
 
   useEffect(() => {
