@@ -89,7 +89,7 @@ function App() {
             role !== "instructor" ? <UserDashboard /> : <AdminDashboard />
           }
         ></Route> */}
-        <Route path="/instructor/courses" element={<ShowCourses />} />
+
         <Route path="/student/courses" element={<S_ShowCourses />} />
         <Route path="/instructor/course/:id" element={<CourseDetail />} />
         <Route path="/student/course/:id" element={<S_CourseDetail />} />
