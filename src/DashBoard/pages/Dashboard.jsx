@@ -1,9 +1,6 @@
-import React from "react";
+import AssignmentList from "../components/Assignments/AssignmentList";
 import CourseContinue from "../components/Courses/CourseContinue";
 import CourseList from "../components/Courses/CourseList";
-import AssignmentList from "../components/Assignments/AssignmentList";
-import { ProgressStats } from "../components/Statistics/ProgressStats";
-import { StudyStats } from "../components/Statistics/StudyStats";
 import { MentorList } from "../components/MentorStatus/MentorList";
 import PracticeProblemProfileLeft from "../components/PracticeProblemProfile/PracticeProblemProfileLeft";
 import PracticeProblemProfileRight from "../components/PracticeProblemProfile/PracticeProblemProfileRight";
