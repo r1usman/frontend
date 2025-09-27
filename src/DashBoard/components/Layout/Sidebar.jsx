@@ -1,149 +1,162 @@
 // Sidebar.jsx
-import React, { useContext } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   BarChart2,
   BookOpen,
-  Calendar,
   FileText,
   LayoutDashboard,
   LogOut,
   MessageSquare,
   Settings,
 } from "lucide-react";
+import { FaUser } from "react-icons/fa";
 import { UserContext } from "../../../GlobalContext/UserContext";
+import Modal from "../../Modals/Modal.jsx";
 
-// Tailwind classes
-const ACTIVE_CLASS = "bg-gray-700  text-white font-semibold shadow-md";
+const ACTIVE_CLASS = "bg-gray-700 text-white font-semibold shadow-md";
 const INACTIVE_CLASS = "text-gray-400 hover:text-white hover:bg-gray-700";
 
 // NavItem Component
-const NavItem = ({ icon, label, path, isActive, tooltip }) => {
-  return (
-    <Link
-      to={path}
-      title={tooltip}
-      className={`flex items-center px-4 py-3 rounded-lg transition-colors duration-200 ${
+const NavItem = ({ icon, label, path, tooltip }) => (
+  <NavLink
+    to={path}
+    title={tooltip}
+    className={({ isActive }) =>
+      `flex items-center px-4 py-3 rounded-lg transition-colors duration-200 ${
         isActive ? ACTIVE_CLASS : INACTIVE_CLASS
-      }`}
-      // className={`
-      //   flex items-center px-4 py-3 rounded-lg transition-colors duration-200
-      //   ${
-      //     isActive
-      //       ? "bg-blue-500 text-white"
-      //       : "text-gray-300 hover:bg-gray-800 hover:text-white"
-      //   }
-      // `}
-    >
-      <div className="w-5 h-5 mr-3">{icon}</div>
-      <span className="text-sm font-medium">{label}</span>
-    </Link>
-  );
-};
+      }`
+    }
+  >
+    <div className="w-5 h-5 mr-3">{icon}</div>
+    <span className="text-sm font-medium">{label}</span>
+  </NavLink>
+);
 
-// Navigation config array
 
 export const Sidebar = () => {
-  const location = useLocation();
-  const { role } = useContext(UserContext);
-  const currentPath = location.pathname;
+  const { role, User } = useContext(UserContext);
   const navigate = useNavigate();
+  const [confirmLogout, setConfirmLogout] = useState(false);
+
   const navItems = [
     {
       label: "Dashboard",
       icon: <LayoutDashboard size={18} />,
-      path: "/Dash",
+      path: "/Instructor/Dashboard",
       tooltip: "View your dashboard",
-      permission: "user",
     },
     {
       label: "Courses",
       icon: <BookOpen size={18} />,
       path: role === "instructor" ? "/instructor/courses" : "/student/courses",
       tooltip: "Browse your courses",
-      permission: "user",
-    },
-    {
-      label: "Events",
-      icon: <Calendar size={18} />,
-      path: "/Mod/*",
-      tooltip: "Check your calendar",
-      permission: "user",
     },
     {
       label: "Assignment",
       icon: <FileText size={18} />,
       path: "/assignments",
       tooltip: "See your tasks",
-      permission: "user",
-    },
-    {
-      label: "Analytics",
-      icon: <BarChart2 size={18} />,
-      path: "/analytics",
-      tooltip: "Track performance",
-      permission: "admin",
     },
     {
       label: "Messages",
       icon: <MessageSquare size={18} />,
       path: "/messages",
       tooltip: "Read messages",
-      permission: "user",
     },
     {
       label: "Settings",
       icon: <Settings size={18} />,
       path: "/settings",
       tooltip: "Account settings",
-      permission: "user",
     },
   ];
+
   const handleLogout = () => {
     navigate("/Login");
   };
-
+  console.log("User.profileImage",User.profileImage);
+  
   return (
-    <aside className="w-64 hidden md:flex flex-col bg-gray-800 text-gray-300">
-      {/* Logo / Branding */}
-      <div className="px-4 py-6 flex items-center">
-        <div className="bg-amber-500 rounded-lg p-2 mr-2">
-          <span className="font-bold text-gray-900">CA</span>
-        </div>
-        <span className="font-bold text-xl">Code Ascend</span>
+    <div className="z-50 min-h-screen fixed border w-[20%] font-urbanist border-gray-200/50  flex flex-col justify-between">
+      {/* Profile Section */}
+      <div className="flex flex-col items-center justify-center mb-7 space-y-3 pt-10">
+        {!User.profileImage ? (
+          <div className="w-20 h-20 relative rounded-full bg-purple-100 text-purple-600 flex items-center justify-center">
+            <FaUser className="w-8 h-8 text-task_primary" />
+          </div>
+        ) : (
+          <img className="w-20 h-20 rounded-full" src={User.profileImage} alt="Profile" />
+        )}
+
+        <h1 className="text-[10px] font-medium text-white bg-[#6c63ff] px-3 py-0.5 rounded mt-1">
+          {User.status}
+        </h1>
+        <p className="text-gray-950 font-medium leading-6 mt-3">{User.name}</p>
+        <p className="text-[12px] text-gray-500">{User.email}</p>
       </div>
 
-      {/* Navigation Links */}
-      <nav className="flex-1 px-2 py-4 space-y-1">
-        {navItems.map((item, idx) => {
-          const cleanPath = item.path.replace("/*", "");
-          const isActive =
-            currentPath === cleanPath ||
-            currentPath.startsWith(cleanPath + "/");
+      {/* Navigation Items */}
+    {/* Navigation Items */}
+<div className="flex-1 flex flex-col space-y-2">
+  {navItems.map((item, index) => (
+    <NavLink
+      key={index}
+      to={item.path}
+      className={({ isActive }) =>
+        `flex items-center gap-4 w-full text-[15px] py-3 px-5 cursor-pointer transition-colors duration-200 ${
+          isActive ? "bg-purple-600/15 border-r-4 border-purple-600" : "" 
+        }`
+      }
+    >
+      <div className="text-xl">{item.icon}</div>
+      <div>{item.label}</div>
+    </NavLink>
+  ))}
+</div>
 
-          return (
-            <NavItem
-              key={idx}
-              icon={item.icon}
-              label={item.label}
-              path={cleanPath}
-              isActive={isActive}
-              tooltip={item.tooltip}
-            />
-          );
-        })}
-      </nav>
 
       {/* Logout Button */}
-      <div className="px-4 py-3 border-t border-purple-800/30">
-        <button
-          onClick={handleLogout}
-          className="flex items-center w-full text-white hover:text-white transition-colors duration-200"
-        >
-          <LogOut size={18} className="mr-3" />
-          <span className="text-sm font-medium">Log out</span>
-        </button>
+      <div
+        onClick={() => setConfirmLogout(true)}
+        className="flex items-center gap-4 w-full text-[15px] py-3 px-5 cursor-pointer hover:bg-red-600/15 hover:text-red-600 hover:border-red-600 transition-all ease-in duration-150"
+      >
+        <div className="text-xl">
+          <LogOut />
+        </div>
+        <div>Logout</div>
       </div>
-    </aside>
+
+      {/* Logout Modal */}
+      <Modal
+        onClose={() => setConfirmLogout(false)}
+        isOpen={confirmLogout}
+        type="small"
+        title="LogOut"
+      >
+        <div className="font-urbanist text-black px-6 space-y-5">
+          <div className="space-y-3">
+            <div className="flex items-center gap-3 mt-2">
+              <LogOut className="w-6 h-6 text-red-500" />
+              <h3 className="text-lg font-semibold text-black">Confirm Logout</h3>
+            </div>
+            <p className="text-md text-center">
+              Are you sure you want to <span className="font-semibold text-red-600">log out</span>?
+            </p>
+            <p className="text-xs text-slate-700 mt-[5px]">
+              You’ll need to log in again to access your account.
+            </p>
+          </div>
+          <div className="flex w-full border items-center justify-center gap-4">
+            <button
+              onClick={handleLogout}
+              className="w-full bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
+            >
+              Yes, Log Out
+            </button>
+          </div>
+        </div>
+      </Modal>
+    </div>
   );
 };

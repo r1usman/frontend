@@ -30,8 +30,14 @@ const Login = () => {
         const Token = result.data.token;
         updateUser(User, Token);
 
-        if (User.status == "Instructor") navigate("/instructor/courses");
-        else navigate(`/student/courses/${User._id}`);
+        // if (User.status == "Instructor") navigate("/instructor/courses");
+        // else navigate(`/student/courses/${User._id}`);
+
+        if(User.status == "Instructor")
+          navigate("/Instructor/Dashboard")
+        else
+          navigate("/Student/Dashboard")
+
 
         console.log("Authorized");
       }

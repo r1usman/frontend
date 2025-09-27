@@ -17,7 +17,7 @@ import ForgetPassword from "./Authentication/ForgetPassword.jsx";
 import Login from "./Authentication/Login.jsx";
 import Signup from "./Authentication/Signup.jsx";
 import Protected from "./Components/ProtectRoutes/ProtectRoutes.jsx";
-import DefaultLayout from "./DashBoard/components/Layout/DefaultLayout.jsx";
+
 import { UserContext } from "./GlobalContext/UserContext.jsx";
 import CourseDetail from "./liveclass/pages/CourseDetail.jsx";
 import ProblemPage from "./problemset/ProblemPage";
@@ -25,6 +25,8 @@ import ProblemsetPage from "./problemset/Problemset.jsx";
 import S_CourseDetail from "./liveclass/pages/S_CourseDetail.jsx";
 import S_ShowCourses from "./liveclass/pages/S_ShowCourses.jsx";
 import ShowCourses from "./liveclass/pages/ShowCourses.jsx";
+import { Dashboard } from "./DashBoard/pages/Dashboard.jsx";
+import DefaultLayout from "./DashBoard/components/Layout/DefaultLayout.jsx"
 function App() {
   // const { role } = useContext(UserContext);
   return (
@@ -35,17 +37,43 @@ function App() {
         <Route path="/Signup" element={<Signup />} />
         <Route path="/ForgetPassword" element={<ForgetPassword />} />
 
-        <Route
+         <Route path='/Student' 
+          element={
+            <Protected allowed={['Student']}>
+              <DefaultLayout/>
+            </Protected>
+          }
+          >
+          <Route path='Dashboard' element={<UserDashboard/>}/>
+          <Route path="courses/:studentId" element={<UserDashboard />} />
+          
+        </Route>
+
+        <Route path='/Instructor' 
+          element={
+            <Protected allowed={['Instructor']}>
+                <DefaultLayout/>
+            </Protected>
+          }
+          
+          >
+          <Route path='Dashboard' element={<AdminDashboard/>}/>
+        
+        </Route>
+        {/* <Route
           path="/student"
           element={
             <Protected allowed={["Student"]}>
+              <Dashboard/>
               <S_ShowCourses />
             </Protected>
           }
         >
+          <Route path="Das" element={<UserDashboard />} />
           <Route path="courses/:studentId" element={<UserDashboard />} />
-        </Route>
-        <Route
+          
+        </Route> */}
+        {/* <Route
           path="instructor"
           element={
             <Protected allowed={["Instructor"]}>
@@ -54,7 +82,7 @@ function App() {
           }
         >
           <Route path="courses" element={<AdminDashboard />} />
-        </Route>
+        </Route> */}
 
         {/* <Route
           path="/Dash"

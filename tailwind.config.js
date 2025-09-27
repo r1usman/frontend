@@ -26,6 +26,8 @@ module.exports = {
 
       fontFamily: {
         mono: ['Menlo', 'Monaco', 'Courier New', 'monospace'],
+        urbanist: ['Urbanist', 'sans-serif'],
+        charmonman: ['Charmonman', 'cursive'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

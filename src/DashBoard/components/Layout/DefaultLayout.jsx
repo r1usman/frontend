@@ -5,8 +5,14 @@ import { Header } from "./Header";
 
 const DefaultLayout = () => {
   return (
-    <div className="m-4 px-3">
-      <Outlet />
+     <div className='flex min-h-screen'>
+         <div className='w-[20%] '>
+          <Sidebar/>
+        </div>
+        <div className='w-[80%]'>
+          <Header/>
+          <div className='m-4 px-3'><Outlet/></div>
+        </div>
     </div>
   );
 };
