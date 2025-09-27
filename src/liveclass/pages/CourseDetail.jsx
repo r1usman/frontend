@@ -12,10 +12,11 @@ import {
   Video,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function CourseDetail() {
   const { id } = useParams();
+  const navigate = useNavigate(); // Add this line
   const [course, setCourse] = useState(null);
   const [students, setStudents] = useState([]);
   const [enrolledStudents, setEnrolledStudents] = useState([]);
@@ -52,7 +53,7 @@ function CourseDetail() {
     if (!enrolledStudents.find((s) => s._id === student._id)) {
       // Call backend API to add student to course
       const res = await fetch(
-        `http://localhost:3000/courses/${id}/add-student`,
+        `http://localhost:3000/courses/add-student/${id}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -113,12 +114,12 @@ function CourseDetail() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
-              <Link
-                to="/instructor/courses"
+              <button
+                onClick={() => navigate(-1)}
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200"
               >
                 <ArrowLeft className="w-5 h-5 text-gray-600" />
-              </Link>
+              </button>
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
                   <BookOpen className="w-6 h-6 text-white" />

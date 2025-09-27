@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { UserContext } from "../../GlobalContext/UserContext";
 
 function S_ShowCourses() {
   const [courses, setCourses] = useState([]);
   const [joined, setJoined] = useState([]);
   const [notJoined, setNotJoined] = useState([]);
-  const { studentId } = useParams(); // Get studentId from URL params
-
+  const { User } = useContext(UserContext);
   useEffect(() => {
     fetch("http://localhost:3000/courses")
       .then((res) => res.json())
@@ -15,17 +15,17 @@ function S_ShowCourses() {
         setJoined(
           data.filter(
             (course) =>
-              course.studentIds && course.studentIds.includes(studentId)
+              course.studentIds && course.studentIds.includes(User?._id)
           )
         );
         setNotJoined(
           data.filter(
             (course) =>
-              !course.studentIds || !course.studentIds.includes(studentId)
+              !course.studentIds || !course.studentIds.includes(User?._id)
           )
         );
       });
-  }, [studentId]);
+  }, [User?._id]);
 
   return (
     <div className="max-w-4xl mx-auto p-6">
@@ -53,11 +53,11 @@ function S_ShowCourses() {
               className="ml-4 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
               onClick={async () => {
                 const res = await fetch(
-                  `http://localhost:3000/courses/${course._id}/join`,
+                  `http://localhost:3000/courses/join/${course._id}`,
                   {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ studentId }),
+                    body: JSON.stringify({ studentId: User?._id }),
                   }
                 );
                 if (res.ok) {
