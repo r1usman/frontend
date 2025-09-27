@@ -26,7 +26,7 @@ import S_CourseDetail from "./liveclass/pages/S_CourseDetail.jsx";
 import S_ShowCourses from "./liveclass/pages/S_ShowCourses.jsx";
 import ShowCourses from "./liveclass/pages/ShowCourses.jsx";
 import { Dashboard } from "./DashBoard/pages/Dashboard.jsx";
-import DefaultLayout from "./DashBoard/components/Layout/DefaultLayout.jsx"
+import DefaultLayout from "./DashBoard/components/Layout/DefaultLayout.jsx";
 function App() {
   // const { role } = useContext(UserContext);
   return (
@@ -37,28 +37,27 @@ function App() {
         <Route path="/Signup" element={<Signup />} />
         <Route path="/ForgetPassword" element={<ForgetPassword />} />
 
-         <Route path='/Student' 
+        <Route
+          path="/Student"
           element={
-            <Protected allowed={['Student']}>
-              <DefaultLayout/>
+            <Protected allowed={["Student"]}>
+              <DefaultLayout />
             </Protected>
           }
-          >
-          <Route path='Dashboard' element={<UserDashboard/>}/>
+        >
+          <Route path="Dashboard" element={<UserDashboard />} />
           <Route path="courses/:studentId" element={<UserDashboard />} />
-          
         </Route>
 
-        <Route path='/Instructor' 
+        <Route
+          path="/Instructor"
           element={
-            <Protected allowed={['Instructor']}>
-                <DefaultLayout/>
+            <Protected allowed={["Instructor"]}>
+              <DefaultLayout />
             </Protected>
           }
-          
-          >
-          <Route path='Dashboard' element={<AdminDashboard/>}/>
-        
+        >
+          <Route path="Dashboard" element={<AdminDashboard />} />
         </Route>
         {/* <Route
           path="/student"

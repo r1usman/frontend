@@ -14,7 +14,7 @@ function ShowCourses() {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/courses/${User._id}`)
+    fetch(`http://localhost:3000/courses/instructor/${User._id}`)
       .then((res) => res.json())
       .then((data) => {
         setCourses(data);
