@@ -6,40 +6,48 @@ export const formatYearMonth = (yearMonth) => {
 
 
 
-export const fixTailwindColors = (element) => {
-    const elements = element.querySelectorAll("*");
-    elements.forEach((el) => {
-        const style = window.getComputedStyle(el);
+// export const fixTailwindColors = (element) => {
+//     const elements = element.querySelectorAll("*");
+//     elements.forEach((el) => {
+//         const style = window.getComputedStyle(el);
 
-        ["color", "backgroundColor", "borderColor"].forEach((prop) => {
-            const value = style[prop];
+//         ["color", "backgroundColor", "borderColor"].forEach((prop) => {
+//             const value = style[prop];
 
-            if (value.startsWith("oklch")) {
-                try {
-                    // Let the browser convert oklch() to rgb
-                    const temp = document.createElement("div");
-                    temp.style.color = value;
-                    document.body.appendChild(temp);
-                    const rgb = window.getComputedStyle(temp).color;
-                    document.body.removeChild(temp);
+//             if (value && value.startsWith("oklch")) {
+//                 try {
+//                     // Let the browser convert oklch() to rgb
+//                     const temp = document.createElement("div");
+//                     temp.style.color = value;
+//                     document.body.appendChild(temp);
+//                     const rgb = window.getComputedStyle(temp).color;
+//                     temp.remove();
 
-                    el.style[prop] = rgb; // assign safe rgb value
-                } catch (err) {
-                    el.style[prop] = "#000"; // fallback
-                }
-            }
-        });
-    });
-};
+//                     el.style[prop] = rgb; // assign safe rgb value
+//                 } catch {
+//                     el.style[prop] = "#000"; // fallback
+//                 }
+//             }
+//         });
+//     });
+// };
 
 // Convert component to image
+function replaceOklchColors(element) {
+    element.querySelectorAll('*').forEach(el => {
+        const style = getComputedStyle(el);
+        if (style.color.includes('oklch')) el.style.color = '#000';
+        if (style.backgroundColor.includes('oklch')) el.style.backgroundColor = '#fff';
+    });
+}
+
 export async function captureElementAsImage(element) {
     if (!element) throw new Error("No element provided");
+    replaceOklchColors(element);
     const canvas = await html2canvas(element);
     return canvas.toDataURL("image/png");
 }
 
-// Utility to convert base64 data URL to a File object
 export const dataURLtoFile = (dataUrl, fileName) => {
     const arr = dataUrl.split(",");
     const mime = arr[0].match(/:(.*?);/)[1];

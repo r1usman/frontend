@@ -34,6 +34,8 @@ import Dashboard_Instructor from "./Collaboration/Pages/Instructors/DashBoard/Da
 import CreateAssingment from "./Collaboration/Pages/Instructors/CreateAssingment.jsx"
 import Evaluation from "./Collaboration/Pages/Instructors/AssingmentEvaluation/SubmittedAssingments.jsx"
 import CollabLayout from "./DashBoard/components/Layout/CollabLayout/CollabLayout.jsx";
+import EditAssingments from "./Collaboration/Pages/Instructors/EditAssingments.jsx"
+
 function App() {
   // const { role } = useContext(UserContext);
   return (
@@ -78,6 +80,13 @@ function App() {
               <Route path='Evaluation' element={<Evaluation/>} />
               {/* <Route path='Evaluation/:id' element={<StudentsAssingments/>} /> */}
             </Route>
+
+        <Route path="/EditAssingments/:AssingmentId"
+              element= {<Protected allowed = {["Instructor"]}>
+                <EditAssingments/>
+              </Protected>}
+            ></Route>
+        
         {/* <Route
           path="/student"
           element={

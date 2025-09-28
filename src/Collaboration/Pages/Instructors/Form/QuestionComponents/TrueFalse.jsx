@@ -19,7 +19,6 @@ const TrueFalse = ({
   const { User } = useContext(UserContext);
   const [ConfirmSave, setConfirmSave] = useState(false);
 
-  // ✅ Evaluate marks based on rating
   const handleRatingChange = (value) => {
     let marks = 0;
     if (value === "Excellent") marks = item.marks;
@@ -41,14 +40,12 @@ const TrueFalse = ({
   };
 
   return (
-    <div className="border border-dashed px-3 py-1 mt-3 rounded-md">
-      {/* Header */}
+    <div className="border border-dashed border-purple-300 px-3 py-1 mt-3 rounded-md">
       <div className="flex items-center justify-between mt-3">
         <label className="w-fit text-[12px] font-medium text-white bg-[#6c63ff] px-3 py-0.5 rounded">
           Question {index + 1}
         </label>
         <div className="flex items-center gap-4 font-semibold">
-          {/* Lock Status */}
           {User.status === "Student" &&
             (item?.isLocked ? (
               <div className="text-sm flex items-center gap-1 rounded-xl px-3 py-0.5 bg-red-100 text-red-900">
@@ -61,7 +58,6 @@ const TrueFalse = ({
                 <p>Open for editing</p>
               </div>
             ))}
-          {/* Marks */}
           <label className="text-xs text-slate-600">Marks</label>
           <input
             type="number"
@@ -74,7 +70,6 @@ const TrueFalse = ({
         </div>
       </div>
 
-      {/* Question Text */}
       <textarea
         placeholder="Write your True/False question here..."
         className="form-input resize-none mt-2 w-full"
@@ -186,7 +181,6 @@ const TrueFalse = ({
         </div>
       )}
 
-      {/* Save Confirmation Modal */}
       <Model
         isOpen={ConfirmSave}
         onClose={() => setConfirmSave(false)}

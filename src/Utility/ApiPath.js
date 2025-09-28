@@ -33,5 +33,8 @@ export const API_PATH = {
         SAVE_THUMBNAIL: (ID) => `/Partial/SaveThumbnail/${ID}`,
         SAVE_MESSAGE: (ID) => `/Partial/SaveMessage/${ID}`,
         GET_MESSAGE: (ID) => `/Partial/SaveMessage/${ID}`
+    },
+    COURSE: {
+        GET_COURSES_INSTRUCTOR: "/courses/instructor",
     }
 }

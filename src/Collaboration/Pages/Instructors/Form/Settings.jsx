@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Input from '../../../Components/Inputs/Input'
 import Modal from '../../../Layouts/Modal'
-import AxiosInstance from '../../../Utility/AxiosInstance'
-import { API_PATH } from '../../../Utility/ApiPath'
+import AxiosInstance from '../../../../Utility/AxiosInstances'
+import { API_PATH } from '../../../../Utility/ApiPath'
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { LuCircleAlert } from 'react-icons/lu'
 
@@ -16,27 +16,25 @@ const Settings = ({allowLateSubmission,visibility,groupsDetail,studentsPerGroup,
   
   const [groupedStudents, setGroupedStudents] = useState([]);
 
-  const [studentPool, setStudentPool] = useState([]); // unassigned students
+  const [studentPool, setStudentPool] = useState([]); 
   const [groupsDetails, setGroupsDetails] = useState([]);
 
   const [error, seterror] = useState("")
 
   console.log("groupsDetail",groupsDetail);
 
-  
-  
 
-
-  
-
-  
-
+  const [Courses, setCourses] = useState([])
+  const [selectedCourse, setselectedCourse] = useState("")
+  console.log(Courses);
   
   const [student, setstudent] = useState([])
   const fetchStudent = async()=>{
     try {
-      const result  =await AxiosInstance.get(API_PATH.ASSIGN.GETSTUDENTS);
-      setstudent(result.data.Students)
+
+      const result  =await AxiosInstance.get(API_PATH.COURSE.GET_COURSES_INSTRUCTOR)
+      setCourses(result.data)
+      // setstudent(result.data.Students)
     } catch (error) {
       console.log(error);
       
@@ -186,6 +184,14 @@ useEffect(() => {
   return () => clearTimeout(timeout);
 }, [error]);
 
+const handleCourseChange = (courseId) => {
+  setselectedCourse(courseId);
+
+  const selectedCourseObj = Courses.find((course) => course._id === courseId);
+
+  const studentsOfCourse = selectedCourseObj?.studentIds || [];
+  setstudent(studentsOfCourse)
+};
 
 
 
@@ -200,20 +206,36 @@ useEffect(() => {
                   <label htmlFor=""  className="font-medium">Allow Late Submission</label>
                   <input type="checkbox" checked={allowLateSubmission} onChange={({target})=>UpdateSection(null , "allowLateSubmission", target.checked)} name="" id="" />
                 </div>
-                
+                <div className='flex flex-col'>
+                  <label htmlFor="course" className="font-medium">Select Course</label>
+                  <select
+                    id="course"
+                    value={selectedCourse} 
+                    onChange={({target})=>handleCourseChange(target.value)}
+                    className='p-3 bg-slate-50 outline-none rounded-md border border-gray-200'
+                  >
+                    <option value="">-- Select a Course --</option>
+                    {Courses.map((course) => (
+                      <option key={course._id} value={course._id}>
+                        {course.title}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
 
             </div>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4 my-3'>
             <div className='flex flex-col  '>
                 <label htmlFor=""  className="font-medium">Visibility</label>
-                <select value={visibility} onChange={({target})=>UpdateSection(null , "visibility",target.value)} className='p-3 bg-slate-50 relative outline-none rounded-md border z-10'  name="" id="">
+                <select value={visibility} onChange={({target})=>UpdateSection(null , "visibility",target.value)} className='p-3 bg-slate-50 relative outline-none rounded-md border  border-gray-200 z-10'  name="" id="">
                     <option value="public">Public</option>
                     <option value="private">Private</option>
                 </select>
             </div>
             <div>
                 <label htmlFor=""  className="font-medium">Total Students</label>
-                <input type="text" className='p-3 pr-10 border bg-slate-50 outline-none rounded-md w-full' disabled= {true} value={student.length} name="" id="" />
+                <input type="text" className='p-3 pr-10 border border-gray-200 bg-slate-50 outline-none rounded-md w-full' disabled= {true} value={student.length} name="" id="" />
 
             </div>
           </div>
@@ -243,7 +265,7 @@ useEffect(() => {
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                 <div className='flex flex-col space-y-1.5 '>
                   <label htmlFor=""  className="font-medium">Assingment Mode</label>
-                  <select value={assignmentMode} onChange={({target})=>UpdateSection("groupSettings","assignmentMode",target.value)} className='p-3 border bg-slate-50 relative outline-none rounded-md' name="" id="">
+                  <select value={assignmentMode} onChange={({target})=>UpdateSection("groupSettings","assignmentMode",target.value)} className='p-3 border border-gray-200 bg-slate-50 relative outline-none rounded-md' name="" id="">
                       <option value="random">Random</option>
                       <option value="instructor">Instructor</option>
                   </select>

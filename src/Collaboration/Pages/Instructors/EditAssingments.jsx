@@ -4,14 +4,14 @@ import TitleInput from '../../Components/Inputs/TitleInput'
 import StepProgress from '../../Components/StepProgress'
 import Modal from '../../Layouts/Modal'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
-import AxiosInstance from '../../Utility/AxiosInstance'
-import { API_PATH } from '../../Utility/ApiPath'
+import AxiosInstance from '../../../Utility/AxiosInstances'
+import { API_PATH } from '../../../Utility/ApiPath'
 import AssignmentBasicInfoForm from './Form/AssignmentBasicInfoForm'
 import AssignmentBodyForm from './Form/AssignmentBodyForm'
 import Settings from './Form/Settings'
 import RenderFrom from './Form/RenderForm'
 import { LucideEdit, Rewind } from 'lucide-react'
-import { captureElementAsImage, dataURLtoFile, fixTailwindColors } from '../../Utility/Helper'
+import { captureElementAsImage, dataURLtoFile } from '../../../Utility/Helper'
 import DeleteCard from '../../Components/Cards/DeleteCard'
 
 const EditAssingments = () => {
@@ -145,7 +145,7 @@ const RenderForm = () => {
 };
 
     const gotoHome = ()=>{
-        navigator("/Instructor/CreateAssingment")
+        navigator("/Instructor/Assingment/CreateAssingment")
     }
     const UpdateSection = (section , subsection, key , value)=>
     {
@@ -382,21 +382,14 @@ const RenderForm = () => {
 
     const upLoadAssingmentImage = async () => {
     try {
-        console.log("Here");
-        
         setisLoading(true);
-        fixTailwindColors(resumeRef.current);
-
         const imageDataUrl = await captureElementAsImage(resumeRef.current);
 
-        // Convert base64 to File
         const thumbnailFile = dataURLtoFile (
 
             imageDataUrl,
             `Assingment-${AssingmentId}.png`
         );
-        
-
         const ThumbnailForStudent = null;
         
         
@@ -503,7 +496,6 @@ const RenderForm = () => {
         <div className='w-full flex flex-col md:flex-row gap-2 '>
             <div className='flex flex-col md:flex-row w-full gap-2'>
                 <div className='text-xs space-y-5 flex flex-row md:flex-col   w-full  p-2 md:w-[20vh] py-3 border border-purple-100 rounded-md md:h-[83vh] items-center justify-center md:justify-start '>
-                    {/* Short Answer */}
                     <h1 className='text-sm font-medium text-center mt-3 hidden md:block'>Types</h1>
                     <button
                         className=' w-full'
@@ -528,14 +520,13 @@ const RenderForm = () => {
 
                     </button>
 
-                    {/* Multiple Choice Question */}
                     <button
                         className=' w-full'
                         onClick={() =>
                         AddItemInArray("questions", {
                             type: "mcq",
                             questionText: "",
-                            options: ["", ""], // at least 2 options
+                            options: ["", ""], 
                             marks: "",
                             answer: ""
                         })
@@ -552,7 +543,6 @@ const RenderForm = () => {
                         
                     </button>
 
-                    {/* True/False */}
                     <button
                         className=' w-full'
                         onClick={() =>
@@ -576,7 +566,6 @@ const RenderForm = () => {
                         
                     </button>
 
-                    {/* Paragraph / Long Answer */}
                     <button
                         className=' w-full'
                         onClick={() =>

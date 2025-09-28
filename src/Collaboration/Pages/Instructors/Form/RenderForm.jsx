@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { DefaultContext } from 'react-icons/lib';
-import { formatYearMonth } from '../../../Utility/Helper';
+import { formatYearMonth } from '../../../../Utility/Helper';
 import ChallengeHeader from "./Components/ChallengeHeader";
 
 const Title = ({ text, color ,status}) => {
@@ -26,7 +26,7 @@ const displayedTests = showAllTests
 
     const DEFAULT_THEME =["#F5F4FF",  "#E0DBFF",  "#C9C2F8", "#6C63FF", "#4B4B5C"];
  const resumeRef = useRef(null);
-    const [baseWidth, setBaseWidth] = useState(780); // Default value
+    const [baseWidth, setBaseWidth] = useState(780);
     const [scale, setScale] = useState(1);
 
     useEffect(() => {
@@ -64,7 +64,7 @@ const displayedTests = showAllTests
                 <div>
                     {data.questions.map((item, index) => {
                         return (
-                        <div key={item._id} className="flex flex-col my-4 p-4 border rounded-md bg-white shadow-sm">
+                        <div key={item._id} className="flex flex-col my-4 p-4 border border-gray-200 rounded-md bg-white shadow-sm">
                            
                             <div className="flex font-semibold text-md items-center justify-between">
                                 <h1>Question {index + 1} ({item.type})</h1>
@@ -77,7 +77,7 @@ const displayedTests = showAllTests
                                 <input
                                     type="text"
                                     placeholder="Write your answer here..."
-                                    className="mt-2 border rounded-md px-3 py-1 w-full"
+                                    className="mt-2 border border-gray-200 rounded-md px-3 py-1 w-full"
                                     disabled={true}
                                 />
                                 )}

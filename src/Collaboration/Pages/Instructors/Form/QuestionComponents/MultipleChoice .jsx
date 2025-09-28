@@ -34,15 +34,13 @@ const MultipleChoice = ({
   };
   return (
     <>
-      <div className="border border-dashed px-3 py-1 mt-3 rounded-md -translate-y-5">
+      <div className="border border-dashed border-purple-300 px-3 py-1 mt-3 rounded-md ">
         <div className="col-span-2 mt-3">
-          {/* Header */}
           <div className="flex items-center justify-between">
             <label className="w-fit text-[12px] font-medium text-white bg-[#6c63ff] px-3 py-0.5 rounded mt-1">
               Question {index + 1}
             </label>
             <div className="flex items-center gap-4 font-urbanist font-semibold">
-              {/* Lock status */}
               {User.status === "Student" && (
                 <div>
                   {item?.isLocked ? (
@@ -57,7 +55,6 @@ const MultipleChoice = ({
                 </div>
               )}
 
-              {/* Marks */}
               <div className="flex gap-2 items-center">
                 <label className="text-xs font-medium text-slate-600">Marks</label>
                 <input
@@ -73,7 +70,6 @@ const MultipleChoice = ({
             </div>
           </div>
 
-          {/* Question Text */}
           <textarea
             placeholder="Write your MCQ question here..."
             className="form-input resize-none mt-2 w-full"
@@ -83,11 +79,10 @@ const MultipleChoice = ({
               User.status === "Instructor"
                 ? ({ target }) =>
                     UpdateItemInArray(index, "questionText", target.value)
-                : undefined // ✅ Use undefined, not an empty string
+                : undefined 
             }
           />
 
-          {/* Options */}
           {User.status === "Instructor" ? (
             <div className="mt-3 space-y-2">
               {item?.options?.map((opt, idx) => (
@@ -97,23 +92,23 @@ const MultipleChoice = ({
                     name={`mcq_${item.id}`}
                     className="accent-purple-600"
                     checked={Number(item.answer)=== idx}
-                    // onChange={() => UpdateItemInArray(index, "answer", idx)}
+                    onChange={() => UpdateItemInArray(index, "answer", idx)}
                   />
                   <input
                     type="text"
-                    className={`border px-2 py-1 rounded-md w-full ${
+                    className={`border border-gray-200 px-2 py-1 rounded-md w-full ${
                       Number(item.answer)=== idx ? "bg-purple-100" : ""
                     }`}
                     value={opt}
                     placeholder={`Option ${idx + 1}`}
-                    // onChange={({ target }) =>
-                    //   UpdateItemInNestedArray(index, idx, "options", target.value)
-                    // }
+                    onChange={({ target }) =>
+                      UpdateItemInNestedArray(index, idx, "options", target.value)
+                    }
                   />
                 </div>
               ))}
 
-              {/* Add/Remove */}
+
               <div className="flex items-center justify-between">
                 {
                   !type && (

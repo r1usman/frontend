@@ -18,9 +18,9 @@ const AssignmentBasicInfoForm = ({title , description ,dueDate ,difficulty, tota
                     type="text"
                     />
 
-                    <div className='flex flex-col my-2 space-y-1.5 '>
+                    <div className='flex flex-col my-2  space-y-1.5 '>
                         <label htmlFor=""  className="font-medium">Difficulty</label>
-                        <select value={difficulty} onChange={({target})=>UpdateSection("difficulty",target.value)} className='p-3 bg-slate-50 relative outline-none rounded-md border' name="" id="">
+                        <select value={difficulty} onChange={({target})=>UpdateSection("difficulty",target.value)} className='p-3 bg-slate-50 relative outline-none rounded-md border border-gray-200' name="" id="">
                             <option value="easy">Easy</option>
                             <option value="medium">Medium</option>
                             <option value="hard">Hard</option>
@@ -30,9 +30,7 @@ const AssignmentBasicInfoForm = ({title , description ,dueDate ,difficulty, tota
                 </div>
 
                 <div className="col-span-2 mt-3 ">
-                    <label className="text-xs font-medium text-slate-600">
-                    Description
-                    </label>
+                    <label htmlFor=""  className="font-medium">Description</label>
                     <textarea
                         placeholder="Write a function that takes an array of integers and returns the maximum and minimum numbers as a tuple or list."
                         className="form-input resize-none"
