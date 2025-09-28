@@ -1,6 +1,6 @@
 // App.js (main entry point)
 import { useContext } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 // Top‐level pages (outside of /Mod)
 import AdminDashboard from "./DashBoard/AdminDashboard.jsx";
@@ -27,6 +27,13 @@ import S_ShowCourses from "./liveclass/pages/S_ShowCourses.jsx";
 import ShowCourses from "./liveclass/pages/ShowCourses.jsx";
 import { Dashboard } from "./DashBoard/pages/Dashboard.jsx";
 import DefaultLayout from "./DashBoard/components/Layout/DefaultLayout.jsx";
+
+
+
+import Dashboard_Instructor from "./Collaboration/Pages/Instructors/DashBoard/Dasboard.jsx"
+import CreateAssingment from "./Collaboration/Pages/Instructors/CreateAssingment.jsx"
+import Evaluation from "./Collaboration/Pages/Instructors/AssingmentEvaluation/SubmittedAssingments.jsx"
+import CollabLayout from "./DashBoard/components/Layout/CollabLayout/CollabLayout.jsx";
 function App() {
   // const { role } = useContext(UserContext);
   return (
@@ -59,6 +66,18 @@ function App() {
         >
           <Route path="Dashboard" element={<AdminDashboard />} />
         </Route>
+
+         <Route path="/Instructor/Assingment"
+              element= {<Protected allowed = {["Instructor"]}>
+                <CollabLayout />
+              </Protected>}
+            >
+              <Route index element={<Navigate to="Dashboard" />} />
+              <Route path='Dashboard' element={<Dashboard_Instructor/>} />
+              <Route path='CreateAssingment' element={<CreateAssingment/>} />
+              <Route path='Evaluation' element={<Evaluation/>} />
+              {/* <Route path='Evaluation/:id' element={<StudentsAssingments/>} /> */}
+            </Route>
         {/* <Route
           path="/student"
           element={

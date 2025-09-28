@@ -55,7 +55,7 @@ export const Sidebar = () => {
     {
       label: "Assignment",
       icon: <FileText size={18} />,
-      path: "/assignments",
+      path: "/Instructor/Assingment",
       tooltip: "See your tasks",
     },
     {
