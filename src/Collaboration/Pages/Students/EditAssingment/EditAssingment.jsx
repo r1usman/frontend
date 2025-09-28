@@ -1,20 +1,18 @@
 import React, { use, useContext, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import AxiosInstance from '../../../Utility/AxiosInstance';
+import AxiosInstance from '../../../../Utility/AxiosInstances';
 import { LuArrowLeft, LuCircleAlert, LuDownload, LuPaperclip, LuSave, LuSaveAll, LuTrash2 } from 'react-icons/lu';
-import TitleInput from '../../../Components/Inputs/TitleInput';
-import StepProgress from '../../../Components/StepProgress';
+
 import Modal from '../../../Layouts/Modal';
-import { API_PATH } from '../../../Utility/ApiPath';
-import {UserContext} from "../../../ContextApi/UserContext"
+import { API_PATH } from '../../../../Utility/ApiPath';
+import {UserContext} from "../../../../GlobalContext/UserContext"
 
 import { SocketContext } from '../../../ContextApi/SocketContext';
 import DisplayQuestion from '../Components/DisplayQuestion';
-import axios from 'axios';
 import { Send, Slice, Vote } from 'lucide-react';
 import moment from 'moment';
 import CoverPage from '../Components/CoverPage';
-import { captureElementAsImage, dataURLtoFile, fixTailwindColors } from '../../../Utility/Helper';
+import { captureElementAsImage, dataURLtoFile } from '../../../../Utility/Helper';
 
 const EditAssingment = () => {
     const socket = useContext(SocketContext);
@@ -601,7 +599,6 @@ const updateArrayItem = (index, key, value) => {
         };
 
         const answerText = updateArray[currentIndex].answer || "";
-        // check after update
         if (answerText.trim() === "") {
         socket.emit("Answering", null, SocketGroup, currentIndex, "", false);
         } else {
@@ -649,7 +646,7 @@ const goToNextStep = ()=>{
     window.scrollTo({ top: 0, behavior: "smooth" });
 }
 const gotoHome = ()=>{
-    navigator("/Student");
+    navigator("/Student/Assingment/Dashboard");
 }
 
 const handletext =(e)=>{
@@ -738,38 +735,39 @@ const upLoadAssingmentImage = async () => {
         try {        
      
             
-            // setisLoading(true);
-            fixTailwindColors(resumeRef.current);
+            // // setisLoading(true);
+            // fixTailwindColors(resumeRef.current);
     
-            const imageDataUrl = await captureElementAsImage(resumeRef.current);
+            // const imageDataUrl = await captureElementAsImage(resumeRef.current);
             
             
     
-            // Convert base64 to File
-            const thumbnailFile = dataURLtoFile (
+            // // Convert base64 to File
+            // const thumbnailFile = dataURLtoFile (
     
-                imageDataUrl,
-                `Partial-${PartialSubmission._id}.png`
-            );
+            //     imageDataUrl,
+            //     `Partial-${PartialSubmission._id}.png`
+            // );
             
     
             
     
-            const formData = new FormData();
-            if (thumbnailFile) formData.append("thumbnail", thumbnailFile);
+            // const formData = new FormData();
+            // if (thumbnailFile) formData.append("thumbnail", thumbnailFile);
     
-            const uploadResponse = await AxiosInstance.put(
-                API_PATH.PARTIAL.UPLOAD_THUMBNAIL(PartialSubmission._id),
-                formData,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                }
-            );
+            // const uploadResponse = await AxiosInstance.put(
+            //     API_PATH.PARTIAL.UPLOAD_THUMBNAIL(PartialSubmission._id),
+            //     formData,
+            //     {
+            //         headers: {
+            //             "Content-Type": "multipart/form-data",
+            //         },
+            //     }
+            // );
     
-            const { thumbnail } = uploadResponse.data;
-            UpdatePartiallAssingment(thumbnail)
+            // const { thumbnail } = uploadResponse.data;
+            // UpdatePartiallAssingment(thumbnail)
+            UpdatePartiallAssingment();
             
 
         } catch (error) {
@@ -779,13 +777,13 @@ const upLoadAssingmentImage = async () => {
             setisLoading(false);
         }
     };
-const UpdatePartiallAssingment =async (thumbnail)=>{
+const UpdatePartiallAssingment =async ()=>{
      try {
         const response = await AxiosInstance.put(
             API_PATH.PARTIAL.SAVE_THUMBNAIL(PartialSubmission._id),
             {
                 ...DefaultInfo,
-                thumbnail : thumbnail
+                
             }
         );
         
@@ -796,13 +794,13 @@ const UpdatePartiallAssingment =async (thumbnail)=>{
 
 }
 
-    useEffect(()=>{
-        if(DefaultInfo && PartialSubmission)
-        {
-            upLoadAssingmentImage();
-        }
+    // useEffect(()=>{
+    //     if(DefaultInfo && PartialSubmission)
+    //     {
+    //         upLoadAssingmentImage();
+    //     }
 
-    },[PreviewCoverPage])
+    // },[PreviewCoverPage])
 
 
 const MessageBYWhom = (Id, Flag) => {
@@ -828,14 +826,21 @@ const MessageBYWhom = (Id, Flag) => {
                 </button>
                 <div className='flex gap-2 flex-col'>
                     {PartialSubmission.Students.map((item, index) => (
-                        <div className='border rounded-full p-1 relative '>                    
-                            <div key={index} className='border p-2 flex items-center justify-center rounded-full peer'>{item.name.slice(0, 2)}</div>
-                            <div className={`absolute size-3  -translate-y-2 rounded-full ${item.online ? "bg-green-500": "bg-red-500"}`}></div>
-                            <div className='bg-purple-200 px-3 py-1 text-sm absolute -translate-y-10 translate-x-14 rounded-lg z-30 opacity-0 peer-hover:opacity-100'>{item.name}</div>
+                        <div 
+                        key={item._id || index} 
+                        className='border border-gray-300 rounded-full p-1 relative'
+                        >                    
+                        <div className='border border-gray-300 p-2 flex items-center justify-center rounded-full peer'>
+                            {item.name.slice(0, 2)}
+                        </div>
+                        <div className={`absolute size-3 -translate-y-2 rounded-full ${item.online ? "bg-green-500": "bg-red-500"}`}></div>
+                        <div className='bg-purple-200 px-3 py-1 text-sm absolute -translate-y-10 translate-x-14 rounded-lg z-30 opacity-0 peer-hover:opacity-100'>
+                            {item.name}
+                        </div>
                         </div>
                     ))}
-
                 </div>
+
             </div>
             
             

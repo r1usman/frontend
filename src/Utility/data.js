@@ -50,16 +50,22 @@ export const SIDE_MENU_DATA = [
 
 export const SIDE_MENU_DATA_User = [
     {
+        id: "05",
+        label: "Home",
+        icon: LucideHome,
+        path: "/Student/Dashboard",
+    },
+    {
         id: "01",
         label: "Dashboard",
         icon: LuLayoutDashboard,
-        path: "/Student/Dashboard",
+        path: "/Student/Assingment/Dashboard",
     },
     {
         id: "02",
         label: "My Performance",
         icon: LuClipboardCheck,
-        path: "/Student/Performance",
+        path: "/Student/Assingment/Performance",
     },
     {
         id: "03",

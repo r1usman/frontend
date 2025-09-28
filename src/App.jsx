@@ -35,6 +35,9 @@ import CreateAssingment from "./Collaboration/Pages/Instructors/CreateAssingment
 import Evaluation from "./Collaboration/Pages/Instructors/AssingmentEvaluation/SubmittedAssingments.jsx"
 import CollabLayout from "./DashBoard/components/Layout/CollabLayout/CollabLayout.jsx";
 import EditAssingments from "./Collaboration/Pages/Instructors/EditAssingments.jsx"
+import Dashboard_Student from "./Collaboration/Pages/Students/DashBoard/Dasboard.jsx"
+import MyPerformance from "./Collaboration/Pages/Students/MyPerformance/MyPerformance.jsx"
+import EditAssingment from "./Collaboration/Pages/Students/EditAssingment/EditAssingment.jsx"
 
 function App() {
   // const { role } = useContext(UserContext);
@@ -45,7 +48,9 @@ function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="/Signup" element={<Signup />} />
         <Route path="/ForgetPassword" element={<ForgetPassword />} />
+        
 
+        {/* main app */}
         <Route
           path="/Student"
           element={
@@ -58,6 +63,7 @@ function App() {
           <Route path="courses/:studentId" element={<UserDashboard />} />
         </Route>
 
+        {/* main app */}
         <Route
           path="/Instructor"
           element={
@@ -69,24 +75,45 @@ function App() {
           <Route path="Dashboard" element={<AdminDashboard />} />
         </Route>
 
+
+        {/* collab  */}
         <Route path="/Instructor/Assingment"
-              element= {<Protected allowed = {["Instructor"]}>
-                <CollabLayout />
-              </Protected>}
-            >
-              <Route index element={<Navigate to="Dashboard" />} />
-              <Route path='Dashboard' element={<Dashboard_Instructor/>} />
-              <Route path='CreateAssingment' element={<CreateAssingment/>} />
-              <Route path='Evaluation' element={<Evaluation/>} />
-              {/* <Route path='Evaluation/:id' element={<StudentsAssingments/>} /> */}
-            </Route>
+          element= {<Protected allowed = {["Instructor"]}>
+            <CollabLayout />
+          </Protected>}
+        >
+          <Route index element={<Navigate to="Dashboard" />} />
+          <Route path='Dashboard' element={<Dashboard_Instructor/>} />
+          <Route path='CreateAssingment' element={<CreateAssingment/>} />
+          <Route path='Evaluation' element={<Evaluation/>} />
+          {/* <Route path='Evaluation/:id' element={<StudentsAssingments/>} /> */}
+        </Route>
 
         <Route path="/EditAssingments/:AssingmentId"
               element= {<Protected allowed = {["Instructor"]}>
                 <EditAssingments/>
               </Protected>}
-            ></Route>
+        ></Route>
         
+
+        <Route path="/Student/Assingment"
+          element= {<Protected allowed = {["Student"]}>
+            <CollabLayout/>
+          </Protected>}
+        >
+          <Route index element={<Navigate to="Dashboard" />} />
+          <Route path='Dashboard' element={<Dashboard_Student/>} />
+          <Route path='Performance' element={<MyPerformance/>} />
+          
+        </Route>
+        <Route path="/CollaborationPannel/:AssingmentId"
+          element= {<Protected allowed = {["Student"]}>
+            <EditAssingment/>
+          </Protected>}
+        ></Route>
+
+        {/* end collab */}
+
         {/* <Route
           path="/student"
           element={

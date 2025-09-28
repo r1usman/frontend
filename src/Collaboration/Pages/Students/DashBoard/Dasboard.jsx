@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import AxiosInstance from '../../../Utility/AxiosInstance';
-import { API_PATH } from '../../../Utility/ApiPath';
+import AxiosInstance from '../../../../Utility/AxiosInstances';
+import { API_PATH } from '../../../../Utility/ApiPath';
 import AssinmentCard from '../../../Components/Cards/AssinmentCard';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
