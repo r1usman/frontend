@@ -31,7 +31,7 @@ import CreateAssingment from "./Collaboration/Pages/Instructors/CreateAssingment
 import Dashboard_Instructor from "./Collaboration/Pages/Instructors/DashBoard/Dasboard.jsx";
 import EditAssingments from "./Collaboration/Pages/Instructors/EditAssingments.jsx";
 import CollabLayout from "./DashBoard/components/Layout/CollabLayout/CollabLayout.jsx";
-import EditAssingments from "./Collaboration/Pages/Instructors/EditAssingments.jsx"
+
 import Dashboard_Student from "./Collaboration/Pages/Students/DashBoard/Dasboard.jsx"
 import MyPerformance from "./Collaboration/Pages/Students/MyPerformance/MyPerformance.jsx"
 import EditAssingment from "./Collaboration/Pages/Students/EditAssingment/EditAssingment.jsx"
