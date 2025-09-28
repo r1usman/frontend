@@ -27,39 +27,42 @@ import S_ShowCourses from "./liveclass/pages/S_ShowCourses.jsx";
 import ShowCourses from "./liveclass/pages/ShowCourses.jsx";
 import { Dashboard } from "./DashBoard/pages/Dashboard.jsx";
 import DefaultLayout from "./DashBoard/components/Layout/DefaultLayout.jsx";
+import LiveClass from "./liveclass/conferance/LiveClass.jsx";
+import { HMSRoomProvider } from "@100mslive/react-sdk";
 function App() {
   // const { role } = useContext(UserContext);
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/Signup" element={<Signup />} />
-        <Route path="/ForgetPassword" element={<ForgetPassword />} />
+    <HMSRoomProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/Signup" element={<Signup />} />
+          <Route path="/ForgetPassword" element={<ForgetPassword />} />
 
-        <Route
-          path="/Student"
-          element={
-            <Protected allowed={["Student"]}>
-              <DefaultLayout />
-            </Protected>
-          }
-        >
-          <Route path="Dashboard" element={<UserDashboard />} />
-          <Route path="courses/:studentId" element={<UserDashboard />} />
-        </Route>
+          <Route
+            path="/Student"
+            element={
+              <Protected allowed={["Student"]}>
+                <DefaultLayout />
+              </Protected>
+            }
+          >
+            <Route path="Dashboard" element={<UserDashboard />} />
+            <Route path="courses/:studentId" element={<UserDashboard />} />
+          </Route>
 
-        <Route
-          path="/Instructor"
-          element={
-            <Protected allowed={["Instructor"]}>
-              <DefaultLayout />
-            </Protected>
-          }
-        >
-          <Route path="Dashboard" element={<AdminDashboard />} />
-        </Route>
-        {/* <Route
+          <Route
+            path="/Instructor"
+            element={
+              <Protected allowed={["Instructor"]}>
+                <DefaultLayout />
+              </Protected>
+            }
+          >
+            <Route path="Dashboard" element={<AdminDashboard />} />
+          </Route>
+          {/* <Route
           path="/student"
           element={
             <Protected allowed={["Student"]}>
@@ -72,7 +75,7 @@ function App() {
           <Route path="courses/:studentId" element={<UserDashboard />} />
           
         </Route> */}
-        {/* <Route
+          {/* <Route
           path="instructor"
           element={
             <Protected allowed={["Instructor"]}>
@@ -83,25 +86,27 @@ function App() {
           <Route path="courses" element={<AdminDashboard />} />
         </Route> */}
 
-        {/* <Route
+          {/* <Route
           path="/Dash"
           element={
             role !== "instructor" ? <UserDashboard /> : <AdminDashboard />
           }
         ></Route> */}
 
-        <Route path="/student/courses" element={<S_ShowCourses />} />
-        <Route path="/instructor/course/:id" element={<CourseDetail />} />
-        <Route path="/student/course/:id" element={<S_CourseDetail />} />
+          <Route path="/student/courses" element={<S_ShowCourses />} />
+          <Route path="/instructor/course/:id" element={<CourseDetail />} />
+          <Route path="/student/course/:id" element={<S_CourseDetail />} />
+          <Route path="/instructor/live" element={<LiveClass />} />
 
-        <Route path="/0/*" element={<PythonCourse />} />
+          <Route path="/0/*" element={<PythonCourse />} />
 
-        <Route path="/Mod/*" element={<CompetitionWrapper />} />
+          <Route path="/Mod/*" element={<CompetitionWrapper />} />
 
-        <Route path="problemset" element={<ProblemsetPage />} />
-        <Route path="problemset/:id" element={<ProblemPage />} />
-      </Routes>
-    </BrowserRouter>
+          <Route path="problemset" element={<ProblemsetPage />} />
+          <Route path="problemset/:id" element={<ProblemPage />} />
+        </Routes>
+      </BrowserRouter>
+    </HMSRoomProvider>
   );
 }
 

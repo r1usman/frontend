@@ -66,13 +66,8 @@ function CourseDetail() {
     }
   };
 
-  const handleStartLiveClass = async () => {
-    setIsStartingClass(true);
-    // Simulate loading time
-    setTimeout(() => {
-      setIsStartingClass(false);
-      window.location.href = "/liveclass";
-    }, 2000);
+  const handleStartLiveClass = () => {
+    navigate("/instructor/live");
   };
 
   // Filter out students who are already enrolled
