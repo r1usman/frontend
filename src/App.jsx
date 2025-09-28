@@ -1,6 +1,5 @@
 // App.js (main entry point)
-import { useContext } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 // Top‐level pages (outside of /Mod)
 import AdminDashboard from "./DashBoard/AdminDashboard.jsx";
@@ -18,17 +17,21 @@ import Login from "./Authentication/Login.jsx";
 import Signup from "./Authentication/Signup.jsx";
 import Protected from "./Components/ProtectRoutes/ProtectRoutes.jsx";
 
-import { UserContext } from "./GlobalContext/UserContext.jsx";
-import CourseDetail from "./liveclass/pages/CourseDetail.jsx";
-import ProblemPage from "./problemset/ProblemPage";
-import ProblemsetPage from "./problemset/Problemset.jsx";
-import S_CourseDetail from "./liveclass/pages/S_CourseDetail.jsx";
-import S_ShowCourses from "./liveclass/pages/S_ShowCourses.jsx";
-import ShowCourses from "./liveclass/pages/ShowCourses.jsx";
-import { Dashboard } from "./DashBoard/pages/Dashboard.jsx";
+import { HMSRoomProvider } from "@100mslive/react-sdk";
 import DefaultLayout from "./DashBoard/components/Layout/DefaultLayout.jsx";
 import LiveClass from "./liveclass/conferance/LiveClass.jsx";
-import { HMSRoomProvider } from "@100mslive/react-sdk";
+import CourseDetail from "./liveclass/pages/CourseDetail.jsx";
+import S_CourseDetail from "./liveclass/pages/S_CourseDetail.jsx";
+import S_ShowCourses from "./liveclass/pages/S_ShowCourses.jsx";
+import ProblemPage from "./problemset/ProblemPage";
+import ProblemsetPage from "./problemset/Problemset.jsx";
+
+import Evaluation from "./Collaboration/Pages/Instructors/AssingmentEvaluation/SubmittedAssingments.jsx";
+import CreateAssingment from "./Collaboration/Pages/Instructors/CreateAssingment.jsx";
+import Dashboard_Instructor from "./Collaboration/Pages/Instructors/DashBoard/Dasboard.jsx";
+import EditAssingments from "./Collaboration/Pages/Instructors/EditAssingments.jsx";
+import CollabLayout from "./DashBoard/components/Layout/CollabLayout/CollabLayout.jsx";
+
 function App() {
   // const { role } = useContext(UserContext);
   return (
@@ -62,6 +65,31 @@ function App() {
           >
             <Route path="Dashboard" element={<AdminDashboard />} />
           </Route>
+
+          <Route
+            path="/Instructor/Assingment"
+            element={
+              <Protected allowed={["Instructor"]}>
+                <CollabLayout />
+              </Protected>
+            }
+          >
+            <Route index element={<Navigate to="Dashboard" />} />
+            <Route path="Dashboard" element={<Dashboard_Instructor />} />
+            <Route path="CreateAssingment" element={<CreateAssingment />} />
+            <Route path="Evaluation" element={<Evaluation />} />
+            {/* <Route path='Evaluation/:id' element={<StudentsAssingments/>} /> */}
+          </Route>
+
+          <Route
+            path="/EditAssingments/:AssingmentId"
+            element={
+              <Protected allowed={["Instructor"]}>
+                <EditAssingments />
+              </Protected>
+            }
+          ></Route>
+
           {/* <Route
           path="/student"
           element={
