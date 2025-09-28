@@ -69,7 +69,7 @@ function App() {
           <Route path="Dashboard" element={<AdminDashboard />} />
         </Route>
 
-         <Route path="/Instructor/Assingment"
+        <Route path="/Instructor/Assingment"
               element= {<Protected allowed = {["Instructor"]}>
                 <CollabLayout />
               </Protected>}

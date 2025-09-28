@@ -446,7 +446,7 @@ const RenderForm = () => {
         const result = await AxiosInstance.delete(API_PATH.ASSIGN.DELETE(AssingmentId));
         if(result)
         {
-            navigator("/Instructor/CreateAssingment")
+            navigator("/Instructor/Assingment/Dashboard")
         }
     }
 
