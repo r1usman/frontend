@@ -1,5 +1,4 @@
 // App.js (main entry point)
-import { useContext } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 // Top‐level pages (outside of /Mod)
@@ -18,21 +17,19 @@ import Login from "./Authentication/Login.jsx";
 import Signup from "./Authentication/Signup.jsx";
 import Protected from "./Components/ProtectRoutes/ProtectRoutes.jsx";
 
-import { UserContext } from "./GlobalContext/UserContext.jsx";
+import { HMSRoomProvider } from "@100mslive/react-sdk";
+import DefaultLayout from "./DashBoard/components/Layout/DefaultLayout.jsx";
+import LiveClass from "./liveclass/conferance/LiveClass.jsx";
 import CourseDetail from "./liveclass/pages/CourseDetail.jsx";
-import ProblemPage from "./problemset/ProblemPage";
-import ProblemsetPage from "./problemset/Problemset.jsx";
 import S_CourseDetail from "./liveclass/pages/S_CourseDetail.jsx";
 import S_ShowCourses from "./liveclass/pages/S_ShowCourses.jsx";
-import ShowCourses from "./liveclass/pages/ShowCourses.jsx";
-import { Dashboard } from "./DashBoard/pages/Dashboard.jsx";
-import DefaultLayout from "./DashBoard/components/Layout/DefaultLayout.jsx";
+import ProblemPage from "./problemset/ProblemPage";
+import ProblemsetPage from "./problemset/Problemset.jsx";
 
-
-
-import Dashboard_Instructor from "./Collaboration/Pages/Instructors/DashBoard/Dasboard.jsx"
-import CreateAssingment from "./Collaboration/Pages/Instructors/CreateAssingment.jsx"
-import Evaluation from "./Collaboration/Pages/Instructors/AssingmentEvaluation/SubmittedAssingments.jsx"
+import Evaluation from "./Collaboration/Pages/Instructors/AssingmentEvaluation/SubmittedAssingments.jsx";
+import CreateAssingment from "./Collaboration/Pages/Instructors/CreateAssingment.jsx";
+import Dashboard_Instructor from "./Collaboration/Pages/Instructors/DashBoard/Dasboard.jsx";
+import EditAssingments from "./Collaboration/Pages/Instructors/EditAssingments.jsx";
 import CollabLayout from "./DashBoard/components/Layout/CollabLayout/CollabLayout.jsx";
 import EditAssingments from "./Collaboration/Pages/Instructors/EditAssingments.jsx"
 import Dashboard_Student from "./Collaboration/Pages/Students/DashBoard/Dasboard.jsx"
@@ -127,7 +124,7 @@ function App() {
           <Route path="courses/:studentId" element={<UserDashboard />} />
           
         </Route> */}
-        {/* <Route
+          {/* <Route
           path="instructor"
           element={
             <Protected allowed={["Instructor"]}>
@@ -138,25 +135,26 @@ function App() {
           <Route path="courses" element={<AdminDashboard />} />
         </Route> */}
 
-        {/* <Route
+          {/* <Route
           path="/Dash"
           element={
             role !== "instructor" ? <UserDashboard /> : <AdminDashboard />
           }
         ></Route> */}
 
-        <Route path="/student/courses" element={<S_ShowCourses />} />
-        <Route path="/instructor/course/:id" element={<CourseDetail />} />
-        <Route path="/student/course/:id" element={<S_CourseDetail />} />
+          <Route path="/student/courses" element={<S_ShowCourses />} />
+          <Route path="/instructor/course/:id" element={<CourseDetail />} />
+          <Route path="/student/course/:id" element={<S_CourseDetail />} />
+          <Route path="/instructor/live" element={<LiveClass />} />
 
-        <Route path="/0/*" element={<PythonCourse />} />
+          <Route path="/0/*" element={<PythonCourse />} />
 
-        <Route path="/Mod/*" element={<CompetitionWrapper />} />
+          <Route path="/Mod/*" element={<CompetitionWrapper />} />
 
-        <Route path="problemset" element={<ProblemsetPage />} />
-        <Route path="problemset/:id" element={<ProblemPage />} />
-      </Routes>
-    </BrowserRouter>
+          <Route path="problemset" element={<ProblemsetPage />} />
+          <Route path="problemset/:id" element={<ProblemPage />} />
+        </Routes>
+      </BrowserRouter>
   );
 }
 

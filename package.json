@@ -10,8 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@100mslive/react-sdk": "^0.10.39",
     "@chakra-ui/react": "^3.24.0",
     "@emotion/react": "^11.14.0",
+    "@gradio/client": "^1.19.0",
     "@headlessui/react": "^2.2.7",
     "@hello-pangea/dnd": "^18.0.1",
     "@monaco-editor/react": "^4.7.0",

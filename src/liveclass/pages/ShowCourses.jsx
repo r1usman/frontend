@@ -14,7 +14,10 @@ function ShowCourses() {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/courses/instructor/${User._id}`)
+    fetch("http://localhost:3000/courses/instructor", {
+      method: "GET",
+      credentials: "include", // This sends cookies with the request
+    })
       .then((res) => res.json())
       .then((data) => {
         setCourses(data);
