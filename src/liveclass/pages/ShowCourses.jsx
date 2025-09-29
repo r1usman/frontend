@@ -71,16 +71,16 @@ function ShowCourses() {
   </div>
 
   <div className="max-w-xl translate-y-10 translate-x-5">
-      <h3 className="text-3xl font-bold mb-3">Course Catalog</h3>
-      <p className="text-lg font-medium leading-relaxed">
+      <h3 className="text-4xl md:text-5xl font-extrabold leading-tight mb-3">Course Catalog</h3>
+      <p className="text-lg md:text-xl mb-2 max-w-3x">
         Discover our comprehensive collection of courses designed to enhance
         your skills and advance your career
       </p>
       <button
         className="
-          mt-6 bg-white text-purple-700
+          mt-6 bg-[#6c63ff] text-white
           font-medium px-5 py-2 rounded-md
-          shadow hover:bg-purple-50
+          shadow cursor-pointer
           transition
         "
         onClick={() => setShowModal(true)}
