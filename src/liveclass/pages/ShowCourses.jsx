@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import CourseCard from "../components/CourseCard";
 import { UserContext } from "../../GlobalContext/UserContext";
-
+import P2 from "../../assests/P2.svg"
 function ShowCourses() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -54,27 +54,43 @@ function ShowCourses() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 py-8 flex flex-col items-center">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold text-slate-900 mb-2">
-              Course Catalog
-            </h1>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Discover our comprehensive collection of courses designed to
-              enhance your skills and advance your career
-            </p>
-          </div>
-          <button
-            className="mt-6 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
-            onClick={() => setShowModal(true)}
-          >
-            Create Course
-          </button>
-        </div>
-      </div>
+      <div
+  className="
+    relative
+    min-w-[280px] sm:min-w-[340px] min-h-[300px]
+    rounded-xl overflow-hidden shadow-xl
+    bg-purple-500/70 text-white
+    flex-shrink-0
+    p-4
+  "
+>
+  <div className="absolute size-96 rounded-full -right-10 top-5 bg-purple-100"></div>
 
-      {/* Course Grid */}
+  <div className="absolute right-0 top-10 z-0">
+    <img src={P2} className="size-72" alt="" />
+  </div>
+
+  <div className="max-w-xl translate-y-10 translate-x-5">
+      <h3 className="text-3xl font-bold mb-3">Course Catalog</h3>
+      <p className="text-lg font-medium leading-relaxed">
+        Discover our comprehensive collection of courses designed to enhance
+        your skills and advance your career
+      </p>
+      <button
+        className="
+          mt-6 bg-white text-purple-700
+          font-medium px-5 py-2 rounded-md
+          shadow hover:bg-purple-50
+          transition
+        "
+        onClick={() => setShowModal(true)}
+      >
+        Create Course
+      </button>
+    </div>
+</div>
+
+
       <div className="max-w-7xl mx-auto px-4 py-12">
         {loading ? (
           <div className="text-center text-slate-500">Loading courses...</div>
@@ -87,7 +103,7 @@ function ShowCourses() {
         )}
       </div>
 
-      {/* Modal for Create Course Form */}
+
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
           <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-8 relative">

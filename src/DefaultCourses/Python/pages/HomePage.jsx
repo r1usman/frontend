@@ -40,6 +40,7 @@ const HomePage = () => {
         </div>
       </section>
       
+      
       {/* Featured Topics */}
       <section>
         <h2 className="text-3xl font-bold mb-6 text-python-dark">Get Started with Python</h2>
