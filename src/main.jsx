@@ -6,7 +6,7 @@ import { SocketProvider } from "./Collaboration/ContextApi/SocketContext.jsx";
 // import { HMSRoomProvider } from "@100mslive/react-sdk";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  // <StrictMode>
     <SocketProvider>
       <UserProvider>
         {/* <HMSRoomProvider> */}
@@ -14,5 +14,5 @@ createRoot(document.getElementById("root")).render(
         {/* </HMSRoomProvider> */}
       </UserProvider>
     </SocketProvider>
-  </StrictMode>
+  // </StrictMode>
 );

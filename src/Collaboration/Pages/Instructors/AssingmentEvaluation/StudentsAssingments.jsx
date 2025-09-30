@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import AxiosInstance from '../../../Utility/AxiosInstance';
+import AxiosInstance from '../../../../Utility/AxiosInstances';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { API_PATH } from '../../../Utility/ApiPath';
+import { API_PATH } from '../../../../Utility/ApiPath';
 import AssinmentCard from '../../../Components/Cards/AssinmentCard';
 import moment from 'moment';
 import GroupCard from '../../../Components/Cards/GroupCard';

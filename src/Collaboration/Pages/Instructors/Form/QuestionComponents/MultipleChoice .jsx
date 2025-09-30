@@ -32,6 +32,8 @@ const MultipleChoice = ({
     updateArrayItemInstructor(index, "rating", value);
     updateArrayItemInstructor(index, "obtainedMarks", marks);
   };
+  console.log(User.status);
+  
   return (
     <>
       <div className="border border-dashed border-purple-300 px-3 py-1 mt-3 rounded-md ">
@@ -133,36 +135,66 @@ const MultipleChoice = ({
               </div>
             </div>
           ) : (
-            <div className="flex flex-col space-y-3 my-3">
-              {item?.options?.map((opt, idx) => (
-                <div key={idx} className="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name={`mcq_${item.id}`}
-                    checked={Number(item.answer) == idx}
-                    onChange={() =>
-                      updateArrayItem(index, "answer", String(idx))
-                    }
-                    disabled={
-                      User.status === "Instructor" ||
-                      WhoIsAnswering?._id &&
-                      WhoIsAnswering._id !== User._id &&
-                      DisableQuestionbyIndex === index
-                    }
-                  />
-                  <input
-                    type="text"
-                    className={`border px-2 py-1 rounded-md w-full focus:outline-none ${
-                      Number(item.answer) === idx ? "bg-purple-100" : ""
-                    }`}
-                    onClick={() => updateArrayItem(index, "answer", String(idx))}
-                    value={opt}
-                    placeholder={`Option ${idx + 1}`}
-                    
-                  />
-                </div>
-              ))}
-            </div>
+           <div className="flex flex-col space-y-3 my-3">
+  {item?.options?.map((opt, idx) => {
+  // compute which index is selected
+  const selectedIndex =
+    User.status === "Student"
+      ? item.StudentAnswer !== undefined && item.StudentAnswer !== ''
+        ? Number(item.StudentAnswer)
+        : null
+      : item.answer !== undefined && item.answer !== ''
+        ? Number(item.answer)
+        : null;
+
+  return (
+    <div key={idx} className="flex items-center gap-2">
+      <input
+        type="radio"
+        name={`mcq_${item._id}`}
+        checked={selectedIndex === idx}
+        onChange={() =>
+          updateArrayItem(
+            index,
+            User.status === "Student" ? "StudentAnswer" : "answer",
+            String(idx)
+          )
+        }
+        disabled={
+          User.status === "Instructor" ||
+          (WhoIsAnswering?._id &&
+            WhoIsAnswering._id !== User._id &&
+            DisableQuestionbyIndex === index)
+        }
+      />
+
+      <input
+        type="text"
+        className={`border border-gray-200 px-2 py-1 rounded-md w-full focus:outline-none ${
+          selectedIndex === idx ? "bg-purple-100" : ""
+        }`}
+        readOnly={User.status === "Student"}
+        value={opt}
+        placeholder={`Option ${idx + 1}`}
+        // onClick={() =>
+        //   User.status === "Student"
+        //     ? updateArrayItem(index, "StudentAnswer", String(idx))
+        //     : updateArrayItem(index, "answer", String(idx))
+        // }
+        onChange={e => {
+          if (User.status !== "Student") {
+            const newOptions = [...item.options];
+            newOptions[idx] = e.target.value;
+            updateArrayItem(index, "options", newOptions);
+          }
+        }}
+      />
+    </div>
+  );
+})}
+
+</div>
+
           )}
         </div>
 

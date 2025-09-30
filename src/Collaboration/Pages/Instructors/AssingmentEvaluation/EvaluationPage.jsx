@@ -8,11 +8,12 @@ import { API_PATH } from '../../../../Utility/ApiPath';
 import {UserContext} from "../../../../GlobalContext/UserContext"
 
 import axios from 'axios';
-import { Send, Slice, Vote } from 'lucide-react';
+import { Loader2, Send, Slice, Sparkles, Vote } from 'lucide-react';
 import moment from 'moment';
 import DisplayQuestion from '../../Students/Components/DisplayQuestion';
 import { FaComment, FaCommentAlt } from 'react-icons/fa';
 import TitleInput from '../../../Components/Inputs/TitleInput';
+import Ask from "../../../../assests/Ask.svg"
 
 const EvaluationPage = () => {
     const location = useLocation();
@@ -29,16 +30,15 @@ const EvaluationPage = () => {
     const [isLoading, setisLoading] = useState(false)
 
 
-    const [progress, setprogress] = useState(0)
-    const [Join, setJoin] = useState("")
-    const [messages, setMessages] = useState([]);
-    const [text, settext] = useState("")
-    const [typingUser, settypingUser] = useState("")
-    const [WhoIsAnswering, setWhoIsAnswering] = useState("")
-    const [DisplayAnswer, setDisplayAnswer] = useState(false)
-    const [displayTyping, setdisplayTyping] = useState(false)
-    const [DisableQuestionbyIndex, setDisableQuestionbyIndex] = useState(null)
-    const [tagUser, settagUser] = useState(false)
+
+    const [aiMessages, setAiMessages] = useState([]);
+    const [aiInput, setAiInput] = useState("");
+    const [isAiLoading, setIsAiLoading] = useState(false);
+
+    const [showQuestionSuggestions, setShowQuestionSuggestions] = useState(false);
+    const [filteredQuestions, setFilteredQuestions] = useState([]);
+    const [mentionQuery, setMentionQuery] = useState("");
+
     
     const [PartialSubmission, setPartialSubmission] = useState({
         _id: "",
@@ -150,7 +150,7 @@ const EvaluationPage = () => {
 };
 
  const gotoHome = ()=>{
-        navigator("/Instructor/Evaluation")
+        navigator("/Instructor/Assingment/Evaluation")
     }
 const HandleSave = async () => {
     try {
@@ -160,6 +160,7 @@ const HandleSave = async () => {
         { PartialSubmission }
         );
         console.log("Saving done, navigating...");
+        gotoHome();
         
     } catch (error) {
         console.error("Save failed:", error);
@@ -167,6 +168,55 @@ const HandleSave = async () => {
         setisLoading(false);
     }
 };
+
+const handleAskAI = async () => {
+    if (!aiInput.trim()) return;
+
+    const userMessage = { role: "user", content: aiInput };
+    setAiMessages(prev => [...prev, userMessage]);
+    setAiInput("");
+    setIsAiLoading(true);
+
+    try {
+        const response = await AxiosInstance.post("/ask", { question: userMessage.content });
+        const aiResponse = response?.data?.answer ?? "No answer received.";
+        setAiMessages(prev => [...prev, { role: "ai", content: aiResponse }]);
+    } catch (error) {
+        console.error("AI request failed:", error);
+        setAiMessages(prev => [...prev, { role: "ai", content: "Something went wrong. Try again." }]);
+    } finally {
+        setIsAiLoading(false);
+    }
+};
+
+const handleInputChange = (e) => {
+    const value = e.target.value;
+    setAiInput(value);
+
+    const atIndex = value.lastIndexOf("@");
+    console.log(atIndex);
+    
+    if (atIndex !== -1) {
+        const query = value.slice(atIndex + 1).toLowerCase();
+        console.log("query",query);
+        
+        setMentionQuery(query);
+        const questions = PartialSubmission.Questions.map((q) => q.questionText);
+        const matches = questions.filter((q) =>
+            q.toLowerCase()
+        );
+        console.log("matches", matches);
+        
+        setFilteredQuestions(matches);
+        setShowQuestionSuggestions(matches.length > 0);
+    } else {
+        setShowQuestionSuggestions(false);
+        setFilteredQuestions([]);
+        setMentionQuery("");
+    }
+};
+
+
 
 
     return (
@@ -277,7 +327,107 @@ const HandleSave = async () => {
                     </div>
                 </div>
             </div>
-            <div className="h-[95vh] w-full col-span-2 bg-gray-100 rounded-lg shadow flex flex-col">
+            <div className="h-[95vh] w-full col-span-2  rounded-lg shadow flex flex-col relative">
+                <div className="flex items-center justify-between gap-5 bg-white rounded-lg border border-purple-300 py-3 px-4  my-3 mx-2">
+                    <p ><Sparkles className='text-[16px] text-[#6c63ff]'/></p>
+                    <h1 className="w-fit text-[12px] font-medium text-white bg-[#6c63ff] px-3 py-0.5 rounded mt-1">
+                        AI Assistant
+                    </h1>
+                </div>
+
+                <div className="flex-1 p-3 overflow-y-auto flex flex-col gap-2">
+                    {aiMessages.length === 0 && !isAiLoading && (
+                        <div className="flex flex-col items-center justify-center mt-10 gap-3 text-center text-gray-400">
+                            <img src={Ask} className="size-56" alt="Ask AI" />
+                            <p className="text-lg font-medium text-[#6c63ff]">No messages yet.</p>
+                            <p className="text-sm text-gray-500">Ask me anything and I’ll help you out!</p>
+                        </div>
+                    )}
+
+
+                 {aiMessages.map((msg, idx) => (
+                    <div
+                        key={idx}
+                        className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"} px-2`}
+                    >
+                        <div
+                        className={`relative p-4 max-w-[75%] break-words
+                            rounded-xl shadow-md
+                            transition-all duration-300 ease-in-out
+                            ${
+                            msg.role === "user"
+                                ? "bg-[#6c63ff] text-white rounded-br-none"   
+                                : "bg-gray-100 text-gray-800 rounded-tl-none border border-gray-200" // AI bubble
+                            }`}
+                        >
+                      
+                        {msg.role === "assistant" && (
+                            <span className="absolute -top-4 left-2 text-xs text-gray-400">AI</span>
+                        )}
+                        {msg.content}
+                        </div>
+                    </div>
+                    ))}
+                    {isAiLoading && (
+                    <div className="flex justify-start">
+                        <div className="p-3 rounded-xl bg-gray-100 text-gray-600 self-start flex items-center gap-2 border border-gray-200">
+                        <Sparkles className="w-4 h-4 text-indigo-500 animate-pulse" />
+                        <span>Generating</span>
+                        <span className="dot-anim text-2xl leading-none -mt-1">.</span>
+                        <span className="dot-anim text-2xl leading-none -mt-1">.</span>
+                        <span className="dot-anim text-2xl leading-none -mt-1">.</span>
+                        </div>
+                    </div>
+                    )}
+
+
+
+                </div>
+
+
+                <div className="p-3 border-t  border-purple-200 flex gap-2">
+                    <input
+                        type="text"
+                        className="flex-1 p-2 border border-purple-400 focus:outline-none rounded-md relative"
+                        placeholder="Ask a question..."
+                        value={aiInput}
+                        onChange={handleInputChange}
+                        onKeyDown={(e) => e.key === "Enter" && handleAskAI()}
+                    />
+
+                    <button
+                        className="btn-small-light"
+                        onClick={handleAskAI}
+                        disabled={isAiLoading}
+                    >
+                        Send
+                    </button>
+
+                    {showQuestionSuggestions && (
+                        <div className="absolute bottom-[50px] left-3 bg-white border border-gray-300 rounded-md shadow-lg z-50 max-h-40 overflow-y-auto w-[calc(100%-2rem)]">
+                            <div>Cloxe</div>
+                            {filteredQuestions.map((q, idx) => (
+                                <div
+                                    key={idx}
+                                    className="p-2 hover:bg-purple-100 cursor-pointer"
+                                    onClick={() => {
+                                        
+                                        const atIndex = aiInput.lastIndexOf("@");
+                                        const newValue =
+                                            aiInput.slice(0, atIndex) + q + " ";
+                                        setAiInput(newValue);
+                                        setShowQuestionSuggestions(false);
+                                    }}
+                                >
+                                    {q}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+
+                </div>
+                
 
             </div>
 

@@ -10,7 +10,7 @@ const ShortAnswers = ({item , removeQuestion, index , UpdateItemInArray,updateAr
     
     const [ConfirmSave, setConfirmSave] = useState(false)
     
-    // console.log("WhoIsAnswering",WhoIsAnswering);
+    console.log("WhoIsAnswering",WhoIsAnswering);
     // console.log("item",item);
 
     const handleRatingChange = (value) => {
@@ -84,6 +84,7 @@ const ShortAnswers = ({item , removeQuestion, index , UpdateItemInArray,updateAr
                         <>
                             <div className='flex items-center justify-between'>
                                 <label className="text-sm font-medium text-slate-600">
+
                                     Answer 
                                 </label>
                             </div>
@@ -95,8 +96,8 @@ const ShortAnswers = ({item , removeQuestion, index , UpdateItemInArray,updateAr
                                 }
                                 className={`w-full text-sm  outline-none border   px-2.5 py-3 rounded-md mt-2 placeholder:text-gray-500 focus-within:border-purple-300 resize-none ${type ? "h-32":""}  ${ WhoIsAnswering && WhoIsAnswering?._id !== User._id && DisableQuestionbyIndex == index ?"border-slate-300 bg-slate-100 text-gray-400 font-medium italic":"border-slate-300  bg-white text-black"}`}
                                 rows={4}
-                                value={item.answer}
-                                onChange={({ target }) => updateArrayItem(index , "answer", target.value)}s
+                                value={item.StudentAnswer}
+                                onChange={({ target }) => updateArrayItem(index , "StudentAnswer", target.value)}s
                             />
                         </>
                     )
