@@ -245,13 +245,13 @@ const handleInputChange = (e) => {
             </div>
         </div>
         <div className="w-full grid grid-cols-1 md:grid-cols-5 gap-3 md:gap-4">
-            <div className="h-[95vh]  bg-white col-span-3 rounded-lg border border-purple-200 overflow-hidden relative">
+            <div className="h-[95vh]  bg-white col-span-3 rounded-lg border border-purple-200  relative">
                 <div className="flex items-center justify-between gap-5 bg-white rounded-lg border border-purple-300 py-3 px-4  my-3 mx-2">
                     <h1>{AssingmentTitle}</h1>
                     
                 </div>  
                     
-                <div className='grid grid-rows-4 w-full  h-[90%] px-3 py-4 md:gap-2'>
+                <div className='grid grid-rows-4 w-full  overflow-y-scroll px-3 py-4 md:gap-2 '>
                     <div className='row-span-3'>
                         {PartialSubmission.Questions.length > 0 && (
                             <DisplayQuestion
@@ -263,8 +263,8 @@ const handleInputChange = (e) => {
                             )}
                     </div>
                     <div className='row-span-1 -translate-y-3 '>
-                        <div className='border border-dashed rounded-md border-purple-300 flex items-center justify-between  px-3 gap-3  py-1'>
-                            <div className='flex w-full  items-center gap-2 justify-center p-1'>
+                        <div className='border border-dashed rounded-md border-purple-300 mt-3 flex items-center justify-between  px-3 gap-3  py-1'>
+                            <div className='flex w-full  items-center gap-2 justify-center p-1 '>
                                 <label className="btn-small-light">
                                     <LuMessageCircle className="text-[16px]" />
                                     Suggestion

@@ -219,11 +219,11 @@ const MultipleChoice = ({
 
             <div className="flex items-center justify-end text-sm w-full gap-3">
               {User.status === "Student" && (
-                <button
-                  onClick={() => setConfirmSave(true)}
-                  className={`btn-small-light w-fit flex items-center gap-1 ${
-                    item.isLocked ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
+               <button
+                    disabled={item.isLocked || WhoIsAnswering && WhoIsAnswering != User._id  && DisableQuestionbyIndex == index}
+                    onClick={() => setConfirmSave(true)}
+                    className={`btn-small-light w-fit flex items-center gap-1 z-50
+                    ${item.isLocked ? "opacity-50 cursor-not-allowed" : ""}`}
                 >
                   <Save className="size-4" /> Save
                 </button>

@@ -316,7 +316,7 @@ const handleReceiveMessage = async (User, text, PartialID) => {
 
     socket.on("UpdateSubmissionVote", (User, Redirect) => {
         if (Redirect) {
-            navigator("/Student");
+            navigator("/Student/Assingment/Dashboard");
         }
 
         setPartialSubmission((prev) => {
@@ -700,7 +700,7 @@ const MangeVotes = ()=>{
 
 const VerifyVote = ()=>{
     const isexit = PartialSubmission.Questions[currentIndex].vote.includes(User._id);
-    return isexits
+    return isexit
 }
 
 const ManageSubmission = () => {

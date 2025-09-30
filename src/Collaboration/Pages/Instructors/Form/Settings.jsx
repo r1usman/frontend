@@ -202,10 +202,7 @@ const handleCourseChange = (courseId) => {
         <div className="mt-4">
             
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                <div className='flex items-center justify-start my-3 gap-4 '>
-                  <label htmlFor=""  className="font-medium">Allow Late Submission</label>
-                  <input type="checkbox" checked={allowLateSubmission} onChange={({target})=>UpdateSection(null , "allowLateSubmission", target.checked)} name="" id="" />
-                </div>
+                
                 <div className='flex flex-col'>
                   <label htmlFor="course" className="font-medium">Select Course</label>
                   <select
