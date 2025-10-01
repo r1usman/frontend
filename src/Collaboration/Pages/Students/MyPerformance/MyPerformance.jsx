@@ -27,8 +27,7 @@ const MyPerformance = () => {
   }, []);
 
   return (
-    <div className='relative min-h-screen overflow-hidden'>
-      {/* Assignment Grid */}
+    <div className='relative '>
       <div className="font-urbanist grid grid-cols-1 md:grid-cols-5 md:gap-4 pt-1 pb-6 px-4 md:px-0">
         {Data?.map((Assingment) => (
           <AssinmentCard
@@ -47,10 +46,10 @@ const MyPerformance = () => {
         ))}
       </div>
 
-      {/* Result Panel */}
+
       <div
         onClick={() => setdisplay("")}
-        className={`absolute top-0 right-0 w-1/2 min-h-screen border rounded-md bg-slate-50 px-5 py-5 transform transition-transform duration-500 ease-in-out z-50 ${
+        className={`absolute top-0 -right-5 w-1/2 min-h-screen border rounded-md bg-slate-50 px-5 py-5 transform transition-transform duration-500 ease-in-out z-20 ${
           display ? "translate-x-0" : "translate-x-full"
         }`}
       >

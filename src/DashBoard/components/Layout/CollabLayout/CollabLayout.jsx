@@ -9,7 +9,7 @@ const CollabLayout = () => {
          <div className='w-[20%] '>
           <CollabSideBar/>
         </div>
-        <div className='w-[80%] '>
+        <div className='w-[80%] overflow-x-hidden'>
           <Header/>
           <div className='m-4 px-3 '><Outlet/></div>
         </div>

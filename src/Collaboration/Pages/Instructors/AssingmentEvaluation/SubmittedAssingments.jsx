@@ -42,7 +42,7 @@ const SubmittedAssingments = () => {
                   : "Unknown"
               }
               onselect={() =>
-                Navigate(`/Instructor/Evaluation/${Assingment?._id}`, {
+                Navigate(`/Instructor/Assingment/Evaluation/${Assingment?._id}`, {
                   state: { Assingment },
                 })
               }

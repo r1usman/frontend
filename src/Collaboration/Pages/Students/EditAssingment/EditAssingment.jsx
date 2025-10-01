@@ -65,6 +65,7 @@ const EditAssingment = () => {
                     questionText :"",
                     options : "",
                     marks : null ,
+                    StudentAnswer : "",
                     answer : ""
                 }
             ],
@@ -81,7 +82,7 @@ const EditAssingment = () => {
     
         })
       
-        // console.log("DefaultInfo",DefaultInfo);
+        console.log("DefaultInfo",DefaultInfo);
         
     const [PartialSubmission, setPartialSubmission] = useState({
         _id: "",
@@ -92,6 +93,7 @@ const EditAssingment = () => {
                 options : "",
                 marks : null ,
                 answer : "",
+                StudentAnswer : "",
                 isLocked : false,
                 lockedby : "",
                 vote : []
@@ -262,7 +264,7 @@ const handleReceiveMessage = async (User, text, PartialID) => {
         setDisableQuestionbyIndex(CurrentQuestion)
         setPartialSubmission((prev)=>{
             const updateArray = [...prev.Questions]
-            const key = "answer"
+            const key = "StudentAnswer"
             updateArray[CurrentQuestion]={
                 ...updateArray[CurrentQuestion],
                 [key] : answer
@@ -314,7 +316,7 @@ const handleReceiveMessage = async (User, text, PartialID) => {
 
     socket.on("UpdateSubmissionVote", (User, Redirect) => {
         if (Redirect) {
-            navigator("/Student");
+            navigator("/Student/Assingment/Dashboard");
         }
 
         setPartialSubmission((prev) => {
@@ -598,7 +600,9 @@ const updateArrayItem = (index, key, value) => {
         Questions: updateArray,
         };
 
-        const answerText = updateArray[currentIndex].answer || "";
+        const answerText = updateArray[currentIndex].StudentAnswer || "";
+        console.log("answerText", answerText);
+        
         if (answerText.trim() === "") {
         socket.emit("Answering", null, SocketGroup, currentIndex, "", false);
         } else {
@@ -701,7 +705,7 @@ const VerifyVote = ()=>{
 
 const ManageSubmission = () => {
   const AnswerAll = PartialSubmission.Questions.every(
-    (item) => item.answer.trim() !== ""
+    (item) => item.StudentAnswer.trim() !== ""
   );
 
   if (!AnswerAll) {

@@ -35,6 +35,8 @@ import CollabLayout from "./DashBoard/components/Layout/CollabLayout/CollabLayou
 import Dashboard_Student from "./Collaboration/Pages/Students/DashBoard/Dasboard.jsx";
 import MyPerformance from "./Collaboration/Pages/Students/MyPerformance/MyPerformance.jsx";
 import EditAssingment from "./Collaboration/Pages/Students/EditAssingment/EditAssingment.jsx";
+import StudentsAssingments from "./Collaboration/Pages/Instructors/AssingmentEvaluation/StudentsAssingments.jsx";
+import EvaluationPage from "./Collaboration/Pages/Instructors/AssingmentEvaluation/EvaluationPage.jsx";
 
 function App() {
   // const { role } = useContext(UserContext);
@@ -84,7 +86,7 @@ function App() {
           <Route path="Dashboard" element={<Dashboard_Instructor />} />
           <Route path="CreateAssingment" element={<CreateAssingment />} />
           <Route path="Evaluation" element={<Evaluation />} />
-          {/* <Route path='Evaluation/:id' element={<StudentsAssingments/>} /> */}
+          <Route path="Evaluation/:id" element={<StudentsAssingments />} />
         </Route>
 
         <Route
@@ -92,6 +94,15 @@ function App() {
           element={
             <Protected allowed={["Instructor"]}>
               <EditAssingments />
+            </Protected>
+          }
+        ></Route>
+
+        <Route
+          path="/EvaluationPanel/:SubmissionID"
+          element={
+            <Protected allowed={["Instructor"]}>
+              <EvaluationPage />
             </Protected>
           }
         ></Route>

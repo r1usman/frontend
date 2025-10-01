@@ -17,6 +17,8 @@ const TrueFalse = ({
   HandleSave,
 }) => {
   const { User } = useContext(UserContext);
+  console.log(User.status);
+  
   const [ConfirmSave, setConfirmSave] = useState(false);
 
   const handleRatingChange = (value) => {
@@ -86,23 +88,40 @@ const TrueFalse = ({
             <input
               type="radio"
               className="accent-purple-600"
-              name={`true_false_${item.id || index}`}
-              checked={item.answer === value}
+              name={`true_false_${item._id || index}`}
+              checked={
+                User.status === "Student"
+                  ? item.StudentAnswer === value
+                  : item.answer === value
+              }
               disabled={
                 (User.status === "Student" && item.isLocked) ||
                 (WhoIsAnswering &&
                   WhoIsAnswering?._id !== User._id &&
                   DisableQuestionbyIndex === index)
               }
-              onChange={() => handleChange(value)}
+              onChange={() =>
+                User.status === "Instructor"
+                  ? UpdateItemInArray(index, "answer", value)
+                  : updateArrayItem(index, "StudentAnswer", value)
+              }
             />
-            <span
-              className={`font-semibold ${
-                item.answer === value ? "text-purple-600" : "text-slate-600"
-              }`}
+
+           <span
+              className={`font-semibold
+                ${
+                  (User.status === 'Student' || User.status === 'Instructor' ? item.StudentAnswer : item.answer) === value
+                    ? 'text-purple-600'
+                    : 'text-slate-600'
+                }
+              
+              `}
             >
               {value}
-            </span>
+          </span>
+
+
+
           </label>
         ))}
 

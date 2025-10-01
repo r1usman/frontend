@@ -36,6 +36,7 @@ const EditAssingments = () => {
             {
                 type : "",
                 questionText :"",
+                StudentAnswer : "",
                 options : "",
                 marks : null ,
                 answer : ""
@@ -505,7 +506,8 @@ const RenderForm = () => {
                             questionText: "",
                             options: [],
                             marks: "",
-                            answer: ""
+                            answer: "",
+                            StudentAnswer : ""
                         })
                         }
                     >
@@ -528,7 +530,8 @@ const RenderForm = () => {
                             questionText: "",
                             options: ["", ""], 
                             marks: "",
-                            answer: ""
+                            answer: "",
+                            StudentAnswer : ""
                         })
                         }
                     >   
@@ -551,7 +554,8 @@ const RenderForm = () => {
                             questionText: "",
                             options: ["True", "False"],
                             marks: "",
-                            answer: ""
+                            answer: "",
+                            StudentAnswer : ""
                         })
                         }
                     >
@@ -574,7 +578,8 @@ const RenderForm = () => {
                             questionText: "",
                             options: [],
                             marks: "",
-                            answer: ""
+                            answer: "",
+                            StudentAnswer : ""
                         })
                         }
                     >

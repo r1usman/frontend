@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import img from '../../../src/assets/AV.jpg'
+import img from '../../../../src/assests/Default.jpg'
 const GroupCard = ({ imgurl, title, status, lastUpdated, onselect, group , ID}) => {  
     
     return(

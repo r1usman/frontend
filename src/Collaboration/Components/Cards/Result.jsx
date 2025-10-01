@@ -61,32 +61,59 @@ const Result = ({ AssingmentID }) => {
       <section>
         <h2 className="text-lg font-semibold text-gray-700 mb-4">Questions</h2>
         <div className="space-y-4">
-          {data.Questions?.map((q, i) => (
-            <div key={q._id} className="bg-white p-4 border rounded-xl shadow-sm">
-              <div className="flex justify-between mb-1">
-                <h3 className="font-medium text-gray-800 flex items-center gap-4">
-                  <h1 className="text-lg">{i + 1}.</h1><p> {q.questionText}</p>
-                </h3>
-                <span className="text-sm text-gray-800">{q.marks} marks</span>
-              </div>
-              <p className="text-gray-700 text-sm">
-                <span className="font-medium flex gap-3"><h1>Your Answer:</h1><p>{q.answer || "—"}</p></span> 
-              </p>
-              <p className="text-sm text-gray-700 flex gap-3">
-                <span className="font-medium">Obtained:</span>{" "}
-                <span className="text-green-600">{q.obtainedMarks}</span>
-              </p>
-            <div className="flex w-full items-center border justify-between p-2 mt-3 rounded-lg">
-                 <div className="flex items-center text-sm  text-gray-500">
-                <Star size={14} className="text-yellow-400 mr-1" />
-                {q.rating}
-              </div>
-              {q.suggestion && (
-                <p className="text-sm text-gray-500 italic">💡 {q.suggestion}</p>
-              )}
-            </div>
-            </div>
-          ))}
+          {data.Questions?.map((q, i) => {
+
+  let displayedAnswer = "—";
+
+  if (q.type === "short_answer") {
+    displayedAnswer = q.StudentAnswer || "—";
+  } else if (q.type === "mcq") {
+
+    const selectedIndex = Number(q.StudentAnswer);
+    displayedAnswer =
+      q.options && q.options[selectedIndex] !== undefined
+        ? q.options[selectedIndex]
+        : "—";
+  } else if (q.type === "true_false") {
+
+    displayedAnswer = q.StudentAnswer || "—";
+  }
+
+  return (
+    <div key={q._id} className="bg-white p-4 border rounded-xl shadow-sm">
+      <div className="flex justify-between mb-1">
+        <h3 className="font-medium text-gray-800 flex items-center gap-4">
+          <h1 className="text-lg">{i + 1}.</h1>
+          <p>{q.questionText}</p>
+        </h3>
+        <span className="text-sm text-gray-800">{q.marks} marks</span>
+      </div>
+
+      <p className="text-gray-700 text-sm">
+        <span className="font-medium flex gap-3">
+          <h1>Your Answer:</h1>
+          <p>{displayedAnswer}</p>
+        </span>
+      </p>
+
+      <p className="text-sm text-gray-700 flex gap-3">
+        <span className="font-medium">Obtained:</span>
+        <span className="text-green-600">{q.obtainedMarks}</span>
+      </p>
+
+      <div className="flex w-full items-center border justify-between p-2 mt-3 rounded-lg">
+        <div className="flex items-center text-sm text-gray-500">
+          <Star size={14} className="text-yellow-400 mr-1" />
+          {q.rating}
+        </div>
+        {q.suggestion && (
+          <p className="text-sm text-gray-500 italic">💡 {q.suggestion}</p>
+        )}
+      </div>
+    </div>
+  );
+})}
+
         </div>
       </section>
 
