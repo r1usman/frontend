@@ -8,6 +8,7 @@ import {
   LogOut,
   MessageSquare,
   Settings,
+  Trophy,
 } from "lucide-react";
 import { FaUser } from "react-icons/fa";
 import { UserContext } from "../../../GlobalContext/UserContext";
@@ -38,17 +39,18 @@ export const Sidebar = () => {
       tooltip: "See your tasks",
     },
     {
+      label: "Competition",
+      icon: <Trophy size={18} />,
+      path: "/Instructor/Competition",
+      tooltip: "See your tasks",
+    },
+    {
       label: "Messages",
       icon: <MessageSquare size={18} />,
       path: "/messages",
       tooltip: "Read messages",
     },
-    {
-      label: "Settings",
-      icon: <Settings size={18} />,
-      path: "/settings",
-      tooltip: "Account settings",
-    },
+    
   ];
 
   const studentNavItems = [

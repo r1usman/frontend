@@ -1,6 +1,7 @@
 // App.js (main entry point)
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
+
 // Top‐level pages (outside of /Mod)
 import AdminDashboard from "./DashBoard/AdminDashboard.jsx";
 import UserDashboard from "./DashBoard/DisplayDashboard.jsx";
@@ -37,6 +38,17 @@ import MyPerformance from "./Collaboration/Pages/Students/MyPerformance/MyPerfor
 import EditAssingment from "./Collaboration/Pages/Students/EditAssingment/EditAssingment.jsx" 
 import StudentsAssingments from "./Collaboration/Pages/Instructors/AssingmentEvaluation/StudentsAssingments.jsx"
 import EvaluationPage from "./Collaboration/Pages/Instructors/AssingmentEvaluation/EvaluationPage.jsx"
+
+
+// Code Competiton
+
+import CompeteLayout from "./DashBoard/components/Layout/CompeteLayout/CompeteLayout.jsx"
+import Dashboard from "./CodeCompetition/Pages/Instructor/Dashboard.jsx"
+import CreateChallenge from "./CodeCompetition/Pages/Instructor/CreateChallenge.jsx"
+import ManagaCometition from "./CodeCompetition/Pages/Instructor/ManagaCometition.jsx"
+import EditChallenge from "./CodeCompetition/Pages/Instructor/EditChallenge.jsx"
+import NoFound from "./Collaboration/Components/NotFound/NotFound.jsx";
+// import Leaderboard from "./CodeCompetition/Pages/Instructor/Form/"
 
 function App() {
   // const { role } = useContext(UserContext);
@@ -119,6 +131,30 @@ function App() {
 
         {/* end collab */}
 
+        {/* Compet */}
+        <Route path='/Instructor/Competition' 
+            element={
+              <Protected allowed={['Instructor']}>
+                <CompeteLayout/>
+              </Protected>
+            }
+            
+            >
+            <Route index element={<Navigate to="Dashboard" />} />
+            <Route path='Dashboard' element={<Dashboard/>}/>
+            <Route path='Create' element={<CreateChallenge/>}/>
+            <Route path='Manage' element={<ManagaCometition/>}/>
+            {/* <Route path='Leaderboard' element={<Leaderboard/>}/> */}
+          </Route>
+          <Route path='/Instructor/Challenge/:ChallengeID' element={
+              <EditChallenge/>
+            }/>
+
+        {/* endCompet */}
+
+
+        
+
         {/* <Route
           path="/student"
           element={
@@ -161,6 +197,8 @@ function App() {
 
           <Route path="problemset" element={<ProblemsetPage />} />
           <Route path="problemset/:id" element={<ProblemPage />} />
+
+           <Route path="*" element={<NoFound />} />
         </Routes>
       </BrowserRouter>
   );
