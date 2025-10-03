@@ -32,7 +32,15 @@ export default function LiveClass() {
         );
       }
       if (target?.deviceId) {
-        await hmsActions.setVideoDevice(target.deviceId);
+        if (typeof hmsActions.setDevice === "function") {
+          await hmsActions.setDevice("videoInput", target.deviceId);
+        } else if (typeof hmsActions.setVideoSettings === "function") {
+          await hmsActions.setVideoSettings({ deviceId: target.deviceId });
+        } else {
+          console.warn(
+            "HMS: No supported API found to switch camera (setDevice/setVideoSettings)."
+          );
+        }
       } else {
         console.warn("OBS camera not found at index 5 or by label.");
       }
