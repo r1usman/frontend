@@ -141,22 +141,22 @@ export function AudioRecorder() {
   };
 
   return (
-    <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+    <div className="bg-gray-900 rounded-lg p-4 border border-gray-800">
       <div className="flex items-center justify-between">
         {/* Recording Status */}
         <div className="flex items-center space-x-3">
           <div
             className={`w-3 h-3 rounded-full ${
               recordingState === "recording"
-                ? "bg-red-500 animate-pulse"
+                ? "bg-red-500"
                 : recordingState === "starting" || recordingState === "stopping"
                 ? "bg-yellow-500"
-                : "bg-gray-500"
+                : "bg-gray-700"
             }`}
           />
 
           <div>
-            <p className="text-sm font-medium text-white">
+            <p className="text-sm font-medium text-gray-100">
               {recordingState === "idle" && "Ready to Record"}
               {recordingState === "starting" && "Preparing..."}
               {recordingState === "recording" &&
@@ -177,8 +177,8 @@ export function AudioRecorder() {
           <div className="flex items-center space-x-2">
             {uploadStatus === "uploading" && (
               <>
-                <Loader2 className="w-4 h-4 text-blue-400 animate-spin" />
-                <span className="text-sm text-blue-400">Uploading...</span>
+                <Loader2 className="w-4 h-4 text-gray-300 animate-spin" />
+                <span className="text-sm text-gray-300">Uploading...</span>
               </>
             )}
             {uploadStatus === "success" && (
@@ -205,7 +205,7 @@ export function AudioRecorder() {
           className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2 ${
             recordingState === "recording"
               ? "bg-red-600 hover:bg-red-700 text-white"
-              : "bg-blue-600 hover:bg-blue-700 text-white"
+              : "bg-gray-100 hover:bg-white text-gray-900"
           } disabled:opacity-50 disabled:cursor-not-allowed`}
         >
           {recordingState === "recording" ? (
@@ -225,7 +225,7 @@ export function AudioRecorder() {
       {/* Progress Bar */}
       {recordingState === "recording" && (
         <div className="mt-3">
-          <div className="w-full bg-gray-700 rounded-full h-1">
+          <div className="w-full bg-gray-800 rounded-full h-1">
             <div
               className="bg-red-500 h-1 rounded-full transition-all duration-1000"
               style={{ width: `${(recordingDuration % 60) * 1.67}%` }}

@@ -79,8 +79,8 @@ function Peer({ peer }) {
   const getEngagementStyling = () => {
     if (!engagementData) {
       return {
-        bgColor: "bg-gray-500",
-        textColor: "text-gray-300",
+        bgColor: "bg-gray-200",
+        textColor: "text-gray-600",
         icon: Minus,
         label: "Unknown",
       };
@@ -89,36 +89,36 @@ function Peer({ peer }) {
     switch (engagementData.level) {
       case "high":
         return {
-          bgColor: "bg-green-600",
-          textColor: "text-green-100",
+          bgColor: "bg-green-100",
+          textColor: "text-green-700",
           icon: TrendingUp,
           label: "High Engagement",
         };
       case "medium":
         return {
-          bgColor: "bg-yellow-600",
-          textColor: "text-yellow-100",
+          bgColor: "bg-yellow-100",
+          textColor: "text-yellow-700",
           icon: TrendingUp,
           label: "Medium Engagement",
         };
       case "low":
         return {
-          bgColor: "bg-orange-600",
-          textColor: "text-orange-100",
+          bgColor: "bg-orange-100",
+          textColor: "text-orange-700",
           icon: TrendingDown,
           label: "Low Engagement",
         };
       case "very-low":
         return {
-          bgColor: "bg-red-600",
-          textColor: "text-red-100",
+          bgColor: "bg-red-100",
+          textColor: "text-red-700",
           icon: TrendingDown,
           label: "Very Low Engagement",
         };
       default:
         return {
-          bgColor: "bg-gray-500",
-          textColor: "text-gray-300",
+          bgColor: "bg-gray-200",
+          textColor: "text-gray-600",
           icon: Minus,
           label: "Unknown",
         };
@@ -129,9 +129,9 @@ function Peer({ peer }) {
   const EngagementIcon = engagementStyling.icon;
 
   return (
-    <div className="relative bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
+    <div className="relative bg-gray-900 border border-gray-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group">
       {/* Video Container */}
-      <div className="relative aspect-video bg-gray-700">
+      <div className="relative aspect-video bg-black">
         <video
           ref={setVideoRefs}
           className={`w-full h-full object-cover ${
@@ -144,9 +144,9 @@ function Peer({ peer }) {
 
         {/* Video Off Overlay */}
         {!peer.videoTrack && (
-          <div className="absolute inset-0 bg-gray-700 flex items-center justify-center">
-            <div className="w-16 h-16 bg-gray-600 rounded-full flex items-center justify-center">
-              <User className="w-8 h-8 text-gray-400" />
+          <div className="absolute inset-0 bg-gray-900 flex items-center justify-center">
+            <div className="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center">
+              <User className="w-8 h-8 text-gray-500" />
             </div>
           </div>
         )}
@@ -157,8 +157,8 @@ function Peer({ peer }) {
           <div
             className={`px-2 py-1 rounded-full text-xs font-medium flex items-center space-x-1 ${
               peer.audioTrack
-                ? "bg-green-600 text-white"
-                : "bg-red-600 text-white"
+                ? "bg-green-900/40 text-green-300"
+                : "bg-red-900/40 text-red-300"
             }`}
           >
             {peer.audioTrack ? (
@@ -172,8 +172,8 @@ function Peer({ peer }) {
           <div
             className={`px-2 py-1 rounded-full text-xs font-medium flex items-center space-x-1 ${
               peer.videoTrack
-                ? "bg-green-600 text-white"
-                : "bg-red-600 text-white"
+                ? "bg-green-900/40 text-green-300"
+                : "bg-red-900/40 text-red-300"
             }`}
           >
             {peer.videoTrack ? (
@@ -188,7 +188,7 @@ function Peer({ peer }) {
         <div className="absolute top-3 right-3 flex flex-col space-y-2">
           {/* Current Emotion */}
           {currentEmotion && (
-            <div className="px-2 py-1 bg-purple-600 text-white text-xs font-medium rounded-full flex items-center space-x-1">
+            <div className="px-2 py-1 bg-gray-800 text-gray-300 text-xs font-medium rounded-full flex items-center space-x-1">
               <Brain className="w-3 h-3" />
               <span className="capitalize">{currentEmotion}</span>
             </div>
@@ -214,13 +214,13 @@ function Peer({ peer }) {
       </div>
 
       {/* User Info */}
-      <div className="p-3 bg-gray-800">
+      <div className="p-3 bg-gray-900">
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
-            <User className="w-4 h-4 text-white" />
+          <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center">
+            <User className="w-4 h-4 text-gray-200" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-white truncate">
+            <p className="text-sm font-medium text-gray-100 truncate">
               {peer.name}
             </p>
             <p className="text-xs text-gray-400">
@@ -231,9 +231,9 @@ function Peer({ peer }) {
 
         {/* Engagement Details */}
         {engagementData && (
-          <div className="mt-2 p-2 bg-gray-700 rounded-lg">
+          <div className="mt-2 p-2 bg-gray-800 rounded-lg border border-gray-800">
             <div className="flex items-center justify-between">
-              <span className="text-xs text-gray-300">Engagement:</span>
+              <span className="text-xs text-gray-400">Engagement:</span>
               <span
                 className={`text-xs font-medium ${engagementStyling.textColor}`}
               >
@@ -241,7 +241,7 @@ function Peer({ peer }) {
               </span>
             </div>
             <div className="mt-1">
-              <div className="w-full bg-gray-600 rounded-full h-1">
+              <div className="w-full bg-gray-700 rounded-full h-1">
                 <div
                   className={`h-1 rounded-full transition-all duration-500 ${engagementStyling.bgColor}`}
                   style={{ width: `${engagementData.percentage}%` }}
@@ -253,7 +253,7 @@ function Peer({ peer }) {
       </div>
 
       {/* Hover Effect Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+      <div className="absolute inset-0 pointer-events-none" />
     </div>
   );
 }

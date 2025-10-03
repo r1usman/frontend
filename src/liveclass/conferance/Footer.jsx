@@ -1,6 +1,15 @@
 import { useAVToggle, useHMSActions } from "@100mslive/react-sdk";
 import { useNavigate } from "react-router-dom";
-import { Mic, MicOff, Video, VideoOff, Phone, PhoneOff, Settings, Users } from "lucide-react";
+import {
+  Mic,
+  MicOff,
+  Video,
+  VideoOff,
+  Phone,
+  PhoneOff,
+  Settings,
+  Users,
+} from "lucide-react";
 
 function Footer() {
   const { isLocalAudioEnabled, isLocalVideoEnabled, toggleAudio, toggleVideo } =
@@ -14,15 +23,15 @@ function Footer() {
   };
 
   return (
-    <footer className="bg-gray-800 border-t border-gray-700 px-6 py-4">
+    <footer className="bg-gray-900 border-t border-gray-800 px-6 py-4">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between">
           {/* Left side - Additional controls */}
           <div className="flex items-center space-x-3">
-            <button className="p-3 bg-gray-700 hover:bg-gray-600 rounded-full transition-colors duration-200 group">
+            <button className="p-3 bg-gray-800 hover:bg-gray-700 rounded-full transition-colors duration-200 group">
               <Users className="w-5 h-5 text-gray-300 group-hover:text-white" />
             </button>
-            <button className="p-3 bg-gray-700 hover:bg-gray-600 rounded-full transition-colors duration-200 group">
+            <button className="p-3 bg-gray-800 hover:bg-gray-700 rounded-full transition-colors duration-200 group">
               <Settings className="w-5 h-5 text-gray-300 group-hover:text-white" />
             </button>
           </div>
@@ -34,7 +43,7 @@ function Footer() {
               onClick={toggleAudio}
               className={`p-4 rounded-full transition-all duration-200 transform hover:scale-105 ${
                 isLocalAudioEnabled
-                  ? "bg-gray-600 hover:bg-gray-500 text-white"
+                  ? "bg-gray-800 hover:bg-gray-700 text-white"
                   : "bg-red-600 hover:bg-red-500 text-white"
               }`}
             >
@@ -50,7 +59,7 @@ function Footer() {
               onClick={toggleVideo}
               className={`p-4 rounded-full transition-all duration-200 transform hover:scale-105 ${
                 isLocalVideoEnabled
-                  ? "bg-gray-600 hover:bg-gray-500 text-white"
+                  ? "bg-gray-800 hover:bg-gray-700 text-white"
                   : "bg-red-600 hover:bg-red-500 text-white"
               }`}
             >
@@ -72,7 +81,7 @@ function Footer() {
 
           {/* Right side - Status */}
           <div className="flex items-center space-x-2 text-gray-400">
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
             <span className="text-sm font-medium">Connected</span>
           </div>
         </div>
