@@ -43,6 +43,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/instructor/live" element={<LiveClass />} />
         <Route path="/" element={<LandingPage />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Signup" element={<Signup />} />
@@ -164,7 +165,6 @@ function App() {
         <Route path="/student/courses" element={<S_ShowCourses />} />
         <Route path="/instructor/course/:id" element={<CourseDetail />} />
         <Route path="/student/course/:id" element={<S_CourseDetail />} />
-        <Route path="/instructor/live" element={<LiveClass />} />
 
         <Route path="/0/*" element={<PythonCourse />} />
 

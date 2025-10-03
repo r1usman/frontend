@@ -1,24 +1,40 @@
 import { useEffect, useRef } from "react";
 import { useVideo } from "@100mslive/react-sdk";
 import { useEmotion } from "./EmotionContext";
-import { User, Mic, MicOff, Video, VideoOff, Brain, TrendingUp, TrendingDown, Minus } from "lucide-react";
+import {
+  User,
+  Mic,
+  MicOff,
+  Video,
+  VideoOff,
+  Brain,
+  TrendingUp,
+  TrendingDown,
+  Minus,
+} from "lucide-react";
 
 function Peer({ peer }) {
   const { videoRef } = useVideo({
     trackId: peer.videoTrack,
   });
-  
+
   // Use emotion context
-  const { getPeerEngagement, createSnapshotFromVideo, clearPeerEmotionHistory } = useEmotion();
-  
+  const {
+    getPeerEngagement,
+    createSnapshotFromVideo,
+    clearPeerEmotionHistory,
+  } = useEmotion();
+
   // Get current emotion data from context
   const emotionData = getPeerEngagement(peer.id);
-  const engagementData = emotionData ? {
-    level: emotionData.engagementLevel,
-    percentage: emotionData.engagementPercentage
-  } : null;
+  const engagementData = emotionData
+    ? {
+        level: emotionData.engagementLevel,
+        percentage: emotionData.engagementPercentage,
+      }
+    : null;
   const currentEmotion = emotionData?.currentEmotion || null;
-  
+
   // Add your own ref for snapshots
   const snapshotRef = useRef(null);
 
@@ -45,11 +61,11 @@ function Peer({ peer }) {
   };
 
   // Cleanup when peer leaves
-  useEffect(() => {
-    return () => {
-      clearPeerEmotionHistory(peer.id);
-    };
-  }, [peer.id, clearPeerEmotionHistory]);
+  // useEffect(() => {
+  //   return () => {
+  //     clearPeerEmotionHistory(peer.id);
+  //   };
+  // }, [peer.id, clearPeerEmotionHistory]);
 
   useEffect(() => {
     const intervalId = setInterval(captureSnapshot, 5000);
@@ -63,48 +79,48 @@ function Peer({ peer }) {
   const getEngagementStyling = () => {
     if (!engagementData) {
       return {
-        bgColor: 'bg-gray-500',
-        textColor: 'text-gray-300',
+        bgColor: "bg-gray-500",
+        textColor: "text-gray-300",
         icon: Minus,
-        label: 'Unknown'
+        label: "Unknown",
       };
     }
 
     switch (engagementData.level) {
-      case 'high':
+      case "high":
         return {
-          bgColor: 'bg-green-600',
-          textColor: 'text-green-100',
+          bgColor: "bg-green-600",
+          textColor: "text-green-100",
           icon: TrendingUp,
-          label: 'High Engagement'
+          label: "High Engagement",
         };
-      case 'medium':
+      case "medium":
         return {
-          bgColor: 'bg-yellow-600',
-          textColor: 'text-yellow-100',
+          bgColor: "bg-yellow-600",
+          textColor: "text-yellow-100",
           icon: TrendingUp,
-          label: 'Medium Engagement'
+          label: "Medium Engagement",
         };
-      case 'low':
+      case "low":
         return {
-          bgColor: 'bg-orange-600',
-          textColor: 'text-orange-100',
+          bgColor: "bg-orange-600",
+          textColor: "text-orange-100",
           icon: TrendingDown,
-          label: 'Low Engagement'
+          label: "Low Engagement",
         };
-      case 'very-low':
+      case "very-low":
         return {
-          bgColor: 'bg-red-600',
-          textColor: 'text-red-100',
+          bgColor: "bg-red-600",
+          textColor: "text-red-100",
           icon: TrendingDown,
-          label: 'Very Low Engagement'
+          label: "Very Low Engagement",
         };
       default:
         return {
-          bgColor: 'bg-gray-500',
-          textColor: 'text-gray-300',
+          bgColor: "bg-gray-500",
+          textColor: "text-gray-300",
           icon: Minus,
-          label: 'Unknown'
+          label: "Unknown",
         };
     }
   };
@@ -118,12 +134,14 @@ function Peer({ peer }) {
       <div className="relative aspect-video bg-gray-700">
         <video
           ref={setVideoRefs}
-          className={`w-full h-full object-cover ${peer.isLocal ? "scale-x-[-1]" : ""}`}
+          className={`w-full h-full object-cover ${
+            peer.isLocal ? "scale-x-[-1]" : ""
+          }`}
           autoPlay
           muted
           playsInline
         />
-        
+
         {/* Video Off Overlay */}
         {!peer.videoTrack && (
           <div className="absolute inset-0 bg-gray-700 flex items-center justify-center">
@@ -136,20 +154,28 @@ function Peer({ peer }) {
         {/* Status Indicators */}
         <div className="absolute top-3 left-3 flex flex-col space-y-2">
           {/* Audio Status */}
-          <div className={`px-2 py-1 rounded-full text-xs font-medium flex items-center space-x-1 ${
-            peer.audioTrack ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
-          }`}>
+          <div
+            className={`px-2 py-1 rounded-full text-xs font-medium flex items-center space-x-1 ${
+              peer.audioTrack
+                ? "bg-green-600 text-white"
+                : "bg-red-600 text-white"
+            }`}
+          >
             {peer.audioTrack ? (
               <Mic className="w-3 h-3" />
             ) : (
               <MicOff className="w-3 h-3" />
             )}
           </div>
-          
+
           {/* Video Status */}
-          <div className={`px-2 py-1 rounded-full text-xs font-medium flex items-center space-x-1 ${
-            peer.videoTrack ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
-          }`}>
+          <div
+            className={`px-2 py-1 rounded-full text-xs font-medium flex items-center space-x-1 ${
+              peer.videoTrack
+                ? "bg-green-600 text-white"
+                : "bg-red-600 text-white"
+            }`}
+          >
             {peer.videoTrack ? (
               <Video className="w-3 h-3" />
             ) : (
@@ -170,7 +196,9 @@ function Peer({ peer }) {
 
           {/* Engagement Level */}
           {engagementData && (
-            <div className={`px-2 py-1 rounded-full text-xs font-medium flex items-center space-x-1 ${engagementStyling.bgColor} ${engagementStyling.textColor}`}>
+            <div
+              className={`px-2 py-1 rounded-full text-xs font-medium flex items-center space-x-1 ${engagementStyling.bgColor} ${engagementStyling.textColor}`}
+            >
               <EngagementIcon className="w-3 h-3" />
               <span>{engagementData.percentage}%</span>
             </div>
@@ -200,19 +228,21 @@ function Peer({ peer }) {
             </p>
           </div>
         </div>
-        
+
         {/* Engagement Details */}
         {engagementData && (
           <div className="mt-2 p-2 bg-gray-700 rounded-lg">
             <div className="flex items-center justify-between">
               <span className="text-xs text-gray-300">Engagement:</span>
-              <span className={`text-xs font-medium ${engagementStyling.textColor}`}>
+              <span
+                className={`text-xs font-medium ${engagementStyling.textColor}`}
+              >
                 {engagementStyling.label}
               </span>
             </div>
             <div className="mt-1">
               <div className="w-full bg-gray-600 rounded-full h-1">
-                <div 
+                <div
                   className={`h-1 rounded-full transition-all duration-500 ${engagementStyling.bgColor}`}
                   style={{ width: `${engagementData.percentage}%` }}
                 />
@@ -220,7 +250,6 @@ function Peer({ peer }) {
             </div>
           </div>
         )}
-
       </div>
 
       {/* Hover Effect Overlay */}
