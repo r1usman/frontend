@@ -16,10 +16,9 @@ import { useNavigate, useParams } from "react-router-dom";
 
 function CourseDetail() {
   const { id } = useParams();
-  const navigate = useNavigate(); // Add this line
+  const navigate = useNavigate();
   const [course, setCourse] = useState(null);
   const [students, setStudents] = useState([]);
-  const [enrolledStudents, setEnrolledStudents] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isStartingClass, setIsStartingClass] = useState(false);
@@ -36,22 +35,36 @@ function CourseDetail() {
           .then((res) => res.json())
           .then((courseData) => {
             setCourse(courseData);
-            // Get enrolled students by comparing _id and studentIds
-            if (courseData.studentIds) {
-              setEnrolledStudents(
-                studentsData.filter((student) =>
-                  courseData.studentIds.includes(student._id)
-                )
-              );
-            }
             setIsLoading(false);
           });
       });
   }, [id]);
 
+  // Get enrolled students by comparing _id in studentIds objects
+  const enrolledStudents =
+    course && course.studentIds
+      ? students.filter((student) =>
+          course.studentIds.some((enrolled) => enrolled._id === student._id)
+        )
+      : [];
+
+  // Filter out students who are already enrolled
+  const toBeAddedStudents =
+    course && course.studentIds
+      ? students.filter(
+          (student) =>
+            !course.studentIds.some((enrolled) => enrolled._id === student._id)
+        )
+      : [];
+
+  const filteredStudents = toBeAddedStudents.filter(
+    (student) =>
+      student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      student.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const handleAddStudent = async (student) => {
-    if (!enrolledStudents.find((s) => s._id === student._id)) {
-      // Call backend API to add student to course
+    if (!course.studentIds.some((enrolled) => enrolled._id === student._id)) {
       const res = await fetch(
         `http://localhost:3000/courses/add-student/${id}`,
         {
@@ -61,7 +74,11 @@ function CourseDetail() {
         }
       );
       if (res.ok) {
-        setEnrolledStudents([...enrolledStudents, student]);
+        // Update course.studentIds locally with the full student object
+        setCourse((prev) => ({
+          ...prev,
+          studentIds: [...prev.studentIds, student],
+        }));
       }
     }
   };
@@ -69,17 +86,6 @@ function CourseDetail() {
   const handleStartLiveClass = () => {
     navigate("/instructor/live");
   };
-
-  // Filter out students who are already enrolled
-  const toBeAddedStudents = students.filter(
-    (student) => !enrolledStudents.find((s) => s._id === student._id)
-  );
-
-  const filteredStudents = toBeAddedStudents.filter(
-    (student) =>
-      student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   if (isLoading) {
     return (
@@ -217,8 +223,8 @@ function CourseDetail() {
                 {/* Students List */}
                 <div className="space-y-3 max-h-96 overflow-y-auto">
                   {filteredStudents.map((student) => {
-                    const isEnrolled = enrolledStudents.find(
-                      (s) => s._id === student._id
+                    const isEnrolled = course.studentIds.some(
+                      (enrolled) => enrolled._id === student._id
                     );
                     return (
                       <div
