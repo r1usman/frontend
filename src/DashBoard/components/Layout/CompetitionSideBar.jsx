@@ -4,12 +4,14 @@ import { UserContext } from '../../../GlobalContext/UserContext.jsx';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { FaUser } from "react-icons/fa";
 import Modal from '../../../CodeCompetition/Layouts/Modal.jsx';
+import { LogOut } from 'lucide-react';
 
 
 const SideBar = () => {
 const [SelectData, setSelectData] = useState([]);
 const { User, clearUser } = useContext(UserContext);
 const [ConfirmLogout, setConfirmLogout] = useState(false)
+
 
 useEffect(() => {
     if (User.status === "Student") {
@@ -29,6 +31,7 @@ const handleLogout = () => {
 
 const handleConfirmation = ()=>{
     setConfirmLogout(true);
+    
 }
 
 return (
@@ -86,20 +89,31 @@ return (
         <Modal
             onClose={()=>setConfirmLogout((prev)=>!prev)}
             isOpen = {ConfirmLogout}
-            type={"Banner"}
+            type={"small"}
             title={"LogOut"}
         >
-            <div className="flex flex-col justify-center text-center  h-full">
-                <p className="mb-6 text-gray-700">
-                Are you sure you want to log out?
-                </p>
-                <div className="flex justify-center gap-4">
-                <button
-                    onClick={handleLogout}
-                    className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
-                >
-                    Log Out
-                </button>
+              <div className=''>
+                <div className="font-urbanist text-black px-6 space-y-5">
+                    <div className='space-y-3'>
+                    <div className='flex items-center gap-3 mt-2'>
+                        <LogOut className='size-6 text-red-500' />
+                        <h3 className="text-lg font-semibold text-black">Confirm Logout</h3>
+                    </div>
+                    <p className="text-md text-center">
+                        Are you sure you want to <span className="font-semibold text-red-600">log out</span>?
+                    </p>
+                    <p className="text-xs text-slate-700 mt-[5px]">
+                        You’ll need to log in again to access your account.
+                    </p>
+                    </div>
+                    <div className="flex w-full  items-center justify-center gap-4">
+                        <button
+                            onClick={handleLogout}
+                            className="w-full bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
+                        >
+                            Yes, Log Out
+                        </button>
+                    </div>
                 </div>
             </div>
         </Modal>

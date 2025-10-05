@@ -4,13 +4,15 @@ import LanguageSelector from './LanguageSelector';
 import OutputSection from './OutputSection';
 import InputSection from './InputSection';
 import { runCode } from '../utils/codeExecution';
-import { Check, Play, Info, RefreshCw } from 'lucide-react';
+import { Check, Play, Info, RefreshCw, LogOut, Upload } from 'lucide-react';
 import { toast } from 'react-toastify';
 import RenderFrom from '../../Instructor/RenderForm/RenderFrom';
-import AxiosInstance from "../../../Utility/AxiosInstance"
-import { API_PATHS } from '../../../Utility/API_Path';
+import AxiosInstance from "../../../../Utility/AxiosInstances"
+import { API_PATH} from '../../../../Utility/ApiPath';
 import {useNavigate} from 'react-router-dom'
-import { boilerplates } from '../../../Utility/BoilerPlate';
+import { boilerplates } from '../../../../Utility/BoilerPlate';
+import Modal from '../../../Layouts/Modal';
+
 
 
 const OnlineCompiler = ({CompetitonDetail , ActualSubmissionData}) => { 
@@ -26,10 +28,10 @@ const OnlineCompiler = ({CompetitonDetail , ActualSubmissionData}) => {
         }`);
   const [output, setOutput] = useState('');
   const [input, setInput] = useState('');
-  const [languageId, setLanguageId] = useState(63); // Default to C++
+  const [languageId, setLanguageId] = useState(63);
   const [languageLabel, setLanguageLabel] = useState("C++");
   const [isRunning, setIsRunning] = useState(false);
-  const [status, setStatus] = useState('idle'); // 'idle' | 'running' | 'success' | 'error'
+  const [status, setStatus] = useState('idle'); 
   const [timeLeft, setTimeLeft] = useState(null);
   const [cheatCount, setCheatCount] = useState(0);
   const [isSubmitting, setisSubmitting] = useState(false)
@@ -39,10 +41,10 @@ const OnlineCompiler = ({CompetitonDetail , ActualSubmissionData}) => {
   const [SubmissionForm, setSubmissionForm] = useState({})
   
   
-  
+  const [ConfirmSubmission, setConfirmSubmission] = useState(false)
 
   console.log("CompetitonDetail",CompetitonDetail);
-  // console.log("Submission", ActualSubmissionData);
+
 
   useEffect(()=>{
     if(ActualSubmissionData)
@@ -80,10 +82,11 @@ console.log("SubmissionForm",SubmissionForm);
 const handleSubmit = async()=>{
   try {
     setisSubmitting(true)
-    const response = await AxiosInstance.put(API_PATHS.CODE.UPDATE(SubmissionForm?._id) , SubmissionForm);
+    setConfirmSubmission(false)
+    const response = await AxiosInstance.put(API_PATH.CODE.UPDATE(SubmissionForm?._id) , SubmissionForm);
     if(response)
     {
-      navigator("/Student/Dashboard")
+      navigator("/Student/Competition/Dashboard")
       toast.success("Submission Successfully");
     }
 
@@ -200,8 +203,9 @@ useEffect(() => {
 }, [SubmissionForm]);
 
 
-
-
+const handleConfirmation = ()=>{
+  setConfirmSubmission(true)
+}
 // useEffect(() => {
 //   const handleVisibilityChange = () => {
 //     if (document.visibilityState === "hidden") {
@@ -218,19 +222,19 @@ useEffect(() => {
 //   };
 // }, []);
 
-useEffect(() => {
-  const handleBeforeUnload = (event) => {
-    event.preventDefault();
-    alert("Are you sure you want to leave? Your progress will be lost.")
+// useEffect(() => {
+//   const handleBeforeUnload = (event) => {
+//     event.preventDefault();
+//     alert("Are you sure you want to leave? Your progress will be lost.")
 
-  };
+//   };
 
-  window.addEventListener("beforeunload", handleBeforeUnload);
+//   window.addEventListener("beforeunload", handleBeforeUnload);
 
-  return () => {
-    window.removeEventListener("beforeunload", handleBeforeUnload);
-  };
-}, []);
+//   return () => {
+//     window.removeEventListener("beforeunload", handleBeforeUnload);
+//   };
+// }, []);
 
 useEffect(() => {
   if (CompetitonDetail?.duration) {
@@ -260,7 +264,7 @@ useEffect(() => {
   return (
     <>
       <div className="font-urbanist grid grid-cols-1 md:grid-cols-2 gap-2 px-3">
-        {/* Left Sider Column */}
+        
         <div className="col-span-1">
           <div className="flex items-center justify-between gap-5 bg-white rounded-lg border border-purple-100 py-3 px-4 mb-4 mt-4">
             <LanguageSelector 
@@ -303,8 +307,6 @@ useEffect(() => {
             />
           </div>
         </div>
-
-        {/* Right Side Column */}
          <div className="col-span-1 bg-white ">
               
               {/* Header */}
@@ -316,7 +318,7 @@ useEffect(() => {
                   <button className="btn-small-light  ">
                     <span className=' min-w-10'>{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</span> Remaining 
                   </button>
-                  <button className='btn-small' onClick={handleSubmit} >
+                  <button className='btn-small' onClick={handleConfirmation} >
                     {isSubmitting ? "Submitting...": "Submit"}
                   </button>
                 </div>
@@ -333,6 +335,45 @@ useEffect(() => {
           <div className='col-span-1'><InputSection input={input} setInput={setInput} /></div>
           <div className='col-span-1'><OutputSection output={output} status={status} /></div>
         </div>
+      <Modal
+  onClose={() => setConfirmSubmission((prev) => !prev)}
+  isOpen={ConfirmSubmission}
+  type={"small"}
+  title={"Submit Solution"}
+>
+  <div>
+    <div className="font-urbanist text-black px-6 space-y-5">
+      <div className="space-y-3">
+        <div className="flex items-center gap-3 mt-2">
+     
+          <Upload className="size-6 text-yellow-500" /> 
+          <h3 className="text-lg font-semibold text-black">
+            Confirm Submission
+          </h3>
+        </div>
+        <p className="text-md text-center">
+          Are you sure you want to{" "}
+          <span className="font-semibold text-yellow-600">submit</span> your
+          solution?
+        </p>
+        <p className="text-xs text-slate-700 mt-[5px]">
+          Once submitted, you may not be able to edit or resubmit before the
+          competition ends.
+        </p>
+      </div>
+
+      <div className="flex w-full items-center justify-center gap-4">
+        <button
+          onClick={handleSubmit}
+          className="w-full bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition"
+        >
+          Yes, Submit
+        </button>
+      </div>
+    </div>
+  </div>
+</Modal>
+
     </>
   );
 };

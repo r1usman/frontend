@@ -418,14 +418,14 @@ const updateBaseWidth = () => {
   };
 }, [ChallengeID , Buffer]);
 
-// useEffect(() => {
-//     setBuffer(true);
-//     const timer = setTimeout(() => {
-//         setBuffer(false);
-//     }, 3000);
+useEffect(() => {
+    setBuffer(true);
+    const timer = setTimeout(() => {
+        setBuffer(false);
+    }, 3000);
 
-//     return () => clearTimeout(timer);
-// }, [ChallengeID]);
+    return () => clearTimeout(timer);   
+}, [ChallengeID]);
 
     if (Buffer) {
         return <Spinner message={"Preparing your challenge..."}/>

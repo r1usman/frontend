@@ -1,8 +1,8 @@
 import { Ban } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import Banner from './Banner/Banner'
-import AxiosInstance from "../../Utility/AxiosInstance"
-import { API_PATHS } from '../../Utility/API_Path'
+import AxiosInstance from "../../../Utility/AxiosInstances.js"
+import { API_PATH } from '../../../Utility/ApiPath.js'
 import ChallengeCard from '../../Components/Cards/User/ChallengeCard '
 import Model from "../../Layouts/Modal.jsx"
 import { data, useNavigate } from 'react-router-dom'
@@ -12,10 +12,11 @@ const Dashboard = () => {
   const [Data, setData] = useState([]);
   const [ConfirmId, setConfirmId] = useState("")
   const [Confirmation, setConfirmation] = useState(false)
+   const [hasConfirmed, setHasConfirmed] = useState(false)
 
   const fetchAllResumes = async () => {
     try {
-      const response = await AxiosInstance.get(API_PATHS.CHALLENGE.GET_PUBLIC_CHALLENGE); 
+      const response = await AxiosInstance.get(API_PATH.CHALLENGE.GET_PUBLIC_CHALLENGE); 
       setData(response.data);
     } catch (error) {
       console.error("Error fetching resumes:", error);
@@ -35,9 +36,6 @@ const Dashboard = () => {
   return (
     <div className=' px-4'>
       <Banner/>
-      {/* {
-        JSON.stringify(Data)
-      } */}
       <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mt-4'>
         {
           Data.map((item)=>{
@@ -52,6 +50,7 @@ const Dashboard = () => {
                 status ={item.duration}
                 dueDate = {item.dueDate || ""}
                 onselect={(ID)=>ConfirmID(ID)}
+                blurContent={!hasConfirmed}
               
             />
           )

@@ -29,7 +29,7 @@ const LanguageSelector = ({ selectedLanguageId, onLanguageChange , updateSection
       </button>
 
       {isOpen && (
-        <div className="absolute z-10 mt-1 w-full bg-white text-gray-900 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 ">
+        <div className="absolute z-10 mt-1 border border-gray-200 w-full bg-white text-gray-900 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 ">
           <ul className="py-1">
             {languages.map((language) => (
               <li

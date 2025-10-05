@@ -14,21 +14,30 @@ import DisplayQuestion from '../../Students/Components/DisplayQuestion';
 import { FaComment, FaCommentAlt } from 'react-icons/fa';
 import TitleInput from '../../../Components/Inputs/TitleInput';
 import Ask from "../../../../assests/Ask.svg"
+import RenderFrom from './RenderSubmission';
+import html2pdf from "html2pdf.js"; 
 
 const EvaluationPage = () => {
     const location = useLocation();
     const navigator = useNavigate();
+    const AssingementRef = useRef(null);
 
-    const { AssingmentTitle } = location.state || {};
+    const { AssingmentTitle , AssingmentDetail} = location.state || {};
+
+    console.log("AssingmentDetail",AssingmentDetail);
+    
 
     const {SubmissionID } = useParams();
     const {User} = useContext(UserContext)
+
 
     
     const [currentIndex, setCurrentIndex] = useState(0);
     const [errorMsg, seterrorMsg] = useState("")
     const [isLoading, setisLoading] = useState(false)
-
+    const [openPreviewModal, setOpenPreviewModal] = useState(false);
+    const [baseWidth, setBaseWidth] = useState(600);
+    
 
 
     const [aiMessages, setAiMessages] = useState([]);
@@ -37,6 +46,7 @@ const EvaluationPage = () => {
 
     const [showQuestionSuggestions, setShowQuestionSuggestions] = useState(false);
     const [filteredQuestions, setFilteredQuestions] = useState([]);
+
     const [mentionQuery, setMentionQuery] = useState("");
 
     
@@ -217,6 +227,21 @@ const handleInputChange = (e) => {
 };
 
 
+const Hello = () => {
+  if (!AssingementRef.current) return;
+
+  const element = AssingementRef.current; 
+  const opt = {
+    margin:       [10, 10, 10, 10],     // top, left, bottom, right in px
+    filename:     `${AssingmentTitle || "Assignment"}.pdf`,
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2 },         // higher = sharper
+    jsPDF:        { unit: 'pt', format: 'a4', orientation: 'portrait' }
+  };
+
+  html2pdf().set(opt).from(element).save();
+};
+
 
 
     return (
@@ -237,7 +262,7 @@ const handleInputChange = (e) => {
 
                 <button
                 className="btn-small-light "
-                // onClick={() => setOpenPreviewModal(true)}
+                onClick={() => setOpenPreviewModal(true)}
                 >
                 <LuDownload className="text-[16px]" />
                 <span className="hidden md:block ">Preview & Download</span>
@@ -255,6 +280,7 @@ const handleInputChange = (e) => {
                     <div className='row-span-3'>
                         {PartialSubmission.Questions.length > 0 && (
                             <DisplayQuestion
+                                mode={"Evaluation"}
                                 item={PartialSubmission.Questions[currentIndex]}
                                 index = {currentIndex}
                                 updateArrayItemInstructor = {updateArrayItemInstructor}
@@ -404,38 +430,72 @@ const handleInputChange = (e) => {
                     </button>
 
                     {showQuestionSuggestions && (
-                        <div className="absolute bottom-[50px] left-3 bg-white border border-gray-300 rounded-md shadow-lg z-50 max-h-40 overflow-y-auto w-[calc(100%-2rem)]">
-                            <div>Cloxe</div>
-                            {filteredQuestions.map((q, idx) => (
-                                <div
-                                    key={idx}
-                                    className="p-2 hover:bg-purple-100 cursor-pointer"
-                                    onClick={() => {
-                                        
-                                        const atIndex = aiInput.lastIndexOf("@");
-                                        const newValue =
-                                            aiInput.slice(0, atIndex) + q + " ";
-                                        setAiInput(newValue);
-                                        setShowQuestionSuggestions(false);
-                                    }}
-                                >
-                                    {q}
-                                </div>
-                            ))}
+                    <div className="absolute bottom-[50px] left-3 bg-white border border-gray-300 rounded-md shadow-lg z-50 max-h-40 overflow-y-auto w-[calc(100%-2rem)]">
+                        <div className="flex justify-between items-center px-2 py-1 border-b border-gray-200">
+                        <span className="font-medium text-gray-600">Suggestions</span>
+                        <button
+                            className="text-xs text-gray-500 hover:text-gray-700"
+                            onClick={() => setShowQuestionSuggestions(false)}
+                        >
+                            ✕ Close
+                        </button>
                         </div>
+
+                        {filteredQuestions.length === 0 ? (
+                        <div className="p-2 text-gray-500 text-sm italic">
+                            No suggestions found
+                        </div>
+                        ) : (
+                        filteredQuestions.map((q, idx) => (
+                            <div
+                            key={idx}
+                            role="button"
+                            tabIndex={0}
+                            className="p-2 hover:bg-purple-100 cursor-pointer text-sm"
+                            onClick={() => {
+                                const atIndex = aiInput.lastIndexOf("@");
+                                const newValue = aiInput.slice(0, atIndex) + q + " ";
+                                setAiInput(newValue);
+                                setShowQuestionSuggestions(false);
+                            }}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                const atIndex = aiInput.lastIndexOf("@");
+                                const newValue = aiInput.slice(0, atIndex) + q + " ";
+                                setAiInput(newValue);
+                                setShowQuestionSuggestions(false);
+                                }
+                            }}
+                            >
+                            {q}
+                            </div>
+                        ))
+                        )}
+                    </div>
                     )}
-
-
                 </div>
-                
-
             </div>
 
         </div>
         <Modal
-           
-        >
-        </Modal>
+            isOpen={openPreviewModal}
+            onClose={() => setOpenPreviewModal(false)}
+            title={AssingmentDetail.title}
+            showActionBtn
+            actionBtnText="Download"
+            actionBtnIcon={<LuDownload className="text-[16px]" />}
+            type={"Print"}
+            onActionClick ={Hello}
+            >
+            <div ref={AssingementRef}  className="w-[98vw] h-[90vh]" >
+                <RenderFrom
+                    AssingmentDetail={AssingmentDetail}
+                    data = {PartialSubmission}
+                    containerWidth = {baseWidth}
+                    status={"Medium"}
+                />
+        </div>
+    </Modal>
     </div>
     
     )

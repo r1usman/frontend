@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import AxiosInstance from '../../Utility/AxiosInstance'
-import { API_PATHS } from '../../Utility/API_Path'
+import AxiosInstance from '../../../Utility/AxiosInstances'
+import { API_PATH } from '../../../Utility/ApiPath'
 import { Trophy, TrophyIcon } from 'lucide-react'
 import LeaderBoardHeader from './Components/LeaderBoardHeader'
 import ChallengeCard from '../../Components/Cards/User/ChallengeCard '
 import ListPerformerHeader from './Components/ListPerformerHeader'
 import ListofPerformer from './Components/ListofPerformer'
 import Spinner from "../../Components/Spinner/Spinner"
-const Leaderboard = () => {
+const   Leaderboard = () => {
   const [TopPerformers, setTopPerformers] = useState([])
   const [LeaderBoardData, setLeaderBoardData] = useState([])
   const [TopPerformerOfChallenge, setTopPerformerOfChallenge] = useState([])
@@ -19,7 +19,7 @@ const Leaderboard = () => {
   
   const FetchTopPerformer = async()=>{
     try {
-      const response = await AxiosInstance.get(API_PATHS.CODE.GET_TOP_PERFORMER);
+      const response = await AxiosInstance.get(API_PATH.CODE.GET_TOP_PERFORMER);
       if(response.data)
       {
         setTopPerformers(response.data)
@@ -34,7 +34,7 @@ const Leaderboard = () => {
   const FetchTopPerformerOfSpecificChallenge = async()=>{
     try {
         setisLoading(true)
-        const response = await AxiosInstance.get(API_PATHS.CODE.GET_CHALLENGE_PERFORMER(display));
+        const response = await AxiosInstance.get(API_PATH.CODE.GET_CHALLENGE_PERFORMER(display));
         if(response.data)
         {
           setTopPerformerOfChallenge(response.data);
@@ -59,7 +59,7 @@ const Leaderboard = () => {
   }
   const FetchCompletedChallenges = async()=>{
     try {
-      const result = await AxiosInstance.get(API_PATHS.CHALLENGE.GET_LEADERBOARD);
+      const result = await AxiosInstance.get(API_PATH.CHALLENGE.GET_LEADERBOARD);
       if(result.data)
       {
         setLeaderBoardData(result.data)
@@ -88,7 +88,7 @@ const Leaderboard = () => {
                   <ChallengeCard
                       tag={"Leaderboard"}
                       ID={item._id}
-                      title = {item.title}
+                      title = {item.title}  
                       description = {item.description}
                       priority= {item.difficulty}  
                       startTime={item.startTime}

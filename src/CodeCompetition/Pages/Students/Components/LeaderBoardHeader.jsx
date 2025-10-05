@@ -25,7 +25,7 @@ const LeaderBoardHeader = ({TopPerformers}) => {
           <p className='text-xs'>Where the Best Rise to the Top</p>
         </div>
 
-        <div className='col-span-1   mr-3'>
+        <div className='col-span-1  min-h-40  mr-3'>
           {
             TopPerformers.map((item, index) => (
             <div 

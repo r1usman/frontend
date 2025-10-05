@@ -62,21 +62,27 @@ export const SIDE_MENU_DATA = [
 export const SIDE_MENU_DATA_User = [
     {
         id: "01",
+        label: "Home",
+        icon: LuHouse,
+        path: "/Student/Dashboard",
+    },
+    {
+        id: "01",
         label: "Dashboard",
         icon: LuLayoutDashboard,
-        path: "/Student/Dashboard",
+        path: "/Student/Competition/Dashboard",
     },
     {
         id: "02",
         label: "My Performance",
         icon: LuClipboardCheck,
-        path: "/Student/Performance",
+        path: "/Student/Competition/Performance",
     },
     {
         id: "03",
         label: "LeaderBoard ",
         icon: LucideBarChart2,
-        path: "/Student/Leaderboard",
+        path: "/Student/Competition/Leaderboard",
     },
     {
         id: "03",

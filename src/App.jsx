@@ -9,6 +9,7 @@ import LandingPage from "./LandingPage2.0/LandingPage.jsx";
 // Main App.js (entry point for the app)
 import PythonCourse from "./DefaultCourses/Python/App.jsx";
 import "./index.css"; // Your global CSS
+import { ToastContainer } from 'react-toastify' 
 
 // Competition wrapper handles everything under /Mod/*
 import CompetitionWrapper from "./Competition/CompetitionWrapper.jsx";
@@ -48,12 +49,16 @@ import CreateChallenge from "./CodeCompetition/Pages/Instructor/CreateChallenge.
 import ManagaCometition from "./CodeCompetition/Pages/Instructor/ManagaCometition.jsx"
 import EditChallenge from "./CodeCompetition/Pages/Instructor/EditChallenge.jsx"
 import NoFound from "./Collaboration/Components/NotFound/NotFound.jsx";
-// import Leaderboard from "./CodeCompetition/Pages/Instructor/Form/"
+import StudentDashboard from "./CodeCompetition/Pages/Students/Dashboard.jsx"
+import MyPerformanceStudent from "./CodeCompetition/Pages/Students/MyPerformance.jsx"
+import CodeingEnvironment from "./CodeCompetition/Pages/Students/CodeingEnvironment.jsx"
+import Leaderboard from "./CodeCompetition/Pages/Students/Leaderboard.jsx"
 
 function App() {
   // const { role } = useContext(UserContext);
   return (
-    <BrowserRouter>
+    <>
+      <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/Login" element={<Login />} />
@@ -144,11 +149,26 @@ function App() {
             <Route path='Dashboard' element={<Dashboard/>}/>
             <Route path='Create' element={<CreateChallenge/>}/>
             <Route path='Manage' element={<ManagaCometition/>}/>
-            {/* <Route path='Leaderboard' element={<Leaderboard/>}/> */}
+            <Route path='Leaderboard' element={<Leaderboard/>}/>
           </Route>
           <Route path='/Instructor/Challenge/:ChallengeID' element={
               <EditChallenge/>
             }/>
+
+        <Route path='/Student/Competition' 
+                element={
+                  <Protected allowed={['Student']}>
+                    <CompeteLayout/>
+                  </Protected>
+                }
+                >
+                <Route path='Dashboard' element={<StudentDashboard/>}/>
+                <Route path='Performance' element={<MyPerformanceStudent/>}/>
+                <Route path='Leaderboard' element={<Leaderboard/>}/>
+              </Route>
+              <Route path='/Student/Editor/:ChallengeID' element={
+                  <CodeingEnvironment/>
+                }/>
 
         {/* endCompet */}
 
@@ -197,10 +217,17 @@ function App() {
 
           <Route path="problemset" element={<ProblemsetPage />} />
           <Route path="problemset/:id" element={<ProblemPage />} />
-
-           <Route path="*" element={<NoFound />} />
+{/* 
+           <Route path="*" element={<NoFound />} /> */}
         </Routes>
+        
       </BrowserRouter>
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          className={"mt-20 mr-7 "}
+        />
+    </>
   );
 }
 

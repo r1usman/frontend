@@ -3,9 +3,9 @@ import OnlineCompiler from './Components/OnlineCompiler';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useParams } from 'react-router-dom';
-import AxiosInstance from '../../Utility/AxiosInstance';
-import { API_PATHS } from '../../Utility/API_Path';
-
+import AxiosInstance from '../../../Utility/AxiosInstances';
+import { API_PATH } from '../../../Utility/ApiPath';
+ 
 const CodeingEnvironment = () => {
   const {ChallengeID} = useParams();
   const [CompetitonDetail, setCompetitonDetail] = useState({})
@@ -14,7 +14,7 @@ const CodeingEnvironment = () => {
   
   const fetchCompetitonDetail = async()=>{
     try {
-      const response = await AxiosInstance.get(API_PATHS.CHALLENGE.GET_BY_ID(ChallengeID));
+      const response = await AxiosInstance.get(API_PATH.CHALLENGE.GET_BY_ID(ChallengeID));
       if(response.data)
       {
         setCompetitonDetail(response.data);
@@ -26,7 +26,7 @@ const CodeingEnvironment = () => {
 
   const CreatSubmission = async()=>{
   try {
-    const response = await AxiosInstance.post(API_PATHS.CODE.CREATE , {ChallengeID : ChallengeID})
+    const response = await AxiosInstance.post(API_PATH.CODE.CREATE , {ChallengeID : ChallengeID})
     if(response.data)
         setActualSubmission(response.data)
   } catch (error) {

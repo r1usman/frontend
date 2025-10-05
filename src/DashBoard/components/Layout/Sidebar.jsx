@@ -73,17 +73,18 @@ export const Sidebar = () => {
       tooltip: "See your tasks",
     },
     {
+      label: "Competition",
+      icon: <Trophy size={18} />,
+      path: "/Student/Competition/Dashboard",
+      tooltip: "See your tasks",
+    },
+    {
       label: "Messages",
       icon: <MessageSquare size={18} />,
       path: "/messages",
       tooltip: "Read messages",
     },
-    {
-      label: "Settings",
-      icon: <Settings size={18} />,
-      path: "/settings",
-      tooltip: "Account settings",
-    },
+  
   ];
 
   const handleLogout = () => {
@@ -156,7 +157,7 @@ export const Sidebar = () => {
               You’ll need to log in again to access your account.
             </p>
           </div>
-          <div className="flex w-full border items-center justify-center gap-4">
+          <div className="flex w-full  items-center justify-center gap-4">
             <button
               onClick={handleLogout}
               className="w-full bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
