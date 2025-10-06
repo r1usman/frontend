@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Input from '../../../Components/input'
+import Input from '../../../Components/Input'
 import { LuPlus, LuTrash2 } from 'react-icons/lu'
 import { formatYearMonth } from '../../../../Utility/Helper'
 import moment from 'moment'

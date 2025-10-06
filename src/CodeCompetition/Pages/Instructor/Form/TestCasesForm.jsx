@@ -1,5 +1,5 @@
 import React from 'react'
-import Input from '../../../Components/input'
+import Input from '../../../Components/Input'
 import { LuPlus, LuTrash2 } from 'react-icons/lu'
 
 const TestCasesForm = ({testCases,updateArrayItem,AddItemInArray,removeArrayItem}) => {
