@@ -54,6 +54,10 @@ import MyPerformanceStudent from "./CodeCompetition/Pages/Students/MyPerformance
 import CodeingEnvironment from "./CodeCompetition/Pages/Students/CodeingEnvironment.jsx"
 import Leaderboard from "./CodeCompetition/Pages/Students/Leaderboard.jsx"
 
+import SubmissionsPage from './Submissions/SubmissionsPage';
+import SubmissionDetail from './Submissions/SubmissionDetail';
+
+
 function App() {
   // const { role } = useContext(UserContext);
   return(
@@ -191,6 +195,12 @@ function App() {
           {/* Problemset */}
           <Route path="problemset" element={<ProblemsetPage />} />
           <Route path="problemset/:id" element={<ProblemPage />} />
+
+          {/* In your Routes */}
+          <Route path="/singleProblems/submissions" element={<SubmissionsPage />} />
+          <Route path="/singleProblems/submissions/:id" element={<SubmissionDetail />} />
+          <Route path="/problems/:problemId/submissions" element={<SubmissionsPage />} />
+
 
           {/* Not Found */}
           <Route path="*" element={<NoFound />} />
