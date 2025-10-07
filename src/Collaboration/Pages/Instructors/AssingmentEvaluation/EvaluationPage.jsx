@@ -485,7 +485,7 @@ const Hello = () => {
             actionBtnText="Download"
             actionBtnIcon={<LuDownload className="text-[16px]" />}
             type={"Print"}
-            onActionClick ={Hello}
+            
             >
             <div ref={AssingementRef}  className="w-[98vw] h-[90vh]" >
                 <RenderFrom

@@ -47,7 +47,7 @@ const StudentsAssingments = () => {
                         title={Assingment?.title || "Untitled Resume"}
                         lastUpdated={
                         Assingment?.updatedAt
-                            ? moment(Assingment?.updatedAt).format("Do MMM YYYY")
+                            ? moment(Assingment?.updatedAt).format("Do MMM ")
                             : "Unknown"
                         }
                     />

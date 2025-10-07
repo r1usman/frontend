@@ -3,7 +3,7 @@ import AxiosInstance from '../../../Utility/AxiosInstances'
 import { API_PATH } from '../../../Utility/ApiPath'
 import { Trophy, TrophyIcon } from 'lucide-react'
 import LeaderBoardHeader from './Components/LeaderBoardHeader'
-import ChallengeCard from '../../Components/Cards/User/ChallengeCard '
+import ChallengeCard from '../../Components/Cards/User/ChallengeCard'
 import ListPerformerHeader from './Components/ListPerformerHeader'
 import ListofPerformer from './Components/ListofPerformer'
 import Spinner from "../../Components/Spinner/Spinner"

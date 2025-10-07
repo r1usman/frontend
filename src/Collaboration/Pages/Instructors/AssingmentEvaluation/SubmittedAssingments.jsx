@@ -28,7 +28,7 @@ const SubmittedAssingments = () => {
   return (
     <div className="min-h-screen px-4 md:px-0 pt-4">
       {Data?.length > 0 ? (
-        <div className="font-urbanist grid grid-cols-1 md:grid-cols-5 md:gap-4 pt-1 pb-6">
+        <div className="font-urbanist grid grid-cols-1 md:grid-cols-5 md:gap-3 pt-1 pb-6">
           {Data.map((Assingment) => (
             <AssinmentCard
               key={Assingment?._id}
@@ -38,7 +38,7 @@ const SubmittedAssingments = () => {
               title={Assingment?.title || "Untitled Resume"}
               lastUpdated={
                 Assingment?.dueDate
-                  ? moment(Assingment.dueDate).format("Do MMM YYYY")
+                  ? moment(Assingment.dueDate).format("Do MMM")
                   : "Unknown"
               }
               onselect={() =>

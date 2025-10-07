@@ -68,7 +68,7 @@ const ManagaCometition = () => {
             }
             
         </div>
-        <div className="font-urbanist grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-5 pt-1 pb-6 px-4 md:px-0  min-h-screen">
+        <div className="font-urbanist grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-3 pt-1 pb-6 px-4 md:px-0  min-h-screen">
             {AllChallenge?.map((Challenge , index) => (
             <div onClick={()=>handleChanges(Challenge._id , true)}>
                 <ChallengeCard
