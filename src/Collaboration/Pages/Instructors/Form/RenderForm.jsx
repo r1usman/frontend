@@ -58,11 +58,11 @@ const displayedTests = showAllTests
                 <div>
                     <Title text="Assignment Instructions" color={DEFAULT_THEME[1]} status={status}/>
                     <p className={` font-medium ${status ?"text-md":"text-sm"}`}>
-                        {data.description}
+                        {data?.description}
                     </p>
                 </div>
                 <div>
-                    {data.questions.map((item, index) => {
+                    {data?.questions?.map((item, index) => {
                         return (
                         <div key={item._id} className="flex flex-col my-4 p-4 border border-gray-200 rounded-md bg-white shadow-sm">
                            

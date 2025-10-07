@@ -51,22 +51,22 @@ const ChallengeHeader = ({data , DEFAULT_THEME}) => {
                                 <h1 className=" font-bold ">Code Ascend</h1>
                             </div>
                             <div className="flex items-center justify-between w-full ">
-                                <CustomTitle text={data.title} color={DEFAULT_THEME[1]} status={"Medium"} />
+                                <CustomTitle text={data?.title} color={DEFAULT_THEME[1]} status={"Medium"} />
                                 <p className="flex font-bold text-sm gap-2">
                                     <Title text={`Total Marks:`} color={DEFAULT_THEME[1]} />
-                                    {data.totalMarks}
+                                    {data?.totalMarks}
                                 </p>
                             </div>
                             <div className="flex gap-4 items-center justify-between  w-full">
                                 <p className="flex font-bold text-sm gap-2">
                                     <Title text={`Due Date: `} color={DEFAULT_THEME[1]} />
                                     {
-                                        formatYearMonth(data.dueDate)
+                                        formatYearMonth(data?.dueDate)
                                     }
                                 </p>
                                 <p className="flex font-bold text-sm gap-2">
                                     <Title text={`Difficulty: `} color={DEFAULT_THEME[1]} />  
-                                    {data.difficulty}
+                                    {data?.difficulty}
                                 </p>
                             </div>
                         </div>

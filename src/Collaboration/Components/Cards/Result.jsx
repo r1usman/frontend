@@ -13,6 +13,9 @@ const Result = ({
   setOpenPreviewModal,
 }) => {
   const [data, setData] = useState(null);
+  const [Instructor, setInstructor] = useState({})
+  console.log("Instructor",Instructor);
+  
 
   const FetchResultData = async () => {
     try {
@@ -25,9 +28,26 @@ const Result = ({
       console.error(error);
     }
   };
+  const FetchInstructor = async () => {
+    try {
+      const response = await AxiosInstance.get(API_PATH.ASSIGN.INSTRUCTOR(AssingmentDetail?.Instructor));
+      if (response.data) {
+        setInstructor(response.data)
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
+
 
   useEffect(() => {
     FetchResultData();
+    if(AssingmentDetail)
+    {
+      FetchInstructor();
+    }
   }, [AssingmentID]);
 
   if (!data) {
@@ -61,7 +81,7 @@ const Result = ({
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
             <p className="text-gray-500">Instructor</p>
-            <p className="font-medium text-gray-800">{AssingmentDetail?.Instructor}</p>
+            <p className="font-medium text-gray-800">{Instructor?.name}</p>
           </div>
           <div>
             <p className="text-gray-500">Due Date</p>

@@ -82,26 +82,29 @@ const   Leaderboard = () => {
     <div  className='relative font-urbanist min-h-screen  px-4 '>
       <LeaderBoardHeader TopPerformers={TopPerformers} />
       <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mt-4'>
-              {
-                LeaderBoardData.map((item)=>{
-                return ( 
-                  <ChallengeCard
-                      tag={"Leaderboard"}
-                      ID={item._id}
-                      title = {item.title}  
-                      description = {item.description}
-                      priority= {item.difficulty}  
-                      startTime={item.startTime}
-                      endTime={item.endTime}
-                      status ={item.duration}
-                      dueDate = {item.dueDate || ""}
-                      onselect={(ID)=>ConfirmID(ID)}
-                    
-                  />
-                )
-                })
-              }
-      </div>
+  {LeaderBoardData.length > 0
+    ? LeaderBoardData.map((item) => (
+        <ChallengeCard
+          type={"Dashboard"}
+          key={item._id}
+          tag={"Leaderboard"}
+          ID={item._id}
+          title={item.title}
+          description={item.description}
+          priority={item.difficulty}
+          startTime={item.startTime}
+          endTime={item.endTime}
+          status={item.duration}
+          dueDate={item.dueDate || ""}
+          onselect={(ID) => ConfirmID(ID)}
+        />
+      ))
+    : 
+      Array.from({ length: 6 }).map((_, idx) => (
+        <ChallengeCard key={idx} blurContent={true} />
+      ))}
+</div>
+
       <div   className={`min-h-screen border rounded-md bg-slate-50 px-5 py-5 absolute w-1/2 top-0 right-0 transform transition-transform duration-500 ease-in-out ${display ? "translate-x-0":"-right-32 translate-x-full"}`}>
             {
               isLoading ? <Spinner/>

@@ -25,8 +25,11 @@ const EditAssingments = () => {
     const [baseWidth, setBaseWidth] = useState(600);
     const [Buffer, setBuffer] = useState(false)
     const [progress, setprogress] = useState(0)
+    const [openPreviewModal, setOpenPreviewModal] = useState(false);
+    const AssingementRef = useRef(null);
     const [DefaultInfo, setDefaultInfo] = useState({
         title : "",
+
         description : "",
         dueDate : "",
         totalMarks : "",
@@ -487,7 +490,7 @@ const RenderForm = () => {
 
             <button
             className="btn-small-light "
-            // onClick={() => setOpenPreviewModal(true)}
+            onClick={() => setOpenPreviewModal(true)}
             >
             <LuDownload className="text-[16px]" />
             <span className="hidden md:block ">Preview & Download</span>
@@ -681,6 +684,25 @@ const RenderForm = () => {
             />
 
         </Modal>
+         <Modal
+                    isOpen={openPreviewModal}
+                    onClose={() => setOpenPreviewModal(false)}
+                    title={DefaultInfo.title}
+                    showActionBtn
+                    actionBtnText="Download"
+                    actionBtnIcon={<LuDownload className="text-[16px]" />}
+                    type={"Print"}
+                    
+                    >
+                    <div ref={AssingementRef}  className="w-[98vw] h-[90vh]" >
+                        <RenderFrom
+                            AssingmentDetail={DefaultInfo}
+                            data = {DefaultInfo.data}
+                            containerWidth = {baseWidth}
+                            status={"Medium"}
+                        />
+                </div>
+            </Modal>
     </div>
 )
 
