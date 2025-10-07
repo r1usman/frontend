@@ -68,7 +68,7 @@ function Peer({ peer }) {
   // }, [peer.id, clearPeerEmotionHistory]);
 
   useEffect(() => {
-    const intervalId = setInterval(captureSnapshot, 5000);
+    const intervalId = setInterval(captureSnapshot, 4000);
     return () => {
       clearInterval(intervalId);
       console.log("Timer has been stopped. 🛑");

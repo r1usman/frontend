@@ -21,9 +21,22 @@ function determineExpressionFromArray(emotionArray) {
   const neutral = probabilities["Neutral"] || 0;
   const sadness = probabilities["Sadness"] || 0;
   const anger = probabilities["Anger"] || 0;
-  const difference = Math.abs(neutral - sadness);
+  const difference = sadness - neutral;
+  const difference1 = neutral - sadness;
 
   const topTwoLabels = emotionArray.slice(0, 2).map((item) => item.label);
+
+  // Log top two emotions and their probabilities
+  console.log("Top two emotions:", {
+    first: {
+      emotion: emotionArray[0]?.label,
+      probability: emotionArray[0]?.confidence,
+    },
+    second: {
+      emotion: emotionArray[1]?.label,
+      probability: emotionArray[1]?.confidence,
+    },
+  });
 
   if (topTwoLabels.includes("Happiness")) {
     return "engaged";
@@ -31,16 +44,16 @@ function determineExpressionFromArray(emotionArray) {
   if (topTwoLabels.includes("Anger") && topTwoLabels.includes("Neutral")) {
     return "engaged";
   }
+  if (topTwoLabels.includes("Anger") && topTwoLabels.includes("Disgust")) {
+    return "confused";
+  }
 
   if (neutral > 0.7) {
     return "engaged";
   }
   if (topTwoLabels.includes("Neutral") && topTwoLabels.includes("Sadness")) {
-    if (difference < 0.25) {
-      return "engaged";
-    } else {
-      return "bored";
-    }
+    if (neutral > sadness) return "engaged";
+    else return "bored";
   }
 
   if (topTwoLabels.includes("Sadness") && topTwoLabels.includes("Anger")) {
