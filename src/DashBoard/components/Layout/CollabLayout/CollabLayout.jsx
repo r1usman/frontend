@@ -1,7 +1,10 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import CollabSideBar from "../CollabSideBar";
+
 import { Header } from "../Header";
+import CollabSideBar from "../CollabSideBar";
+
+
 
 const CollabLayout = () => {
   return (

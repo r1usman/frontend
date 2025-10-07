@@ -8,6 +8,7 @@ import LandingPage from "./LandingPage2.0/LandingPage.jsx";
 // Main App.js (entry point for the app)
 import PythonCourse from "./DefaultCourses/Python/App.jsx";
 import "./index.css"; // Your global CSS
+import { ToastContainer } from "react-toastify";
 
 // Competition wrapper handles everything under /Mod/*
 import CompetitionWrapper from "./Competition/CompetitionWrapper.jsx";
@@ -38,143 +39,194 @@ import EditAssingment from "./Collaboration/Pages/Students/EditAssingment/EditAs
 import MyPerformance from "./Collaboration/Pages/Students/MyPerformance/MyPerformance.jsx";
 import ShowCourses from "./liveclass/pages/ShowCourses.jsx";
 
+// Code Competiton
+
+import CompeteLayout from "./DashBoard/components/Layout/CompeteLayout/CompeteLayout.jsx";
+import Dashboard from "./CodeCompetition/Pages/Instructor/Dashboard.jsx";
+import CreateChallenge from "./CodeCompetition/Pages/Instructor/CreateChallenge.jsx";
+import ManagaCometition from "./CodeCompetition/Pages/Instructor/ManagaCometition.jsx";
+import EditChallenge from "./CodeCompetition/Pages/Instructor/EditChallenge.jsx";
+import NoFound from "./Collaboration/Components/NotFound/NotFound.jsx";
+import StudentDashboard from "./CodeCompetition/Pages/Students/Dashboard.jsx";
+import MyPerformanceStudent from "./CodeCompetition/Pages/Students/MyPerformance.jsx";
+import CodeingEnvironment from "./CodeCompetition/Pages/Students/CodeingEnvironment.jsx";
+import Leaderboard from "./CodeCompetition/Pages/Students/Leaderboard.jsx";
+
+import SubmissionsPage from "./Submissions/SubmissionsPage";
+import SubmissionDetail from "./Submissions/SubmissionDetail";
+
 function App() {
+  // const { role } = useContext(UserContext);
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/instructor/live" element={<LiveClass />} />
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/Signup" element={<Signup />} />
-        <Route path="/ForgetPassword" element={<ForgetPassword />} />
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/Signup" element={<Signup />} />
+          <Route path="/ForgetPassword" element={<ForgetPassword />} />
 
-        {/* main app */}
-        <Route
-          path="/Student"
-          element={
-            <Protected allowed={["Student"]}>
-              <DefaultLayout />
-            </Protected>
-          }
-        >
-          <Route path="Dashboard" element={<UserDashboard />} />
-          <Route path="courses/:studentId" element={<UserDashboard />} />
-        </Route>
+          {/* Student */}
+          <Route
+            path="/Student"
+            element={
+              <Protected allowed={["Student"]}>
+                <DefaultLayout />
+              </Protected>
+            }
+          >
+            <Route path="Dashboard" element={<UserDashboard />} />
+            <Route path="courses/:studentId" element={<UserDashboard />} />
+          </Route>
 
-        {/* main app */}
-        <Route
-          path="/Instructor"
-          element={
-            <Protected allowed={["Instructor"]}>
-              <DefaultLayout />
-            </Protected>
-          }
-        >
-          <Route path="Dashboard" element={<AdminDashboard />} />
-          <Route path="courses" element={<ShowCourses />} />
-          <Route path="course/:id" element={<CourseDetail />} />
-        </Route>
+          {/* main app */}
+          <Route
+            path="/Instructor"
+            element={
+              <Protected allowed={["Instructor"]}>
+                <DefaultLayout />
+              </Protected>
+            }
+          >
+            <Route path="Dashboard" element={<AdminDashboard />} />
+            <Route path="courses" element={<ShowCourses />} />
+            <Route path="course/:id" element={<CourseDetail />} />
+          </Route>
 
-        {/* collab  */}
-        <Route
-          path="/Instructor/Assingment"
-          element={
-            <Protected allowed={["Instructor"]}>
-              <CollabLayout />
-            </Protected>
-          }
-        >
-          <Route index element={<Navigate to="Dashboard" />} />
-          <Route path="Dashboard" element={<Dashboard_Instructor />} />
-          <Route path="CreateAssingment" element={<CreateAssingment />} />
-          <Route path="Evaluation" element={<Evaluation />} />
-          <Route path="Evaluation/:id" element={<StudentsAssingments />} />
-        </Route>
+          {/* Collaboration instructor */}
+          <Route
+            path="/Instructor/Assingment"
+            element={
+              <Protected allowed={["Instructor"]}>
+                <CollabLayout />
+              </Protected>
+            }
+          >
+            <Route index element={<Navigate to="Dashboard" />} />
+            <Route path="Dashboard" element={<Dashboard_Instructor />} />
+            <Route path="CreateAssingment" element={<CreateAssingment />} />
+            <Route path="Evaluation" element={<Evaluation />} />
+            <Route path="Evaluation/:id" element={<StudentsAssingments />} />
+          </Route>
 
-        <Route
-          path="/EditAssingments/:AssingmentId"
-          element={
-            <Protected allowed={["Instructor"]}>
-              <EditAssingments />
-            </Protected>
-          }
-        ></Route>
+          <Route
+            path="/EditAssingments/:AssingmentId"
+            element={
+              <Protected allowed={["Instructor"]}>
+                <EditAssingments />
+              </Protected>
+            }
+          />
+          <Route
+            path="/EvaluationPanel/:SubmissionID"
+            element={
+              <Protected allowed={["Instructor"]}>
+                <EvaluationPage />
+              </Protected>
+            }
+          />
 
-        <Route
-          path="/EvaluationPanel/:SubmissionID"
-          element={
-            <Protected allowed={["Instructor"]}>
-              <EvaluationPage />
-            </Protected>
-          }
-        ></Route>
+          {/* Collaboration student */}
+          <Route
+            path="/Student/Assingment"
+            element={
+              <Protected allowed={["Student"]}>
+                <CollabLayout />
+              </Protected>
+            }
+          >
+            <Route index element={<Navigate to="Dashboard" />} />
+            <Route path="Dashboard" element={<Dashboard_Student />} />
+            <Route path="Performance" element={<MyPerformance />} />
+          </Route>
+          <Route
+            path="/CollaborationPannel/:AssingmentId"
+            element={
+              <Protected allowed={["Student"]}>
+                <EditAssingment />
+              </Protected>
+            }
+          />
 
-        <Route
-          path="/Student/Assingment"
-          element={
-            <Protected allowed={["Student"]}>
-              <CollabLayout />
-            </Protected>
-          }
-        >
-          <Route index element={<Navigate to="Dashboard" />} />
-          <Route path="Dashboard" element={<Dashboard_Student />} />
-          <Route path="Performance" element={<MyPerformance />} />
-        </Route>
-        <Route
-          path="/CollaborationPannel/:AssingmentId"
-          element={
-            <Protected allowed={["Student"]}>
-              <EditAssingment />
-            </Protected>
-          }
-        ></Route>
+          {/* Competitions */}
+          <Route
+            path="/Instructor/Competition"
+            element={
+              <Protected allowed={["Instructor"]}>
+                <CompeteLayout />
+              </Protected>
+            }
+          >
+            <Route index element={<Navigate to="Dashboard" />} />
+            <Route path="Dashboard" element={<Dashboard />} />
+            <Route path="Create" element={<CreateChallenge />} />
+            <Route path="Manage" element={<ManagaCometition />} />
+            <Route path="Leaderboard" element={<Leaderboard />} />
+          </Route>
+          <Route
+            path="/Instructor/Challenge/:ChallengeID"
+            element={<EditChallenge />}
+          />
 
-        {/* end collab */}
+          <Route
+            path="/Student/Competition"
+            element={
+              <Protected allowed={["Student"]}>
+                <CompeteLayout />
+              </Protected>
+            }
+          >
+            <Route path="Dashboard" element={<StudentDashboard />} />
+            <Route path="Performance" element={<MyPerformanceStudent />} />
+            <Route path="Leaderboard" element={<Leaderboard />} />
+          </Route>
+          <Route
+            path="/Student/Editor/:ChallengeID"
+            element={<CodeingEnvironment />}
+          />
 
-        {/* <Route
-          path="/student"
-          element={
-            <Protected allowed={["Student"]}>
-              <Dashboard/>
-              <S_ShowCourses />
-            </Protected>
-          }
-        >
-          <Route path="Das" element={<UserDashboard />} />
-          <Route path="courses/:studentId" element={<UserDashboard />} />
-          
-        </Route> */}
-        {/* <Route
-          path="instructor"
-          element={
-            <Protected allowed={["Instructor"]}>
-              <ShowCourses />
-            </Protected>
-          }
-        >
-          <Route path="courses" element={<AdminDashboard />} />
-        </Route> */}
+          {/* Courses & live */}
+          <Route path="/student/courses" element={<S_ShowCourses />} />
+          <Route path="/instructor/course/:id" element={<CourseDetail />} />
+          <Route path="/student/course/:id" element={<S_CourseDetail />} />
+          <Route path="/instructor/live" element={<LiveClass />} />
 
-        {/* <Route
-          path="/Dash"
-          element={
-            role !== "instructor" ? <UserDashboard /> : <AdminDashboard />
-          }
-        ></Route> */}
+          {/* Default course */}
+          <Route path="/0/*" element={<PythonCourse />} />
 
-        <Route path="/student/courses" element={<S_ShowCourses />} />
+          <Route path="/student/courses" element={<S_ShowCourses />} />
 
-        <Route path="/student/course/:id" element={<S_CourseDetail />} />
+          <Route path="/student/course/:id" element={<S_CourseDetail />} />
 
-        <Route path="/0/*" element={<PythonCourse />} />
+          {/* Problemset */}
+          <Route path="problemset" element={<ProblemsetPage />} />
+          <Route path="problemset/:id" element={<ProblemPage />} />
 
-        <Route path="/Mod/*" element={<CompetitionWrapper />} />
+          {/* In your Routes */}
+          <Route
+            path="/singleProblems/submissions"
+            element={<SubmissionsPage />}
+          />
+          <Route
+            path="/singleProblems/submissions/:id"
+            element={<SubmissionDetail />}
+          />
+          <Route
+            path="/problems/:problemId/submissions"
+            element={<SubmissionsPage />}
+          />
 
-        <Route path="problemset" element={<ProblemsetPage />} />
-        <Route path="problemset/:id" element={<ProblemPage />} />
-      </Routes>
-    </BrowserRouter>
+          {/* Not Found */}
+          <Route path="*" element={<NoFound />} />
+        </Routes>
+      </BrowserRouter>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        className="mt-20 mr-7"
+      />
+    </>
   );
 }
 

@@ -66,7 +66,6 @@ const EditAssingment = () => {
                     options : "",
                     marks : null ,
                     StudentAnswer : "",
-                    answer : ""
                 }
             ],
             settings:{
@@ -92,7 +91,6 @@ const EditAssingment = () => {
                 questionText :"",
                 options : "",
                 marks : null ,
-                answer : "",
                 StudentAnswer : "",
                 isLocked : false,
                 lockedby : "",
@@ -481,7 +479,7 @@ useEffect(() => {
 }, [PartialSubmission , currentIndex])
 
 useEffect(()=>{
-    const answers = PartialSubmission.Questions.every((item)=> item.answer.trim() != "")
+    const answers = PartialSubmission.Questions.every((item)=> item.StudentAnswer.trim() != "")
     if(answers)
     {
         const isSubmissionVoteExist = PartialSubmission.SubmissionVote.length;

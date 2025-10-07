@@ -8,12 +8,12 @@ import { HMSRoomProvider } from "@100mslive/react-sdk";
 
 createRoot(document.getElementById("root")).render(
   // <StrictMode>
-  <SocketProvider>
-    <UserProvider>
-      <HMSRoomProvider>
+    <SocketProvider>
+      <UserProvider>
+        <HMSRoomProvider>
         <App />
-      </HMSRoomProvider>
-    </UserProvider>
-  </SocketProvider>
+        </HMSRoomProvider>
+      </UserProvider>
+    </SocketProvider>
   // </StrictMode>
 );

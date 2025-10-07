@@ -22,6 +22,7 @@ const Settings = ({allowLateSubmission,visibility,groupsDetail,studentsPerGroup,
   const [error, seterror] = useState("")
 
   console.log("groupsDetail",groupsDetail);
+  
 
 
   const [Courses, setCourses] = useState([])

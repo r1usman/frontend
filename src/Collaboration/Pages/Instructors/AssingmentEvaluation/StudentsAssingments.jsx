@@ -13,7 +13,7 @@ const StudentsAssingments = () => {
     const Navigator = useNavigate();
     const location = useLocation();
     const { Assingment } = location.state || {};
-    console.log(Assingment);
+    console.log("Assingment",Assingment);
     
     const {id} = useParams();
         const handleFetchSubmision = async()=>{
@@ -47,7 +47,7 @@ const StudentsAssingments = () => {
                         title={Assingment?.title || "Untitled Resume"}
                         lastUpdated={
                         Assingment?.updatedAt
-                            ? moment(Assingment?.updatedAt).format("Do MMM YYYY")
+                            ? moment(Assingment?.updatedAt).format("Do MMM ")
                             : "Unknown"
                         }
                     />
@@ -57,6 +57,7 @@ const StudentsAssingments = () => {
                             <GroupCard
                                 
                                 ID={item?._id}
+                                AssingmentDetail ={Assingment}
                                 imgurl={item?.thumbnail || null}
                                 title={`Group-${index+1}`}
                                 group={item.Students}
@@ -68,7 +69,7 @@ const StudentsAssingments = () => {
                                 }
                                 onselect = {()=> 
                                     Navigator(`/EvaluationPanel/${item?._id}`,
-                                        { state : { AssingmentTitle  : Assingment?.title }} 
+                                        { state : { AssingmentTitle  : Assingment?.title , AssingmentDetail : Assingment }} 
                                 )}
                             />
                         )

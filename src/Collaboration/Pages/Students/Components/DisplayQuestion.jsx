@@ -4,7 +4,7 @@ import TrueFalse from '../../Instructors/Form/QuestionComponents/TrueFalse';
 import MultipleChoice from '../../Instructors/Form/QuestionComponents/MultipleChoice ';
 import Paragraph from '../../Instructors/Form/QuestionComponents/Paragraph';
 
-const DisplayQuestion = ({item , index ,updateArrayItemInstructor, updateArrayItem , WhoIsAnswering , DisplayAnswer , DisableQuestionbyIndex , HandleSave}) => {
+const DisplayQuestion = ({mode, item , index ,updateArrayItemInstructor, updateArrayItem , WhoIsAnswering , DisplayAnswer , DisableQuestionbyIndex , HandleSave}) => {
     console.log("item",item);
     
     const RenderTypeOfComponents = (type , item , index)=>{
@@ -28,6 +28,7 @@ const DisplayQuestion = ({item , index ,updateArrayItemInstructor, updateArrayIt
             case "true_false":
                 return(
                     <TrueFalse
+                        mode={mode}
                         item={item}
                         index={index}
                         type ={"Students"}
@@ -43,6 +44,7 @@ const DisplayQuestion = ({item , index ,updateArrayItemInstructor, updateArrayIt
             case "mcq":
                 return(
                     <MultipleChoice 
+                        mode={mode}
                         item={item}
                         index={index}
                         type ={"Students"}

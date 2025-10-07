@@ -41,6 +41,32 @@ function replaceOklchColors(element) {
     });
 }
 
+export const fixTailwindColors = (element) => {
+    const elements = element.querySelectorAll("*");
+    elements.forEach((el) => {
+        const style = window.getComputedStyle(el);
+
+        ["color", "backgroundColor", "borderColor"].forEach((prop) => {
+            const value = style[prop];
+
+            if (value.startsWith("oklch")) {
+                try {
+                    // Let the browser convert oklch() to rgb
+                    const temp = document.createElement("div");
+                    temp.style.color = value;
+                    document.body.appendChild(temp);
+                    const rgb = window.getComputedStyle(temp).color;
+                    document.body.removeChild(temp);
+
+                    el.style[prop] = rgb; // assign safe rgb value
+                } catch (err) {
+                    el.style[prop] = "#000"; // fallback
+                }
+            }
+        });
+    });
+};
+
 export async function captureElementAsImage(element) {
     if (!element) throw new Error("No element provided");
     replaceOklchColors(element);

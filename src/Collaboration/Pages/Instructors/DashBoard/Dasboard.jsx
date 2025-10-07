@@ -58,24 +58,24 @@ return (
     </p>
     </div>
 
-    <div className="font-urbanist flex border border-gray-300 p-4 rounded-md mt-3 min-h-[290px]">
-    <div className="flex gap-4 flex-wrap  min-w-[45vw]">
+    <div className="font-urbanist flex border border-gray-300 px-2 py-4 rounded-md mt-3 min-h-[290px]">
+    <div className="flex gap-2  flex-wrap  min-w-[45vw]">
         {allAssingment?.length > 0 ? (
         allAssingment.map((challenge) => (
-            <div className="w-[33vh]" key={challenge._id}>
-            <AssinmentCard
-                tag={"Edit"}
-                imgurl={challenge?.thumbnail || null}
-                title={challenge?.title || "Untitled Resume"}
-                lastUpdated={
-                challenge?.updatedAt
-                    ? moment(challenge.updatedAt).format("Do MMM YYYY")
-                    : "Unknown"
-                }
-                onselect={() =>
-                navigator(`/EditAssingments/${challenge._id}`)
-                }
-            />
+            <div className="w-[33vh] " key={challenge._id}>
+                <AssinmentCard
+                    tag={"Edit"}
+                    imgurl={challenge?.thumbnail || null}
+                    title={challenge?.title || "Untitled Resume"}
+                    lastUpdated={
+                    challenge?.updatedAt
+                        ? moment(challenge.updatedAt).format("Do MMM YYYY")
+                        : "Unknown"
+                    }
+                    onselect={() =>
+                    navigator(`/EditAssingments/${challenge._id}`)
+                    }
+                />
             </div>
         ))
         ) : (
@@ -92,7 +92,7 @@ return (
         )}
     </div>
 
-    <div className="relative w-1/3 h-[40vh] border border-gray-300 ml-5 p-3 translate-y-10">
+    <div className="relative w-1/3 h-[40vh] ml-2.5  border-gray-300  p-3 translate-y-10">
         <div className="font-urbanist mb-2 absolute -top-10 left-0">
         <p className="w-fit text-[12px] font-medium text-white bg-[#6c63ff] px-3 py-0.5 rounded mt-1">
             {new Date(Date.now()).getFullYear()}

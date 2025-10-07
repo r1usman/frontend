@@ -41,7 +41,7 @@ const CreateAssingment = () => {
 
   return (
     <div className="relative">
-      <div className="h-[110vh] font-urbanist grid grid-cols-1 md:grid-cols-5 md:gap-4 pt-1 pb-6 px-4 md:px-0 min-h-screen ">
+      <div className="h-[110vh] font-urbanist grid grid-cols-1 md:grid-cols-5 md:gap-3 pt-1 pb-6 px-4 md:px-0 min-h-screen ">
         <div
           className="h-[300px] flex flex-col gap-5 items-center justify-center border-2 border-dashed border-purple-300 rounded-md cursor-pointer"
           onClick={() => setOpenCreateModal(true)}

@@ -4,6 +4,7 @@ import { UserContext } from "../../../../../GlobalContext/UserContext";
 import Model from "../../../../Layouts/Modal";
 
 const MultipleChoice = ({
+  mode,
   item,
   removeQuestion,
   index,
@@ -93,13 +94,15 @@ const MultipleChoice = ({
                     type="radio"
                     name={`mcq_${item.id}`}
                     className="accent-purple-600"
-                    checked={Number(item.answer)=== idx}
+                    checked={mode ? Number(item.StudentAnswer)=== idx : Number(item.answer)=== idx}
                     onChange={() => UpdateItemInArray(index, "answer", idx)}
                   />
                   <input
                     type="text"
-                    className={`border border-gray-200 px-2 py-1 rounded-md w-full ${
-                      Number(item.answer)=== idx ? "bg-purple-100" : ""
+                    className={`border border-gray-200 px-2 py-1 rounded-md w-full 
+                      
+                    ${
+                      mode ? Number(item.StudentAnswer)=== idx ? "bg-purple-100" : "" : Number(item.answer)=== idx ? "bg-purple-100" : ""
                     }`}
                     value={opt}
                     placeholder={`Option ${idx + 1}`}
@@ -255,34 +258,34 @@ const MultipleChoice = ({
         )}
       </div>
       <Model
-            isOpen={ConfirmSave}
-            onClose={() => setConfirmSave(false)}
-            title ={"Confirm Save"}
-            type={"Banner"}
-            >
-            <div className="p-4 font-urbanist h-full">
-                <h2 className="text-lg font-semibold mb-2">Save Assingment Progress</h2>
-                <p className="text-sm text-gray-700 mb-4">
-                Are you sure you want to save this answer?  
-                Once saved, it cannot be rewritten unless others vote to unlock it.
-                </p>
+          isOpen={ConfirmSave}
+          onClose={() => setConfirmSave(false)}
+          title ={"Confirm Save"}
+          type={"small"}
+          >
+          <div className="p-4 font-urbanist h-full">
+              <h2 className="text-lg font-semibold mb-2">Save Assingment Progress</h2>
+              <p className="text-sm text-gray-700 mb-4 space-y-2">
+              Are you sure you want to save this answer?<br/>
+              Once saved, it cannot be rewritten unless others vote to unlock it.
+              </p>
 
-                <div className="flex justify-end space-x-3 border">
-                <button
-                    className="px-4 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300"
-                    onClick={() => setConfirmSave(false)}
-                >
-                    Cancel
-                </button>
-                <button
-                    className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
-                   onClick={() => (setConfirmSave(false), HandleSave())}
-                >
-                    Save Answer
-                </button>
-                </div>
-            </div>
-        </Model>
+              <div className="flex justify-end space-x-3 translate-y-0  sm:translate-y-3">
+              <button
+                  className="px-4 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300"
+                  onClick={() => setConfirmSave(false)}
+              >
+                  Cancel
+              </button>
+              <button
+                  className=" px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+                  onClick={() => (setConfirmSave(false), HandleSave())}
+              >
+                  Save Answer
+              </button>
+              </div>
+          </div>
+      </Model>
     </>
   );
 };
