@@ -20,7 +20,7 @@ function CourseCard({ course }) {
   return (
     <div
       className="bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-slate-200 hover:border-slate-300 group cursor-pointer"
-      onClick={() => navigate(`/instructor/course/${course._id}`)}
+      onClick={() => navigate(`/Instructor/course/${course._id}`)}
     >
       {/* Course Image */}
       <div className="h-48 overflow-hidden">

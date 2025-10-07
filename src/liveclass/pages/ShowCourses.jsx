@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import CourseCard from "../components/CourseCard";
+import CourseCard from "./CourseCard";
 import { UserContext } from "../../GlobalContext/UserContext";
-import P2 from "../../assests/P2.svg"
+import P2 from "../../assests/P2.svg";
 function ShowCourses() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -55,7 +55,7 @@ function ShowCourses() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       {/* Header */}
       <div
-  className="
+        className="
     relative
     min-w-[280px] sm:min-w-[340px] min-h-[300px]
     rounded-xl overflow-hidden shadow-xl
@@ -63,33 +63,34 @@ function ShowCourses() {
     flex-shrink-0
     p-4
   "
->
-  <div className="absolute size-96 rounded-full -right-10 top-5 bg-purple-100"></div>
+      >
+        <div className="absolute size-96 rounded-full -right-10 top-5 bg-purple-100"></div>
 
-  <div className="absolute right-0 top-10 z-0">
-    <img src={P2} className="size-72" alt="" />
-  </div>
+        <div className="absolute right-0 top-10 z-0">
+          <img src={P2} className="size-72" alt="" />
+        </div>
 
-  <div className="max-w-xl translate-y-10 translate-x-5">
-      <h3 className="text-4xl md:text-5xl font-extrabold leading-tight mb-3">Course Catalog</h3>
-      <p className="text-lg md:text-xl mb-2 max-w-3x">
-        Discover our comprehensive collection of courses designed to enhance
-        your skills and advance your career
-      </p>
-      <button
-        className="
+        <div className="max-w-xl translate-y-10 translate-x-5">
+          <h3 className="text-4xl md:text-5xl font-extrabold leading-tight mb-3">
+            Course Catalog
+          </h3>
+          <p className="text-lg md:text-xl mb-2 max-w-3x">
+            Discover our comprehensive collection of courses designed to enhance
+            your skills and advance your career
+          </p>
+          <button
+            className="
           mt-6 bg-[#6c63ff] text-white
           font-medium px-5 py-2 rounded-md
           shadow cursor-pointer
           transition
         "
-        onClick={() => setShowModal(true)}
-      >
-        Create Course
-      </button>
-    </div>
-</div>
-
+            onClick={() => setShowModal(true)}
+          >
+            Create Course
+          </button>
+        </div>
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 py-12">
         {loading ? (
@@ -102,7 +103,6 @@ function ShowCourses() {
           </div>
         )}
       </div>
-
 
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">

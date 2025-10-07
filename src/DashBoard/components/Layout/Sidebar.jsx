@@ -88,7 +88,8 @@ export const Sidebar = () => {
     navigate("/Login");
   };
 
-  const navItems = User.status === "Instructor" ? instructorNavItems : studentNavItems;
+  const navItems =
+    User.status === "Instructor" ? instructorNavItems : studentNavItems;
 
   return (
     <div className="z-50 min-h-screen fixed border w-[20%] font-urbanist border-gray-200/50 flex flex-col justify-between">
@@ -98,7 +99,11 @@ export const Sidebar = () => {
             <FaUser className="w-8 h-8 text-task_primary" />
           </div>
         ) : (
-          <img className="w-20 h-20 rounded-full" src={User.profileImage} alt="Profile" />
+          <img
+            className="w-20 h-20 rounded-full"
+            src={User.profileImage}
+            alt="Profile"
+          />
         )}
 
         <h1 className="text-[10px] font-medium text-white bg-[#6c63ff] px-3 py-0.5 rounded mt-1">
@@ -113,9 +118,12 @@ export const Sidebar = () => {
           <NavLink
             key={index}
             to={item.path}
+            end
             className={({ isActive }) =>
               `flex items-center gap-4 w-full text-[15px] py-3 px-5 cursor-pointer transition-colors duration-200 ${
-                isActive ? "bg-purple-600/15 border-r-4 border-purple-600" : ""
+                isActive
+                  ? "bg-purple-600/15 border-r-4 border-purple-600 text-purple-700"
+                  : "hover:bg-gray-50"
               }`
             }
           >
@@ -145,10 +153,13 @@ export const Sidebar = () => {
           <div className="space-y-3">
             <div className="flex items-center gap-3 mt-2">
               <LogOut className="w-6 h-6 text-red-500" />
-              <h3 className="text-lg font-semibold text-black">Confirm Logout</h3>
+              <h3 className="text-lg font-semibold text-black">
+                Confirm Logout
+              </h3>
             </div>
             <p className="text-md text-center">
-              Are you sure you want to <span className="font-semibold text-red-600">log out</span>?
+              Are you sure you want to{" "}
+              <span className="font-semibold text-red-600">log out</span>?
             </p>
             <p className="text-xs text-slate-700 mt-[5px]">
               You’ll need to log in again to access your account.

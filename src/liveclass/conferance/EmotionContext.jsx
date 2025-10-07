@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback } from "react";
+import { useHMSActions } from "@100mslive/react-sdk";
 import { client } from "@gradio/client";
 
 // Create the emotion context
@@ -23,7 +24,7 @@ function determineExpressionFromArray(emotionArray) {
   const difference = Math.abs(neutral - sadness);
 
   const topTwoLabels = emotionArray.slice(0, 2).map((item) => item.label);
-  
+
   if (topTwoLabels.includes("Happiness")) {
     return "engaged";
   }
@@ -47,7 +48,7 @@ function determineExpressionFromArray(emotionArray) {
       return "frustrated";
     } else return "confused";
   }
-  
+
   return "unknown"; // Default fallback
 }
 
@@ -56,7 +57,7 @@ function determineExpressionFromArray(emotionArray) {
  */
 function calculateEngagementLevel(emotions) {
   if (emotions.length === 0) {
-    return { level: 'unknown', percentage: 0 };
+    return { level: "unknown", percentage: 0 };
   }
 
   // Count emotions (excluding 'unknown')
@@ -64,14 +65,14 @@ function calculateEngagementLevel(emotions) {
     engaged: 0,
     frustrated: 0,
     confused: 0,
-    bored: 0
+    bored: 0,
   };
 
   // Filter out 'unknown' emotions and count only known emotions
-  const knownEmotions = emotions.filter(({ emotion }) => emotion !== 'unknown');
-  
+  const knownEmotions = emotions.filter(({ emotion }) => emotion !== "unknown");
+
   if (knownEmotions.length === 0) {
-    return { level: 'unknown', percentage: 0 };
+    return { level: "unknown", percentage: 0 };
   }
 
   knownEmotions.forEach(({ emotion }) => {
@@ -81,19 +82,20 @@ function calculateEngagementLevel(emotions) {
   });
 
   const total = knownEmotions.length; // Use count of known emotions only
-  const engagedEmotions = emotionCounts.engaged + emotionCounts.frustrated + emotionCounts.confused;
+  const engagedEmotions =
+    emotionCounts.engaged + emotionCounts.frustrated + emotionCounts.confused;
   const engagementPercentage = Math.round((engagedEmotions / total) * 100);
 
   // Determine engagement level
   let level;
   if (engagementPercentage >= 80) {
-    level = 'high';
+    level = "high";
   } else if (engagementPercentage >= 60) {
-    level = 'medium';
+    level = "medium";
   } else if (engagementPercentage >= 40) {
-    level = 'low';
+    level = "low";
   } else {
-    level = 'very-low';
+    level = "very-low";
   }
 
   return { level, percentage: engagementPercentage };
@@ -102,22 +104,43 @@ function calculateEngagementLevel(emotions) {
 // Emotion Provider Component
 export function EmotionProvider({ children }) {
   const [peerEmotions, setPeerEmotions] = useState(new Map());
+  const [classEngagement, setClassEngagement] = useState(0);
+  const hmsActions = useHMSActions();
+
+  const computeClassEngagementFromMap = useCallback((map) => {
+    let known = 0;
+    let engaged = 0;
+    map.forEach((data) => {
+      const emotion = data?.currentEmotion;
+      if (!emotion) return;
+      known += 1;
+      if (
+        emotion === "engaged" ||
+        emotion === "frustrated" ||
+        emotion === "confused"
+      ) {
+        engaged += 1;
+      }
+    });
+    if (known === 0) return 0;
+    return Math.round((engaged / known) * 100);
+  }, []);
 
   const trackPeerEmotion = useCallback((peerId, emotion) => {
     if (!peerEmotionHistory.has(peerId)) {
       peerEmotionHistory.set(peerId, {
         emotions: [],
-        timestamp: Date.now()
+        timestamp: Date.now(),
       });
     }
 
     const peerData = peerEmotionHistory.get(peerId);
     const now = Date.now();
-    
+
     // Add new emotion with timestamp
     peerData.emotions.push({
       emotion,
-      timestamp: now
+      timestamp: now,
     });
 
     // Keep only last 20 emotions (last ~100 seconds with 5s intervals)
@@ -127,65 +150,93 @@ export function EmotionProvider({ children }) {
 
     // Calculate engagement level
     const engagementData = calculateEngagementLevel(peerData.emotions);
-    
+
     const emotionData = {
       peerId,
       currentEmotion: emotion,
       engagementLevel: engagementData.level,
       engagementPercentage: engagementData.percentage,
       recentEmotions: peerData.emotions.slice(-5), // Last 5 emotions
-      totalEmotions: peerData.emotions.length
+      totalEmotions: peerData.emotions.length,
     };
 
-    // Update the state
-    setPeerEmotions(prev => {
+    // Update the state and class engagement
+    setPeerEmotions((prev) => {
       const newMap = new Map(prev);
       newMap.set(peerId, emotionData);
+      const percentage = computeClassEngagementFromMap(newMap);
+      setClassEngagement(percentage);
+      // Best-effort broadcast to room for visibility
+      try {
+        const payload = JSON.stringify({
+          kind: "class_engagement",
+          percentage,
+        });
+        // fire and forget; if unsupported, it will be caught
+        hmsActions.sendBroadcastMessage(payload);
+      } catch (e) {
+        // ignore
+      }
       return newMap;
     });
 
-    console.log(`Peer ${peerId}: ${emotion} - Engagement: ${engagementData.level} (${engagementData.percentage}%)`);
-    
+    console.log(
+      `Peer ${peerId}: ${emotion} - Engagement: ${engagementData.level} (${engagementData.percentage}%)`
+    );
+
     return emotionData;
   }, []);
 
-  const getPeerEngagement = useCallback((peerId) => {
-    return peerEmotions.get(peerId) || null;
-  }, [peerEmotions]);
+  const getPeerEngagement = useCallback(
+    (peerId) => {
+      return peerEmotions.get(peerId) || null;
+    },
+    [peerEmotions]
+  );
 
   const clearPeerEmotionHistory = useCallback((peerId) => {
     peerEmotionHistory.delete(peerId);
-    setPeerEmotions(prev => {
+    setPeerEmotions((prev) => {
       const newMap = new Map(prev);
       newMap.delete(peerId);
       return newMap;
     });
   }, []);
 
-  const uploadSnapshot = useCallback(async (inputCanvas, peer) => {
-    inputCanvas.toBlob(async (blob) => {
-      try {
-        const app = await client("ElenaRyumina/Facial_Expression_Recognition");
-        const result = await app.predict("/preprocess_image_and_predict", [
-          blob, // blob in 'Original image' Image component
-        ]);
+  const uploadSnapshot = useCallback(
+    async (inputCanvas, peer) => {
+      inputCanvas.toBlob(async (blob) => {
+        try {
+          const app = await client(
+            "ElenaRyumina/Facial_Expression_Recognition"
+          );
+          const result = await app.predict("/preprocess_image_and_predict", [
+            blob, // blob in 'Original image' Image component
+          ]);
 
-        const detectedEmotion = determineExpressionFromArray(result.data[2]["confidences"]);
-        trackPeerEmotion(peer.id, detectedEmotion);
-      } catch (err) {
-        console.error("Snapshot upload failed", err);
-      }
-    }, "image/png");
-  }, [trackPeerEmotion]);
+          const detectedEmotion = determineExpressionFromArray(
+            result.data[2]["confidences"]
+          );
+          trackPeerEmotion(peer.id, detectedEmotion);
+        } catch (err) {
+          console.error("Snapshot upload failed", err);
+        }
+      }, "image/png");
+    },
+    [trackPeerEmotion]
+  );
 
-  const createSnapshotFromVideo = useCallback((inputVideo, peer) => {
-    const canvas = document.createElement("canvas");
-    canvas.width = inputVideo.videoWidth;
-    canvas.height = inputVideo.videoHeight;
-    const context = canvas.getContext("2d");
-    context.drawImage(inputVideo, 0, 0, canvas.width, canvas.height);
-    uploadSnapshot(canvas, peer);
-  }, [uploadSnapshot]);
+  const createSnapshotFromVideo = useCallback(
+    (inputVideo, peer) => {
+      const canvas = document.createElement("canvas");
+      canvas.width = inputVideo.videoWidth;
+      canvas.height = inputVideo.videoHeight;
+      const context = canvas.getContext("2d");
+      context.drawImage(inputVideo, 0, 0, canvas.width, canvas.height);
+      uploadSnapshot(canvas, peer);
+    },
+    [uploadSnapshot]
+  );
 
   const value = {
     peerEmotions,
@@ -193,13 +244,12 @@ export function EmotionProvider({ children }) {
     getPeerEngagement,
     clearPeerEmotionHistory,
     uploadSnapshot,
-    createSnapshotFromVideo
+    createSnapshotFromVideo,
+    classEngagement,
   };
 
   return (
-    <EmotionContext.Provider value={value}>
-      {children}
-    </EmotionContext.Provider>
+    <EmotionContext.Provider value={value}>{children}</EmotionContext.Provider>
   );
 }
 
@@ -207,7 +257,7 @@ export function EmotionProvider({ children }) {
 export function useEmotion() {
   const context = useContext(EmotionContext);
   if (!context) {
-    throw new Error('useEmotion must be used within an EmotionProvider');
+    throw new Error("useEmotion must be used within an EmotionProvider");
   }
   return context;
 }

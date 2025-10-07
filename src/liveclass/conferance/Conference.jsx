@@ -1,9 +1,11 @@
 import { selectPeers, useHMSStore } from "@100mslive/react-sdk";
 import Peer from "./Peer";
 import { Users, Video } from "lucide-react";
+import { useEmotion } from "./EmotionContext";
 
 function Conference() {
   const peers = useHMSStore(selectPeers);
+  const { classEngagement } = useEmotion();
 
   return (
     <div className="flex-1 bg-gray-900 p-6">
@@ -25,9 +27,23 @@ function Conference() {
             </div>
           </div>
 
-          <div className="flex items-center space-x-2 text-gray-400">
+          <div className="flex items-center space-x-4 text-gray-400">
             <Users className="w-5 h-5" />
             <span className="text-sm font-medium">{peers.length}</span>
+            <div className="flex items-center space-x-2">
+              <span className="text-xs uppercase tracking-wide text-gray-500">
+                Engagement
+              </span>
+              <div className="w-28 h-2 bg-gray-800 rounded-full overflow-hidden">
+                <div
+                  className="h-2 bg-green-500 rounded-full transition-all duration-300"
+                  style={{ width: `${classEngagement}%` }}
+                />
+              </div>
+              <span className="text-sm text-gray-300 font-medium">
+                {classEngagement}%
+              </span>
+            </div>
           </div>
         </div>
       </div>

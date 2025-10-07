@@ -17,7 +17,6 @@ import Login from "./Authentication/Login.jsx";
 import Signup from "./Authentication/Signup.jsx";
 import Protected from "./Components/ProtectRoutes/ProtectRoutes.jsx";
 
-import { HMSRoomProvider } from "@100mslive/react-sdk";
 import DefaultLayout from "./DashBoard/components/Layout/DefaultLayout.jsx";
 import LiveClass from "./liveclass/conferance/LiveClass.jsx";
 import CourseDetail from "./liveclass/pages/CourseDetail.jsx";
@@ -32,14 +31,14 @@ import Dashboard_Instructor from "./Collaboration/Pages/Instructors/DashBoard/Da
 import EditAssingments from "./Collaboration/Pages/Instructors/EditAssingments.jsx";
 import CollabLayout from "./DashBoard/components/Layout/CollabLayout/CollabLayout.jsx";
 
-import Dashboard_Student from "./Collaboration/Pages/Students/DashBoard/Dasboard.jsx";
-import MyPerformance from "./Collaboration/Pages/Students/MyPerformance/MyPerformance.jsx";
-import EditAssingment from "./Collaboration/Pages/Students/EditAssingment/EditAssingment.jsx";
-import StudentsAssingments from "./Collaboration/Pages/Instructors/AssingmentEvaluation/StudentsAssingments.jsx";
 import EvaluationPage from "./Collaboration/Pages/Instructors/AssingmentEvaluation/EvaluationPage.jsx";
+import StudentsAssingments from "./Collaboration/Pages/Instructors/AssingmentEvaluation/StudentsAssingments.jsx";
+import Dashboard_Student from "./Collaboration/Pages/Students/DashBoard/Dasboard.jsx";
+import EditAssingment from "./Collaboration/Pages/Students/EditAssingment/EditAssingment.jsx";
+import MyPerformance from "./Collaboration/Pages/Students/MyPerformance/MyPerformance.jsx";
+import ShowCourses from "./liveclass/pages/ShowCourses.jsx";
 
 function App() {
-  // const { role } = useContext(UserContext);
   return (
     <BrowserRouter>
       <Routes>
@@ -72,6 +71,8 @@ function App() {
           }
         >
           <Route path="Dashboard" element={<AdminDashboard />} />
+          <Route path="courses" element={<ShowCourses />} />
+          <Route path="course/:id" element={<CourseDetail />} />
         </Route>
 
         {/* collab  */}
@@ -163,7 +164,7 @@ function App() {
         ></Route> */}
 
         <Route path="/student/courses" element={<S_ShowCourses />} />
-        <Route path="/instructor/course/:id" element={<CourseDetail />} />
+
         <Route path="/student/course/:id" element={<S_CourseDetail />} />
 
         <Route path="/0/*" element={<PythonCourse />} />
