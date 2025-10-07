@@ -1,30 +1,49 @@
 import { selectPeers, useHMSStore } from "@100mslive/react-sdk";
 import Peer from "./Peer";
 import { Users, Video } from "lucide-react";
+import { useEmotion } from "./EmotionContext";
 
 function Conference() {
   const peers = useHMSStore(selectPeers);
-  
+  const { classEngagement } = useEmotion();
+
   return (
     <div className="flex-1 bg-gray-900 p-6">
       {/* Conference Header */}
       <div className="mb-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="flex items-center justify-center w-10 h-10 bg-blue-600 rounded-lg">
-              <Video className="w-6 h-6 text-white" />
+            <div className="flex items-center justify-center w-10 h-10 bg-gray-800 rounded-lg">
+              <Video className="w-6 h-6 text-gray-200" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-white">Live Conference</h2>
+              <h2 className="text-xl font-semibold text-gray-100">
+                Live Class
+              </h2>
               <p className="text-gray-400 text-sm">
-                {peers.length} participant{peers.length !== 1 ? 's' : ''} in the room
+                {peers.length} participant{peers.length !== 1 ? "s" : ""} in the
+                room
               </p>
             </div>
           </div>
-          
-          <div className="flex items-center space-x-2 text-gray-400">
+
+          <div className="flex items-center space-x-4 text-gray-400">
             <Users className="w-5 h-5" />
             <span className="text-sm font-medium">{peers.length}</span>
+            <div className="flex items-center space-x-2">
+              <span className="text-xs uppercase tracking-wide text-gray-500">
+                Engagement
+              </span>
+              <div className="w-28 h-2 bg-gray-800 rounded-full overflow-hidden">
+                <div
+                  className="h-2 bg-green-500 rounded-full transition-all duration-300"
+                  style={{ width: `${classEngagement}%` }}
+                />
+              </div>
+              <span className="text-sm text-gray-300 font-medium">
+                {classEngagement}%
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -39,11 +58,15 @@ function Conference() {
       {/* Empty State */}
       {peers.length === 0 && (
         <div className="flex flex-col items-center justify-center h-64 text-center">
-          <div className="w-20 h-20 bg-gray-700 rounded-full flex items-center justify-center mb-4">
-            <Users className="w-10 h-10 text-gray-400" />
+          <div className="w-20 h-20 bg-gray-800 rounded-full flex items-center justify-center mb-4">
+            <Users className="w-10 h-10 text-gray-500" />
           </div>
-          <h3 className="text-xl font-semibold text-white mb-2">No participants yet</h3>
-          <p className="text-gray-400">Waiting for others to join the session...</p>
+          <h3 className="text-lg font-semibold text-gray-100 mb-2">
+            No participants yet
+          </h3>
+          <p className="text-gray-400">
+            Waiting for others to join the session...
+          </p>
         </div>
       )}
     </div>
