@@ -12,6 +12,19 @@ const CodeEditor = ({ code, setCode, language }) => {
       default: return 'cpp';
     }
   };
+  const handleEditorMount = (editor) => {
+
+  editor.onKeyDown((e) => {
+    if ((e.ctrlKey) && e.code === 'KeyV') {
+      e.preventDefault();
+      alert("Pasting is not allowed during the contest.");
+    }
+  });
+  editor.onContextMenu((e) => {
+    e.event.preventDefault();
+  });
+};
+
 
   return (
     <div className="h-full flex flex-col bg-white rounded-lg border border-purple-100">
@@ -26,6 +39,7 @@ const CodeEditor = ({ code, setCode, language }) => {
           language={getEditorLanguage()}
           theme="vs-light"
           value={code}
+          // onMount={handleEditorMount}
           onChange={(value) => setCode(value || '')}
           options={{
             minimap: { enabled: false },

@@ -39,11 +39,11 @@ const Dashboard = () => {
     navigator(`/Student/Editor/${ConfirmId}`)
   }
 
-  // const contestStarted = selectedChallenge
-  //   ? new Date(selectedChallenge.startTime) <= new Date()
-  //   : false;
+  const contestStarted = selectedChallenge
+    ? new Date(selectedChallenge.startTime) <= new Date()
+    : false;
 
-  const contestStarted = true
+  // const contestStarted = true
 
   return (
     <div className=' px-4'>

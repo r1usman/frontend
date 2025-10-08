@@ -188,7 +188,7 @@ const handleCheating = () => {
         ))
         
       } else {
-        alert(`⚠ Warning ${newcount}/2: Leaving the competition screen is not allowed. One more violation will result in disqualification.`);
+        alert(`Warning ${newcount}/2: Leaving the competition screen is not allowed. One more violation will result in disqualification.`);
       }
 
       return newcount;
@@ -206,6 +206,9 @@ useEffect(() => {
 const handleConfirmation = ()=>{
   setConfirmSubmission(true)
 }
+
+
+
 // useEffect(() => {
 //   const handleVisibilityChange = () => {
 //     if (document.visibilityState === "hidden") {
@@ -222,6 +225,7 @@ const handleConfirmation = ()=>{
 //   };
 // }, []);
 
+
 // useEffect(() => {
 //   const handleBeforeUnload = (event) => {
 //     event.preventDefault();
@@ -236,9 +240,28 @@ const handleConfirmation = ()=>{
 //   };
 // }, []);
 
+// useEffect(() => {
+//   const handleBackButton = (event) => {
+//     event.preventDefault();
+//     window.history.pushState(null, '', window.location.href);
+//     alert(" You cannot go back during the contest.");
+//     handleCheating();
+//   };
+
+//   window.history.pushState(null, '', window.location.href);
+//   window.addEventListener('popstate', handleBackButton);
+
+//   return () => {
+//     window.removeEventListener('popstate', handleBackButton);
+//   };
+// }, []);
+
+
+
+
 useEffect(() => {
   if (CompetitonDetail?.duration) {
-    setTimeLeft(CompetitonDetail.duration * 60); 
+    setTimeLeft(CompetitonDetail.duration *60); 
   }
 }, [CompetitonDetail]);
 
@@ -326,7 +349,7 @@ useEffect(() => {
               {/* ProblemSummary */}
               <div className='bg-white rounded-lg border border-purple-100  overflow-y-scroll overflow-x-hidden'>
                   <div className='h-[90vh]'>
-                    <RenderFrom data={CompetitonDetail} containerWidth={650} status={"Student"}/>
+                    <RenderFrom data={CompetitonDetail} containerWidth={600} status={"Student"}/>
                   </div>
               </div>
         </div>
