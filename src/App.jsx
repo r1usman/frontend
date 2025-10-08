@@ -6,12 +6,11 @@ import AdminDashboard from "./DashBoard/AdminDashboard.jsx";
 import UserDashboard from "./DashBoard/DisplayDashboard.jsx";
 import LandingPage from "./LandingPage2.0/LandingPage.jsx";
 // Main App.js (entry point for the app)
+import { ToastContainer } from "react-toastify";
 import PythonCourse from "./DefaultCourses/Python/App.jsx";
 import "./index.css"; // Your global CSS
-import { ToastContainer } from "react-toastify";
 
 // Competition wrapper handles everything under /Mod/*
-import CompetitionWrapper from "./Competition/CompetitionWrapper.jsx";
 
 import ForgetPassword from "./Authentication/ForgetPassword.jsx";
 import Login from "./Authentication/Login.jsx";
@@ -21,7 +20,7 @@ import Protected from "./Components/ProtectRoutes/ProtectRoutes.jsx";
 import DefaultLayout from "./DashBoard/components/Layout/DefaultLayout.jsx";
 import LiveClass from "./liveclass/conferance/LiveClass.jsx";
 import CourseDetail from "./liveclass/pages/CourseDetail.jsx";
-import S_CourseDetail from "./liveclass/pages/S_CourseDetail.jsx";
+
 import S_ShowCourses from "./liveclass/pages/S_ShowCourses.jsx";
 import ProblemPage from "./problemset/ProblemPage";
 import ProblemsetPage from "./problemset/Problemset.jsx";
@@ -41,19 +40,19 @@ import ShowCourses from "./liveclass/pages/ShowCourses.jsx";
 
 // Code Competiton
 
-import CompeteLayout from "./DashBoard/components/Layout/CompeteLayout/CompeteLayout.jsx";
-import Dashboard from "./CodeCompetition/Pages/Instructor/Dashboard.jsx";
 import CreateChallenge from "./CodeCompetition/Pages/Instructor/CreateChallenge.jsx";
-import ManagaCometition from "./CodeCompetition/Pages/Instructor/ManagaCometition.jsx";
+import Dashboard from "./CodeCompetition/Pages/Instructor/Dashboard.jsx";
 import EditChallenge from "./CodeCompetition/Pages/Instructor/EditChallenge.jsx";
-import NoFound from "./Collaboration/Components/NotFound/NotFound.jsx";
-import StudentDashboard from "./CodeCompetition/Pages/Students/Dashboard.jsx";
-import MyPerformanceStudent from "./CodeCompetition/Pages/Students/MyPerformance.jsx";
+import ManagaCometition from "./CodeCompetition/Pages/Instructor/ManagaCometition.jsx";
 import CodeingEnvironment from "./CodeCompetition/Pages/Students/CodeingEnvironment.jsx";
+import StudentDashboard from "./CodeCompetition/Pages/Students/Dashboard.jsx";
 import Leaderboard from "./CodeCompetition/Pages/Students/Leaderboard.jsx";
+import MyPerformanceStudent from "./CodeCompetition/Pages/Students/MyPerformance.jsx";
+import NoFound from "./Collaboration/Components/NotFound/NotFound.jsx";
+import CompeteLayout from "./DashBoard/components/Layout/CompeteLayout/CompeteLayout.jsx";
 
-import SubmissionsPage from "./Submissions/SubmissionsPage";
 import SubmissionDetail from "./Submissions/SubmissionDetail";
+import SubmissionsPage from "./Submissions/SubmissionsPage";
 
 function App() {
   // const { role } = useContext(UserContext);
@@ -76,6 +75,7 @@ function App() {
             }
           >
             <Route path="Dashboard" element={<UserDashboard />} />
+            <Route path="courses" element={<S_ShowCourses />} />
             <Route path="courses/:studentId" element={<UserDashboard />} />
           </Route>
 
@@ -177,6 +177,7 @@ function App() {
             }
           >
             <Route path="Dashboard" element={<StudentDashboard />} />
+
             <Route path="Performance" element={<MyPerformanceStudent />} />
             <Route path="Leaderboard" element={<Leaderboard />} />
           </Route>
@@ -186,17 +187,15 @@ function App() {
           />
 
           {/* Courses & live */}
-          <Route path="/student/courses" element={<S_ShowCourses />} />
+
           <Route path="/instructor/course/:id" element={<CourseDetail />} />
-          <Route path="/student/course/:id" element={<S_CourseDetail />} />
+
           <Route path="/instructor/live" element={<LiveClass />} />
 
           {/* Default course */}
           <Route path="/0/*" element={<PythonCourse />} />
 
           <Route path="/student/courses" element={<S_ShowCourses />} />
-
-          <Route path="/student/course/:id" element={<S_CourseDetail />} />
 
           {/* Problemset */}
           <Route path="problemset" element={<ProblemsetPage />} />

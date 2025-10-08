@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-import { Menu, X, Code, LogIn } from 'lucide-react';
-import { Link } from 'react-scroll';
-import { useNavigate } from 'react-router';
-import { Link as RouterLink } from 'react-router-dom';
-
+import { Menu, X, Code, LogIn } from "lucide-react";
+import { Link } from "react-scroll";
+import { useNavigate } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 const navLinks = [
-  { name: 'Courses', to: 'courses' },
-  { name: 'Competition', to: 'competition' },
-  { name: 'Collaboration', to: 'collaboration' },
-  { name: 'Live Classes', to: 'live-classes' },
-  {name: 'Problem Set', to: 'problem-set'}
+  { name: "Courses", to: "courses" },
+  { name: "Competition", to: "competition" },
+  { name: "Collaboration", to: "collaboration" },
+  { name: "Live Classes", to: "live-classes" },
+  { name: "Problem Set", to: "problem-set" },
   // { name: 'Practice', to: 'practice' },
 ];
 
@@ -21,8 +20,8 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // const renderNavLinks = (isMobile = false) =>
@@ -43,54 +42,52 @@ const Header = () => {
   // ));
 
   const renderNavLinks = (isMobile = false) =>
-  navLinks.map(({ name, to }) =>
-    name === 'Problem Set' ? (
-      <RouterLink
-        key={name}
-        to="/problemset"
-        onClick={() => isMobile && setIsMenuOpen(false)}
-        className="cursor-pointer font-semibold hover:text-indigo-600 transition"
-      >
-        {name}
-      </RouterLink>
-    ) : (
-      <Link
-        key={name}
-        to={to}
-        spy={true}
-        smooth={true}
-        offset={-80}
-        duration={500}
-        activeClass="text-indigo-600 font-semibold"
-        className="cursor-pointer font-semibold hover:text-indigo-600 transition"
-        onClick={() => isMobile && setIsMenuOpen(false)}
-      >
-        {name}
-      </Link>
-    )
-  );
+    navLinks.map(({ name, to }) =>
+      name === "Problem Set" ? (
+        <RouterLink
+          key={name}
+          to="/problemset"
+          onClick={() => isMobile && setIsMenuOpen(false)}
+          className="cursor-pointer font-semibold hover:text-indigo-600 transition"
+        >
+          {name}
+        </RouterLink>
+      ) : (
+        <Link
+          key={name}
+          to={to}
+          spy={true}
+          smooth={true}
+          offset={-80}
+          duration={500}
+          activeClass="text-indigo-600 font-semibold"
+          className="cursor-pointer font-semibold hover:text-indigo-600 transition"
+          onClick={() => isMobile && setIsMenuOpen(false)}
+        >
+          {name}
+        </Link>
+      )
+    );
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const NavigateToSignup = ()=>{
+  const NavigateToSignup = () => {
     console.log("lkl");
-    navigate("/Signup")
-    
-    
-  }
+    navigate("/Signup");
+  };
 
-  const NavigateToLogin = ()=>{
-    navigate("/Login")
-  }
+  const NavigateToLogin = () => {
+    navigate("/Login");
+  };
 
-  const NavigateToProblemSetPage = ()=>{
-    navigate("../../problemset")
-  }
+  const NavigateToProblemSetPage = () => {
+    navigate("../../problemset");
+  };
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'
+        isScrolled ? "bg-white shadow-md py-2" : "bg-transparent py-4"
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -98,21 +95,26 @@ const Header = () => {
           {/* Logo */}
           <div className="flex items-center">
             <Code className="h-8 w-8 text-indigo-600" />
-            <span className="ml-2 text-xl font-bold text-slate-800">Code Ascend</span>
+            <span className="ml-2 text-xl font-bold text-slate-800">
+              Code Ascend
+            </span>
           </div>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex space-x-8">
-            {renderNavLinks()}
-           
-          </nav>
+          <nav className="hidden md:flex space-x-8">{renderNavLinks()}</nav>
 
           {/* Auth Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <button onClick={NavigateToLogin} className="px-4 py-2 text-indigo-600 border border-indigo-600 rounded-lg hover:bg-indigo-50 transition">
+            <button
+              onClick={NavigateToLogin}
+              className="px-4 py-2 text-indigo-600 border border-indigo-600 rounded-lg hover:bg-indigo-50 transition"
+            >
               Sign In
             </button>
-            <button onClick={NavigateToSignup} className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+            <button
+              onClick={NavigateToSignup}
+              className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+            >
               Get Started
             </button>
           </div>
@@ -123,7 +125,11 @@ const Header = () => {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="text-slate-700 hover:text-indigo-600 focus:outline-none"
             >
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </button>
           </div>
         </div>
@@ -134,10 +140,16 @@ const Header = () => {
             <nav className="flex flex-col space-y-3">
               {renderNavLinks(true)}
               <div className="flex flex-col space-y-2 pt-3">
-                <button onClick={NavigateToLogin} className="px-4 py-2 text-indigo-600 border border-indigo-600 rounded-lg hover:bg-indigo-50 transition w-full">
+                <button
+                  onClick={NavigateToLogin}
+                  className="px-4 py-2 text-indigo-600 border border-indigo-600 rounded-lg hover:bg-indigo-50 transition w-full"
+                >
                   Sign In
                 </button>
-                <button onClick={NavigateToSignup} className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition w-full">
+                <button
+                  onClick={NavigateToSignup}
+                  className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition w-full"
+                >
                   Get Started
                 </button>
               </div>

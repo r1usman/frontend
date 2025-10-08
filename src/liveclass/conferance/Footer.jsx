@@ -11,7 +11,7 @@ import {
   Users,
 } from "lucide-react";
 
-function Footer() {
+function Footer({ isDarkMode }) {
   const { isLocalAudioEnabled, isLocalVideoEnabled, toggleAudio, toggleVideo } =
     useAVToggle();
   const hmsActions = useHMSActions();
@@ -23,16 +23,44 @@ function Footer() {
   };
 
   return (
-    <footer className="bg-gray-900 border-t border-gray-800 px-6 py-4">
+    <footer
+      className={`${
+        isDarkMode ? "bg-gray-900 border-gray-800" : "bg-white border-gray-200"
+      } border-t px-6 py-4`}
+    >
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between">
           {/* Left side - Additional controls */}
           <div className="flex items-center space-x-3">
-            <button className="p-3 bg-gray-800 hover:bg-gray-700 rounded-full transition-colors duration-200 group">
-              <Users className="w-5 h-5 text-gray-300 group-hover:text-white" />
+            <button
+              className={`p-3 ${
+                isDarkMode
+                  ? "bg-gray-800 hover:bg-gray-700"
+                  : "bg-gray-100 hover:bg-gray-200"
+              } rounded-full transition-colors duration-200 group`}
+            >
+              <Users
+                className={`w-5 h-5 ${
+                  isDarkMode
+                    ? "text-gray-300 group-hover:text-white"
+                    : "text-gray-600 group-hover:text-gray-900"
+                }`}
+              />
             </button>
-            <button className="p-3 bg-gray-800 hover:bg-gray-700 rounded-full transition-colors duration-200 group">
-              <Settings className="w-5 h-5 text-gray-300 group-hover:text-white" />
+            <button
+              className={`p-3 ${
+                isDarkMode
+                  ? "bg-gray-800 hover:bg-gray-700"
+                  : "bg-gray-100 hover:bg-gray-200"
+              } rounded-full transition-colors duration-200 group`}
+            >
+              <Settings
+                className={`w-5 h-5 ${
+                  isDarkMode
+                    ? "text-gray-300 group-hover:text-white"
+                    : "text-gray-600 group-hover:text-gray-900"
+                }`}
+              />
             </button>
           </div>
 
@@ -43,7 +71,9 @@ function Footer() {
               onClick={toggleAudio}
               className={`p-4 rounded-full transition-all duration-200 transform hover:scale-105 ${
                 isLocalAudioEnabled
-                  ? "bg-gray-800 hover:bg-gray-700 text-white"
+                  ? isDarkMode
+                    ? "bg-gray-800 hover:bg-gray-700 text-white"
+                    : "bg-gray-100 hover:bg-gray-200 text-gray-700"
                   : "bg-red-600 hover:bg-red-500 text-white"
               }`}
             >
@@ -59,7 +89,9 @@ function Footer() {
               onClick={toggleVideo}
               className={`p-4 rounded-full transition-all duration-200 transform hover:scale-105 ${
                 isLocalVideoEnabled
-                  ? "bg-gray-800 hover:bg-gray-700 text-white"
+                  ? isDarkMode
+                    ? "bg-gray-800 hover:bg-gray-700 text-white"
+                    : "bg-gray-100 hover:bg-gray-200 text-gray-700"
                   : "bg-red-600 hover:bg-red-500 text-white"
               }`}
             >
@@ -80,7 +112,11 @@ function Footer() {
           </div>
 
           {/* Right side - Status */}
-          <div className="flex items-center space-x-2 text-gray-400">
+          <div
+            className={`flex items-center space-x-2 ${
+              isDarkMode ? "text-gray-400" : "text-gray-500"
+            }`}
+          >
             <div className="w-2 h-2 bg-green-500 rounded-full"></div>
             <span className="text-sm font-medium">Connected</span>
           </div>
@@ -89,17 +125,31 @@ function Footer() {
         {/* Control Labels */}
         <div className="flex items-center justify-center mt-3 space-x-12">
           <div className="text-center">
-            <p className="text-xs text-gray-400">
+            <p
+              className={`text-xs ${
+                isDarkMode ? "text-gray-400" : "text-gray-500"
+              }`}
+            >
               {isLocalAudioEnabled ? "Mute" : "Unmute"}
             </p>
           </div>
           <div className="text-center">
-            <p className="text-xs text-gray-400">
+            <p
+              className={`text-xs ${
+                isDarkMode ? "text-gray-400" : "text-gray-500"
+              }`}
+            >
               {isLocalVideoEnabled ? "Turn Off Video" : "Turn On Video"}
             </p>
           </div>
           <div className="text-center">
-            <p className="text-xs text-gray-400">End Call</p>
+            <p
+              className={`text-xs ${
+                isDarkMode ? "text-gray-400" : "text-gray-500"
+              }`}
+            >
+              End Call
+            </p>
           </div>
         </div>
       </div>
