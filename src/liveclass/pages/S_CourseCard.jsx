@@ -51,7 +51,7 @@ function CourseCard({ course, showJoinButton = false }) {
         </p>
 
         {/* Description */}
-        <p className="text-slate-600 text-sm mb-4 leading-relaxed flex-grow">
+        <p className="text-slate-600 text-sm mb-4 leading-relaxed flex-grow line-clamp-2">
           {course.description}
         </p>
 
