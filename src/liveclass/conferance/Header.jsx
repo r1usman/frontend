@@ -78,7 +78,7 @@ function Header({
             mediaRecorderRef.current.start(1000);
           }
         }
-      }, 20000); // 20 seconds
+      }, 15000); // 20 seconds
 
       setRecordingInterval(interval);
     } catch (error) {

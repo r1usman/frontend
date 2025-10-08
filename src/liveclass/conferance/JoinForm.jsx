@@ -12,7 +12,9 @@ function LiveClassAutoJoin() {
     const joinRoomAsync = async () => {
       setIsConnecting(true);
       const name = "jon";
-      const roomCode = "ajs-hogy-ukz";
+      // vft-hqzi-alj
+      const roomCode = "vft-hqzi-alj";
+      // const roomCode = "ajs-hogy-ukz";
       try {
         const authToken = await hmsActions.getAuthTokenByRoomCode({ roomCode });
         if (isMounted) {
