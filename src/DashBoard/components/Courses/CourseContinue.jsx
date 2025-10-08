@@ -9,7 +9,7 @@ const CourseCard = ({
   color,
   icon,
   progress,
-  onClick, // Handler for card click
+  onClick,
 }) => {
   const progressColor =
     progress >= 70
@@ -21,7 +21,7 @@ const CourseCard = ({
   return (
     <div
       className={`${color} p-4 rounded-lg w-80 flex-shrink-0 transition-transform duration-200 hover:bg-opacity-80  hover:shadow-lg`}
-      onClick={onClick} // Trigger the passed onClick event when card is clicked
+      onClick={onClick} 
     >
       <h3 className="text-white font-semibold text-lg mb-2">{title}</h3>
       <p className="text-white text-xs mb-4">{description}</p>
@@ -45,9 +45,9 @@ const CourseCard = ({
 };
 
 const CourseContinue = () => {
-  const navigate = useNavigate(); // Hook to navigate to other pages
+  const navigate = useNavigate(); 
 
-  // Handler to be triggered on card click
+
   const handleCardClick = (courseId) => {
     if (courseId == "python") {
       navigate("/0");
@@ -55,8 +55,8 @@ const CourseContinue = () => {
   };
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-4">
+    <div className="px-4 py-3 rounded-md bg-gray-50">
+      <div className="flex justify-between items-center mb-4 ">
         <h2 className="text-lg font-medium">Continue Courses</h2>
         <div className="flex space-x-2">
           <button className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors">
@@ -76,7 +76,7 @@ const CourseContinue = () => {
           color="bg-gradient-to-br from-cyan-500 to-blue-600"
           icon={<span className="text-white text-lg">🐍</span>}
           progress={70}
-          onClick={() => handleCardClick("python")} // Pass courseId to handler
+          onClick={() => handleCardClick("python")} 
         />
         <CourseCard
           title="Java Programming"
@@ -85,7 +85,7 @@ const CourseContinue = () => {
           color="bg-gradient-to-br from-orange-400 to-red-500"
           icon={<span className="text-white text-lg">☕</span>}
           progress={50}
-          onClick={() => handleCardClick("java")} // Pass courseId to handler
+          onClick={() => handleCardClick("java")} 
         />
         <CourseCard
           title="C++ Programming"

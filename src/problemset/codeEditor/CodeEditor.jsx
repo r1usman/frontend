@@ -7,14 +7,14 @@
 // const CodeEditor = ({ testcases, problemId }) => {
 //   const navigate = useNavigate();
 //   const { User } = useContext(UserContext);
-  
+
 //   const [code, setCode] = useState("# Write your code here\n");
 //   const [language, setLanguage] = useState("python");
 //   const [loading, setLoading] = useState(false);
 //   const [result, setResult] = useState(null);
-//   const [startTime, setStartTime] = useState(null);
 //   const [elapsedTime, setElapsedTime] = useState(0);
-//   const [isTimerRunning, setIsTimerRunning] = useState(false);
+//   const [timerInterval, setTimerInterval] = useState(null);
+//   const [startTime, setStartTime] = useState(null);
 
 //   // Language versions mapping
 //   const languageVersions = {
@@ -24,30 +24,48 @@
 //     java: "15.0.2",
 //   };
 
-//   // Start timer when component mounts
-//   useEffect(() => {
-//     const now = new Date().toISOString();
-//     setStartTime(now);
-//     setIsTimerRunning(true);
-//   }, []);
+//   // Start timer function
+//   const startTimer = () => {
+//     if (timerInterval) return; // Prevent multiple intervals
 
-//   // Timer effect - updates every second
-//   useEffect(() => {
-//     let interval;
-    
-//     if (isTimerRunning && startTime) {
-//       interval = setInterval(() => {
-//         const now = new Date();
-//         const start = new Date(startTime);
-//         const diff = now - start;
-//         setElapsedTime(diff);
-//       }, 1000);
+//     const start = new Date();
+//     setStartTime(start);
+
+//     const interval = setInterval(() => {
+//       const now = new Date();
+//       const diff = now - start;
+//       setElapsedTime(diff);
+//     }, 1000);
+
+//     setTimerInterval(interval);
+//   };
+
+//   // Stop timer function
+//   const stopTimer = () => {
+//     if (timerInterval) {
+//       clearInterval(timerInterval);
+//       setTimerInterval(null);
 //     }
+//   };
 
+//   // Reset timer function
+//   const resetTimer = () => {
+//     if (timerInterval) {
+//       clearInterval(timerInterval);
+//       setTimerInterval(null);
+//     }
+//     setElapsedTime(0);
+//     setStartTime(null);
+//   };
+
+//   // Cleanup interval on component unmount
+//   useEffect(() => {
 //     return () => {
-//       if (interval) clearInterval(interval);
+//       if (timerInterval) {
+//         clearInterval(timerInterval);
+//       }
 //     };
-//   }, [isTimerRunning, startTime]);
+//   }, [timerInterval]);
 
 //   // Format time as MM:SS
 //   const formatTime = (milliseconds) => {
@@ -68,19 +86,24 @@
 //       return;
 //     }
 
-//     // Stop timer on submit
-//     setIsTimerRunning(false);
+//     // Stop timer when submitting
+//     stopTimer();
 
 //     setLoading(true);
 //     setResult(null);
 
+//     const endedAt = new Date();
+
+//     // Prepare submission data according to backend requirements
 //     const submissionData = {
 //       language: language,
 //       version: languageVersions[language],
 //       code: code,
 //       problemId: problemId,
-//       startedAt: startTime,
-//       endedAt: new Date().toISOString(),
+//       // Include timing data in the format your backend expects
+//       elapsedTimeMs: elapsedTime,
+//       startedAt: startTime ? startTime.toISOString() : new Date().toISOString(),
+//       endedAt: endedAt.toISOString()
 //     };
 
 //     console.log("🔹 Sending to backend:", submissionData);
@@ -104,20 +127,45 @@
 //     }
 //   };
 
-//   const handleRun = () => {
-//     alert("Run functionality - test against sample cases");
-//   };
+//    const handleRun = async () => {
+//     setLoading(true);
+//     setResult(null);
 
-//   const resetTimer = () => {
-//     const now = new Date().toISOString();
-//     setStartTime(now);
-//     setElapsedTime(0);
-//     setIsTimerRunning(true);
+//     try {
+//       // Prepare the run data for Piston API
+//       const runData = {
+//         language: language,
+//         version: languageVersions[language],
+//         code: code,
+//         // Add test cases as input if available
+//         stdin: testcases && testcases.length > 0 ? testcases[0].input : ""
+//       };
+
+//       console.log("🔹 Running code with Piston API:", runData);
+
+//       // Call the Piston API through your backend
+//       const data = await problemsApi.runCode(runData);
+//       console.log("✅ Run result:", data);
+
+//       // Format the result for display
+//       setResult({
+//         run: true,
+//         output: data.run?.output || data.output || "No output",
+//         stderr: data.run?.stderr || data.stderr || "",
+//         code: data.run?.code || data.code || 0,
+//         executionTime: data.run?.executionTime || "N/A"
+//       });
+//     } catch (error) {
+//       console.error("❌ Run error:", error);
+//       setResult({ error: error.message || "Failed to run code" });
+//     } finally {
+//       setLoading(false);
+//     }
 //   };
 
 //   return (
 //     <div className="space-y-4">
-//       {/* Timer Display */}
+//       {/* Timer Display with Manual Controls */}
 //       <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-4">
 //         <div className="flex items-center justify-between">
 //           <div className="flex items-center gap-3">
@@ -131,12 +179,40 @@
 //               <p className="text-2xl font-bold text-gray-900 font-mono">{formatTime(elapsedTime)}</p>
 //             </div>
 //           </div>
-//           <button
-//             onClick={resetTimer}
-//             className="px-3 py-1 text-sm bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-//           >
-//             Reset
-//           </button>
+//           <div className="flex gap-2">
+//             {!timerInterval ? (
+//               <button
+//                 onClick={startTimer}
+//                 className="px-3 py-1 text-sm bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium"
+//               >
+//                 Start
+//               </button>
+//             ) : (
+//               <button
+//                 onClick={stopTimer}
+//                 className="px-3 py-1 text-sm bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors font-medium"
+//               >
+//                 Stop
+//               </button>
+//             )}
+//             <button
+//               onClick={resetTimer}
+//               className="px-3 py-1 text-sm bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
+//             >
+//               Reset
+//             </button>
+//           </div>
+//         </div>
+
+//         {/* Timer Status */}
+//         <div className="mt-2 text-xs text-gray-500">
+//           {!startTime ? (
+//             "Timer not started. Click Start to begin timing your session."
+//           ) : timerInterval ? (
+//             "Timer running... Click Stop to pause or Reset to restart."
+//           ) : (
+//             "Timer paused. Click Start to resume or Reset to restart from zero."
+//           )}
 //         </div>
 //       </div>
 
@@ -202,7 +278,7 @@
 //           <h3 className="font-bold mb-2">
 //             {result.error ? "Submission Failed" : "Submission Result"}
 //           </h3>
-          
+
 //           {/* Show detailed results */}
 //           {result.newSubmission && (
 //             <div className="space-y-3">
@@ -218,7 +294,7 @@
 //                   Time: {result.newSubmission.elapsedTimeMs ? (result.newSubmission.elapsedTimeMs / 1000).toFixed(2) : '0'}s
 //                 </span>
 //               </div>
-              
+
 //               {/* Test Cases Results */}
 //               {result.newSubmission.results && result.newSubmission.results.length > 0 && (
 //                 <div className="space-y-2">
@@ -253,7 +329,7 @@
 //               )}
 //             </div>
 //           )}
-          
+
 //           {result.error && (
 //             <pre className="text-sm overflow-x-auto whitespace-pre-wrap mt-2">
 //               {result.error}
@@ -267,7 +343,7 @@
 
 // export default CodeEditor;
 
-// ================================================================
+// ==========================================================
 
 import React, { useState, useContext, useEffect } from "react";
 import Editor from "@monaco-editor/react";
@@ -278,7 +354,7 @@ import { problemsApi } from "../../services/api";
 const CodeEditor = ({ testcases, problemId }) => {
   const navigate = useNavigate();
   const { User } = useContext(UserContext);
-  
+
   const [code, setCode] = useState("# Write your code here\n");
   const [language, setLanguage] = useState("python");
   const [loading, setLoading] = useState(false);
@@ -298,16 +374,16 @@ const CodeEditor = ({ testcases, problemId }) => {
   // Start timer function
   const startTimer = () => {
     if (timerInterval) return; // Prevent multiple intervals
-    
+
     const start = new Date();
     setStartTime(start);
-    
+
     const interval = setInterval(() => {
       const now = new Date();
       const diff = now - start;
       setElapsedTime(diff);
     }, 1000);
-    
+
     setTimerInterval(interval);
   };
 
@@ -364,7 +440,7 @@ const CodeEditor = ({ testcases, problemId }) => {
     setResult(null);
 
     const endedAt = new Date();
-    
+
     // Prepare submission data according to backend requirements
     const submissionData = {
       language: language,
@@ -398,9 +474,46 @@ const CodeEditor = ({ testcases, problemId }) => {
     }
   };
 
-  const handleRun = () => {
-    alert("Run functionality - test against sample cases");
-  };
+//   const handleRun = async () => {
+//   setLoading(true);
+//   setResult(null);
+
+//   try {
+//     // Run for each testcase
+//     const results = [];
+//     for (let i = 0; i < testcases.length; i++) {
+//       const runData = {
+//         language,
+//         version: languageVersions[language],
+//         files: [{ name: "main", content: code }],
+//         stdin: testcases[i].input  // <-- full input for this testcase
+//       };
+
+//       console.log(`🔹 Running testcase ${i + 1}:`, runData);
+
+//       const data = await problemsApi.runCode(runData); // direct Piston call
+
+//       results.push({
+//         input: testcases[i].input,
+//         expected: testcases[i].expectedOutput,
+//         output: data.run?.stdout || data.stdout || "",
+//         stderr: data.run?.stderr || data.stderr || "",
+//         code: data.run?.code || 0,
+//         executionTime: data.run?.time || "N/A",
+//         passed: (data.run?.stdout?.trim() || data.stdout?.trim()) === (testcases[i].expectedOutput?.trim())
+//       });
+//     }
+
+//     setResult({ run: true, results });
+//   } catch (error) {
+//     console.error("❌ Run error:", error);
+//     setResult({ error: error.message || "Failed to run code" });
+//   } finally {
+//     setLoading(false);
+//   }
+// };
+
+
 
   return (
     <div className="space-y-4">
@@ -442,7 +555,7 @@ const CodeEditor = ({ testcases, problemId }) => {
             </button>
           </div>
         </div>
-        
+
         {/* Timer Status */}
         <div className="mt-2 text-xs text-gray-500">
           {!startTime ? (
@@ -490,12 +603,13 @@ const CodeEditor = ({ testcases, problemId }) => {
 
       {/* Action Buttons */}
       <div className="flex gap-3">
-        <button
+        {/* <button
           onClick={handleRun}
-          className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
+          disabled={loading}
+          className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors font-medium"
         >
-          Run Code
-        </button>
+          {loading ? "Running..." : "Run Code"}
+        </button> */}
         <button
           onClick={handleSubmit}
           disabled={loading}
@@ -508,45 +622,82 @@ const CodeEditor = ({ testcases, problemId }) => {
       {/* Results Display */}
       {result && (
         <div
-          className={`p-4 rounded-lg ${
-            result.error
+          className={`p-4 rounded-lg ${result.error
               ? "bg-red-50 border border-red-200"
-              : "bg-green-50 border border-green-200"
-          }`}
+              : result.run
+                ? "bg-blue-50 border border-blue-200"
+                : "bg-green-50 border border-green-200"
+            }`}
         >
           <h3 className="font-bold mb-2">
-            {result.error ? "Submission Failed" : "Submission Result"}
+            {result.error ? "Error" : result.run ? "Run Result" : "Submission Result"}
           </h3>
-          
-          {/* Show detailed results */}
+
+          {/* Run Code Results */}
+          {result.run && !result.error && (
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <span className={`px-3 py-1 rounded-full text-sm font-medium ${result.code === 0
+                    ? 'bg-blue-100 text-blue-800'
+                    : 'bg-red-100 text-red-800'
+                  }`}>
+                  {result.code === 0 ? 'EXECUTED' : 'RUNTIME ERROR'}
+                </span>
+                {result.executionTime !== "N/A" && (
+                  <span className="text-sm text-gray-600">
+                    Execution Time: {result.executionTime}ms
+                  </span>
+                )}
+              </div>
+
+              {/* Output */}
+              {result.output && (
+                <div className="space-y-1">
+                  <p className="font-semibold text-sm">Output:</p>
+                  <pre className="p-3 bg-white rounded border border-blue-200 text-xs overflow-x-auto whitespace-pre-wrap">
+                    {result.output}
+                  </pre>
+                </div>
+              )}
+
+              {/* Stderr */}
+              {result.stderr && (
+                <div className="space-y-1">
+                  <p className="font-semibold text-sm text-red-700">Errors:</p>
+                  <pre className="p-3 bg-red-50 rounded border border-red-200 text-xs overflow-x-auto whitespace-pre-wrap text-red-800">
+                    {result.stderr}
+                  </pre>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Submission Results */}
           {result.newSubmission && (
             <div className="space-y-3">
               <div className="flex items-center gap-2">
-                <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                  result.newSubmission.status === 'accepted' 
-                    ? 'bg-green-100 text-green-800' 
+                <span className={`px-3 py-1 rounded-full text-sm font-medium ${result.newSubmission.status === 'accepted'
+                    ? 'bg-green-100 text-green-800'
                     : 'bg-red-100 text-red-800'
-                }`}>
+                  }`}>
                   {result.newSubmission.status.toUpperCase()}
                 </span>
                 <span className="text-sm text-gray-600">
                   Time: {result.newSubmission.elapsedTimeMs ? (result.newSubmission.elapsedTimeMs / 1000).toFixed(2) : '0'}s
                 </span>
               </div>
-              
+
               {/* Test Cases Results */}
               {result.newSubmission.results && result.newSubmission.results.length > 0 && (
                 <div className="space-y-2">
                   <p className="font-semibold text-sm">Test Cases:</p>
                   {result.newSubmission.results.map((test, idx) => (
-                    <div key={idx} className={`p-3 rounded border ${
-                      test.passed ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'
-                    }`}>
+                    <div key={idx} className={`p-3 rounded border ${test.passed ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'
+                      }`}>
                       <div className="flex items-center justify-between mb-1">
                         <span className="font-medium text-sm">Test {idx + 1}</span>
-                        <span className={`text-xs font-medium ${
-                          test.passed ? 'text-green-700' : 'text-red-700'
-                        }`}>
+                        <span className={`text-xs font-medium ${test.passed ? 'text-green-700' : 'text-red-700'
+                          }`}>
                           {test.passed ? '✓ PASSED' : '✗ FAILED'}
                         </span>
                       </div>
@@ -568,7 +719,7 @@ const CodeEditor = ({ testcases, problemId }) => {
               )}
             </div>
           )}
-          
+
           {result.error && (
             <pre className="text-sm overflow-x-auto whitespace-pre-wrap mt-2">
               {result.error}
