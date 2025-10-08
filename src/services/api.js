@@ -3,6 +3,27 @@ const API_BASE_URL = "http://localhost:3000/api";
 // Helper to get token
 const getAuthToken = () => localStorage.getItem("token");
 
+// Auth API
+export const authApi = {
+  // Get user profile
+  getUserProfile: async () => {
+    const token = getAuthToken();
+    
+    if (!token) {
+      throw new Error('AUTHENTICATION_REQUIRED');
+    }
+
+    const response = await fetch(`http://localhost:3000/Auth/profile`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    if (!response.ok) throw new Error('Failed to fetch user profile');
+    return response.json();
+  }
+};
+
 export const problemsApi = {
   // Get all problems
   getAllProblems: async () => {
