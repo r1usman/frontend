@@ -5,13 +5,12 @@ import {
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { useEffect, useState } from "react";
-import { Sun, Moon } from "lucide-react";
 import Conference from "./Conference";
+import { EmotionProvider } from "./EmotionContext";
 import Footer from "./Footer";
 import Header from "./Header";
 import JoinForm from "./JoinForm";
 import { AudioRecorder } from "./recorder";
-import { EmotionProvider } from "./EmotionContext";
 import { ResourcesProvider } from "./ResourcesContext";
 import ResourcesSection from "./ResourcesSection";
 
