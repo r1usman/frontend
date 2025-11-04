@@ -35,8 +35,10 @@ const Login = () => {
 
         if(User.status == "Instructor")
           navigate("/Instructor/Dashboard")
-        else
+        else if (User.status == "Student")
           navigate("/Student/Dashboard")
+        else
+          navigate("/Admin/Dashboard")
 
 
         console.log("Authorized");
