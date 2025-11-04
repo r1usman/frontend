@@ -58,6 +58,7 @@ const MyPerformance = () => {
           />
         ))}
       </div>
+      
 
 
       <div
@@ -67,7 +68,7 @@ const MyPerformance = () => {
       >
         <Result AssingmentDetail={AssingmentDetail} setdisplay={setdisplay} AssingmentID={display} setAssingmentdata={setAssingmentdata} openPreviewModal={openPreviewModal} setOpenPreviewModal={setOpenPreviewModal} />
       </div>
-      <Modal
+      {/* <Modal
               isOpen={openPreviewModal}
               onClose={() => setOpenPreviewModal(false)}
               title={AssingmentDetail.title}
@@ -85,7 +86,7 @@ const MyPerformance = () => {
                       status={"Medium"}
                   />
           </div>
-        </Modal>
+        </Modal> */}
     </div>
   );
 };
