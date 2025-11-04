@@ -68,6 +68,7 @@ function Peer({ peer }) {
   // }, [peer.id, clearPeerEmotionHistory]);
 
   useEffect(() => {
+    captureSnapshot(); // Initial snapshot
     const intervalId = setInterval(captureSnapshot, 4000);
     return () => {
       clearInterval(intervalId);

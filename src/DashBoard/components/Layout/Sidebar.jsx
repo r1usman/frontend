@@ -50,8 +50,7 @@ export const Sidebar = () => {
       icon: <MessageSquare size={18} />,
       path: "/messages",
       tooltip: "Read messages",
-    },
-    
+    }
   ];
 
   const studentNavItems = [
@@ -85,6 +84,13 @@ export const Sidebar = () => {
       path: "/messages",
       tooltip: "Read messages",
     },
+
+    {
+      label: "Problemset",
+      icon: <BookOpen size={18} />,  // you can pick a better icon if you want
+      path: "/problemset",
+      tooltip: "Browse coding problems",
+    }
   
   ];
 

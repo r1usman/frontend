@@ -52,7 +52,7 @@ const Sidebar = ({ isOpen, onClose }) => {
   }, []);
 
   const HandleClick = () => {
-    navigate("/Dash");
+    navigate("/Student/Dashboard");
   };
 
   return (

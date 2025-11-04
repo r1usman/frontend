@@ -1,146 +1,369 @@
-// import React from 'react';
+// import React, { useState, useEffect } from 'react';
+// import { Link } from 'react-router-dom';
+// import { problemsApi } from '../../../services/api';
 
 // export default function PracticeProblemProfileLeft() {
+//   const [recentSubmissions, setRecentSubmissions] = useState([]);
+//   const [loading, setLoading] = useState(true);
+
+//   useEffect(() => {
+//     fetchRecentSubmissions();
+//   }, []);
+
+//   const fetchRecentSubmissions = async () => {
+//     try {
+//       setLoading(true);
+//       const data = await problemsApi.getUserSubmissions();
+      
+//       // Filter submissions from the past week
+//       const oneWeekAgo = new Date();
+//       oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+      
+//       const weeklySubmissions = data
+//         .filter(sub => new Date(sub.createdAt) >= oneWeekAgo)
+//         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+//         .slice(0, 5); // Show only the 5 most recent
+      
+//       setRecentSubmissions(weeklySubmissions);
+//     } catch (error) {
+//       console.error('Error fetching recent submissions:', error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const getDifficultyColor = (difficulty) => {
+//     switch(difficulty) {
+//       case 'EASY': return 'bg-green-100 text-green-800';
+//       case 'MEDIUM': return 'bg-yellow-100 text-yellow-800';
+//       case 'HARD': return 'bg-red-100 text-red-800';
+//       case 'VERY_HARD': return 'bg-orange-100 text-orange-800';
+//       default: return 'bg-gray-100 text-gray-800';
+//     }
+//   };
+
+//   const getStatusIcon = (status) => {
+//     if (status === 'accepted') return '✓';
+//     if (status === 'rejected') return '✗';
+//     return '⋯';
+//   };
+
+//   const getStatusColor = (status) => {
+//     if (status === 'accepted') return 'text-green-600';
+//     if (status === 'rejected') return 'text-red-600';
+//     return 'text-yellow-600';
+//   };
+
+//   const getTimeAgo = (date) => {
+//     const now = new Date();
+//     const submittedDate = new Date(date);
+//     const diffInMs = now - submittedDate;
+//     const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+    
+//     if (diffInDays === 0) return 'Today';
+//     if (diffInDays === 1) return '1 day ago';
+//     if (diffInDays < 7) return `${diffInDays} days ago`;
+//     return submittedDate.toLocaleDateString();
+//   };
+
 //   return (
-//     <div className="bg-gray-100 min-h-screen p-6">
-//       <div className="max-w-7xl mx-auto">
-//         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+//     <div className="bg-white rounded-lg p-4 shadow-sm">
+//       <h2 className="text-lg font-bold text-gray-900">Student Statistics</h2>
 
-//           {/* Left Column */}
-//           <div className="lg:col-span-2">
-//           <h2 className="text-lg font-bold text-gray-900 mb-4">Stats</h2>
+//       {/* Stats Circle and Problem Count */}
+//       <div className="bg-white rounded-lg p-6">
+//         <div className="flex items-center justify-between mb-6">
+//           {/* Circle Progress */}
+//           <div className="flex items-center">
+//             <div className="relative w-40 h-40 mr-10">
+//               <svg className="w-40 h-40 transform -rotate-90" viewBox="0 0 100 100">
+//                 {/* Background circle */}
+//                 <circle cx="50" cy="50" r="45" stroke="#e5e7eb" strokeWidth="8" fill="none" />
 
-//             {/* Stats Circle and Problem Count */}
-//             <div className="bg-white rounded-lg p-6 mb-6">
-//               <div className="flex items-center justify-between mb-6">
-//                 {/* Circle Progress */}
-//                 <div className="flex items-center">
-//                   <div className="relative w-32 h-32 mr-8">
-//                     <svg className="w-32 h-32 transform -rotate-90" viewBox="0 0 100 100">
-//                       <circle cx="50" cy="50" r="40" stroke="#e5e7eb" strokeWidth="8" fill="none"/>
-//                       <circle cx="50" cy="50" r="40" stroke="url(#gradient)" strokeWidth="8" fill="none" 
-//                               strokeDasharray="251.2" strokeDashoffset="180" strokeLinecap="round"/>
-//                       <defs>
-//                         <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-//                           <stop offset="0%" stopColor="#8b5cf6"/>
-//                           <stop offset="100%" stopColor="#3b82f6"/>
-//                         </linearGradient>
-//                       </defs>
-//                     </svg>
-//                     <div className="absolute inset-0 flex items-center justify-center">
-//                       <div className="text-center">
-//                         <div className="text-3xl font-bold text-purple-600">248</div>
-//                         <div className="text-sm text-gray-500">/3570 Problems</div>
-//                       </div>
-//                     </div>
-//                   </div>
+//                 {/* Progress circle */}
+//                 <circle
+//                   cx="50"
+//                   cy="50"
+//                   r="45"
+//                   stroke="url(#gradient)"
+//                   strokeWidth="8"
+//                   fill="none"
+//                   strokeDasharray="282.6"
+//                   strokeDashoffset="200"
+//                   strokeLinecap="round"
+//                 />
 
-//                   <div className="space-y-2">
-//                     <div className="flex items-center">
-//                       <span className="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
-//                       <span className="text-sm font-medium">Solved</span>
-//                     </div>
-//                     <div className="text-sm text-gray-500">0 Attempting</div>
-//                   </div>
-//                 </div>
+//                 {/* Gradient definition */}
+//                 <defs>
+//                   <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+//                     <stop offset="0%" stopColor="#8b5cf6" />
+//                     <stop offset="100%" stopColor="#3b82f6" />
+//                   </linearGradient>
+//                 </defs>
+//               </svg>
 
-//                 {/* Problem Stats */}
-//                 <div className="space-y-3">
-//                   <div className="flex items-center">
-//                     <span className="bg-green-500 text-white px-2 py-1 rounded text-xs font-medium mr-2">Easy</span>
-//                     <span className="text-sm font-medium">1/879</span>
-//                   </div>
-//                   <div className="flex items-center">
-//                     <span className="bg-yellow-500 text-white px-2 py-1 rounded text-xs font-medium mr-2">Med.</span>
-//                     <span className="text-sm font-medium">0/1852</span>
-//                   </div>
-//                   <div className="flex items-center">
-//                     <span className="bg-red-500 text-white px-2 py-1 rounded text-xs font-medium mr-2">Hard</span>
-//                     <span className="text-sm font-medium">0/839</span>
-//                   </div>
-//                 </div>
-
-//                 {/* Badges */}
-//                 <div className="text-right">
-//                   <div className="flex items-center mb-2">
-//                     <span className="bg-blue-500 text-white px-2 py-1 rounded text-xs font-medium mr-2">Badges</span>
-//                     <span className="text-2xl font-bold text-blue-500">0</span>
-//                   </div>
-//                   <div className="bg-blue-500 text-white px-3 py-1 rounded text-xs font-medium">
-//                     Locked Badge
-//                   </div>
-//                   <div className="bg-blue-500 text-white px-3 py-1 rounded text-xs font-medium mt-1">
-//                     Jun LeetCoding Challenge
-//                   </div>
-//                 </div>
-//               </div>
-
-//               {/* Submission Stats */}
-//               <div className="border-t pt-4">
-//                 <div className="flex items-center justify-between text-sm">
-//                   <div className="flex items-center">
-//                     <span className="bg-blue-500 text-white px-2 py-1 rounded text-xs font-bold mr-2">1</span>
-//                     <span className="text-blue-600 font-medium">submissions in the past one year</span>
-//                     <svg className="w-4 h-4 text-gray-400 ml-1" fill="currentColor" viewBox="0 0 20 20">
-//                       <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd"/>
-//                     </svg>
-//                   </div>
-//                   <div className="text-gray-500">
-//                     <span>Total active days: 1</span>
-//                     <span className="ml-4">Max streak: 1</span>
-//                   </div>
+//               {/* Inner Text */}
+//               <div className="absolute inset-0 flex items-center justify-center">
+//                 <div className="text-center">
+//                   <div className="text-4xl font-bold text-purple-600">248</div>
+//                   <div className="text-sm text-gray-500">/3570 Problems</div>
 //                 </div>
 //               </div>
 //             </div>
 
-//             {/* Activity Tabs */}
-//             <div className="bg-white rounded-lg p-6">
-//               <div className="border-b mb-6">
-//                 <nav className="flex space-x-8">
-//                   <button className="text-blue-600 border-b-2 border-blue-600 pb-2 font-medium">Recent AC</button>
-//                   <button className="text-gray-500 pb-2 hover:text-gray-700">List</button>
-//                   <button className="text-gray-500 pb-2 hover:text-gray-700">Solutions</button>
-//                   <button className="text-gray-500 pb-2 hover:text-gray-700">Discuss</button>
-//                   <div className="ml-auto">
-//                     <button className="text-blue-600 text-sm hover:underline">View all submissions →</button>
-//                   </div>
-//                 </nav>
+//             {/* Side Info */}
+//             <div className="space-y-2">
+//               <div className="flex items-center">
+//                 <span className="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
+//                 <span className="text-sm font-medium">Solved</span>
 //               </div>
-
-//               {/* Recent Activity */}
-//               <div className="space-y-4">
-//                 <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded">
-//                   <div className="flex items-center">
-//                     <div className="mr-4">
-//                       <h3 className="font-medium text-gray-900">Two Sum</h3>
-//                       <p className="text-sm text-gray-600">Solved using HashMap approach with O(n) time complexity</p>
-//                     </div>
-//                     <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-medium">Easy</span>
-//                   </div>
-//                   <span className="text-sm text-blue-600">6 days ago</span>
-//                 </div>
-
-//                 <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded">
-//                   <div className="flex items-center">
-//                     <div className="mr-4">
-//                       <h3 className="font-medium text-gray-900">Binary Search</h3>
-//                     </div>
-//                     <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs font-medium">Medium</span>
-//                   </div>
-//                   <span className="text-sm text-blue-600">1 week ago</span>
-//                 </div>
-//               </div>
+//               <div className="text-sm text-gray-500">0 Attempting</div>
 //             </div>
 //           </div>
+
+//           {/* Problem Stats */}
+//           <div className="space-y-2">
+//             <div className="flex items-center space-x-3">
+//               <span className="px-3 py-1 text-xs font-semibold text-white bg-green-500 rounded-full">Easy</span>
+//               <span className="text-sm font-semibold text-gray-700">1<span className="text-gray-400"> / 879</span></span>
+//             </div>
+//             <div className="flex items-center space-x-3">
+//               <span className="px-3 py-1 text-xs font-semibold text-white bg-yellow-500 rounded-full">Med.</span>
+//               <span className="text-sm font-semibold text-gray-700">0<span className="text-gray-400"> / 1852</span></span>
+//             </div>
+//             <div className="flex items-center space-x-3">
+//               <span className="px-3 py-1 text-xs font-semibold text-white bg-red-500 rounded-full">Hard</span>
+//               <span className="text-sm font-semibold text-gray-700">0<span className="text-gray-400"> / 839</span></span>
+//             </div>
+//           </div>
+
+//           {/* Badges */}
+//           <div className="text-right">
+//             <div className="flex items-center mb-2">
+//               <span className="bg-gradient-to-r from-[#5737F6] to-[#9612FA] text-white px-2 py-1 rounded text-xs font-medium mr-2">Badges</span>
+//               <span className="text-2xl font-bold bg-gradient-to-r from-[#5737F6] to-[#9612FA] bg-clip-text text-transparent">0</span>
+//             </div>
+//             <div className="bg-gradient-to-r from-[#5737F6] to-[#9612FA] text-white px-3 py-1 rounded text-xs font-medium">
+//               Locked Badge
+//             </div>
+//             <div className="bg-gradient-to-r from-[#5737F6] to-[#9612FA] text-white px-3 py-1 rounded text-xs font-medium mt-1">
+//               Jun LeetCoding Challenge
+//             </div>
+//           </div>
+//         </div>
+
+//       </div>
+
+//       {/* Activity Tabs */}
+//       <div className="bg-white rounded-lg shadow-sm border border-gray-200 mt-4">
+//         <div className="border-b border-gray-200 px-6 py-4">
+//           <div className="flex items-center justify-between">
+//             <div className="flex items-center">
+//               <span className="bg-blue-500 text-white px-2 py-1 rounded text-xs font-bold mr-2">
+//                 {recentSubmissions.length}
+//               </span>
+//               <span className="text-gray-900 font-semibold text-sm">Latest Submissions (Past Week)</span>
+//             </div>
+//             <Link 
+//               to="/singleProblems/submissions" 
+//               className="text-blue-600 text-sm hover:underline font-medium"
+//             >
+//               View all submissions →
+//             </Link>
+//           </div>
+//         </div>
+
+//         {/* Recent Activity */}
+//         <div className="p-4">
+//           {loading ? (
+//             <div className="flex items-center justify-center py-8">
+//               <div className="animate-spin rounded-full h-8 w-8 border-2 border-gray-200 border-t-blue-600"></div>
+//             </div>
+//           ) : recentSubmissions.length === 0 ? (
+//             <div className="text-center py-8">
+//               <p className="text-gray-500 text-sm">No submissions in the past week</p>
+//               <Link
+//                 to="/singleProblems/submissions"
+//                 className="mt-2 inline-block text-blue-600 text-sm hover:underline"
+//               >
+//                 View all submissions
+//               </Link>
+//             </div>
+//           ) : (
+//             <div className="space-y-3">
+//               {recentSubmissions.map((submission) => (
+//                 <div 
+//                   key={submission._id}
+//                   className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg border border-gray-100 transition-colors"
+//                 >
+//                   <div className="flex items-center flex-1 min-w-0">
+//                     <span 
+//                       className={`text-lg font-bold mr-3 ${getStatusColor(submission.status)}`}
+//                       title={submission.status}
+//                     >
+//                       {getStatusIcon(submission.status)}
+//                     </span>
+//                     <div className="flex-1 min-w-0 mr-3">
+//                       <h3 className="font-medium text-gray-900 text-sm truncate">
+//                         {submission.problem?.name || `Problem ${submission.problem?._id}`}
+//                       </h3>
+//                       <p className="text-xs text-gray-600 truncate">
+//                         {submission.language} • {submission.executionTime || 'N/A'}ms
+//                       </p>
+//                     </div>
+//                     {submission.problem?.difficulty && (
+//                       <span className={`px-2 py-1 rounded text-xs font-medium whitespace-nowrap ${getDifficultyColor(submission.problem.difficulty)}`}>
+//                         {submission.problem.difficulty}
+//                       </span>
+//                     )}
+//                   </div>
+//                   <span className="text-xs text-gray-500 ml-3 whitespace-nowrap">
+//                     {getTimeAgo(submission.createdAt)}
+//                   </span>
+//                 </div>
+//               ))}
+//             </div>
+//           )}
 //         </div>
 //       </div>
 //     </div>
 //   );
 // }
 
-import React from 'react';
+// ==========================================================
+
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { problemsApi, authApi } from '../../../services/api';
 
 export default function PracticeProblemProfileLeft() {
+  const [recentSubmissions, setRecentSubmissions] = useState([]);
+  const [userProfile, setUserProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [profileLoading, setProfileLoading] = useState(true);
+
+  // Total problems per difficulty (you may want to fetch this from backend)
+  const totalProblems = {
+    EASY: 879,
+    MEDIUM: 1852,
+    HARD: 839,
+    TOTAL: 3570
+  };
+
+  useEffect(() => {
+    fetchUserProfile();
+    fetchRecentSubmissions();
+  }, []);
+
+  const fetchUserProfile = async () => {
+    try {
+      setProfileLoading(true);
+      const data = await authApi.getUserProfile();
+      setUserProfile(data.user);
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+    } finally {
+      setProfileLoading(false);
+    }
+  };
+
+  const fetchRecentSubmissions = async () => {
+    try {
+      setLoading(true);
+      const data = await problemsApi.getUserSubmissions();
+      
+      // Filter submissions from the past week
+      const oneWeekAgo = new Date();
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+      
+      const weeklySubmissions = data
+        .filter(sub => new Date(sub.createdAt) >= oneWeekAgo)
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        .slice(0, 5); // Show only the 5 most recent
+      
+      setRecentSubmissions(weeklySubmissions);
+    } catch (error) {
+      console.error('Error fetching recent submissions:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getDifficultyColor = (difficulty) => {
+    switch(difficulty) {
+      case 'EASY': return 'bg-green-100 text-green-800';
+      case 'MEDIUM': return 'bg-yellow-100 text-yellow-800';
+      case 'HARD': return 'bg-red-100 text-red-800';
+      case 'VERY_HARD': return 'bg-orange-100 text-orange-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getStatusIcon = (status) => {
+    if (status === 'accepted') return '✓';
+    if (status === 'rejected') return '✗';
+    return '⋯';
+  };
+
+  const getStatusColor = (status) => {
+    if (status === 'accepted') return 'text-green-600';
+    if (status === 'rejected') return 'text-red-600';
+    return 'text-yellow-600';
+  };
+
+  const getTimeAgo = (date) => {
+    const now = new Date();
+    const submittedDate = new Date(date);
+    const diffInMs = now - submittedDate;
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+    
+    if (diffInDays === 0) return 'Today';
+    if (diffInDays === 1) return '1 day ago';
+    if (diffInDays < 7) return `${diffInDays} days ago`;
+    return submittedDate.toLocaleDateString();
+  };
+
+  // Calculate progress percentage for the circle
+  const getProgressPercentage = () => {
+    if (!userProfile) return 0;
+    return (userProfile.totalSolved / totalProblems.TOTAL) * 100;
+  };
+
+  // Calculate stroke dash offset for the progress circle
+  const getStrokeDashOffset = () => {
+    const circumference = 2 * Math.PI * 45; // 282.6
+    const percentage = getProgressPercentage();
+    return circumference - (circumference * percentage) / 100;
+  };
+
+  // Get total solved count
+  const getTotalSolved = () => {
+    if (!userProfile) return 0;
+    return userProfile.totalSolved || 0;
+  };
+
+  // Get solved count by difficulty
+  const getSolvedByDifficulty = (difficulty) => {
+    if (!userProfile || !userProfile.solvedCounts) return 0;
+    return userProfile.solvedCounts[difficulty] || 0;
+  };
+
+  // Calculate active days from submissions
+  const getActiveDays = () => {
+    if (!userProfile || !userProfile.submissions) return 0;
+    return userProfile.submissions.length;
+  };
+
+  if (profileLoading) {
+    return (
+      <div className="bg-white rounded-lg p-4 shadow-sm">
+        <div className="flex items-center justify-center py-12">
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-blue-600"></div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white rounded-lg p-4 shadow-sm">
       <h2 className="text-lg font-bold text-gray-900">Student Statistics</h2>
@@ -149,38 +372,8 @@ export default function PracticeProblemProfileLeft() {
       <div className="bg-white rounded-lg p-6">
         <div className="flex items-center justify-between mb-6">
           {/* Circle Progress */}
-          {/* <div className="flex items-center">
-            <div className="relative w-32 h-32 mr-8">
-              <svg className="w-32 h-32 transform -rotate-90" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="40" stroke="#e5e7eb" strokeWidth="8" fill="none"/>
-                <circle cx="50" cy="50" r="40" stroke="url(#gradient)" strokeWidth="8" fill="none" 
-                        strokeDasharray="251.2" strokeDashoffset="180" strokeLinecap="round"/>
-                <defs>
-                  <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#8b5cf6"/>
-                    <stop offset="100%" stopColor="#3b82f6"/>
-                  </linearGradient>
-                </defs>
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-purple-600">248</div>
-                  <div className="text-sm text-gray-500">/3570 Problems</div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <div className="flex items-center">
-                <span className="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
-                <span className="text-sm font-medium">Solved</span>
-              </div>
-              <div className="text-sm text-gray-500">0 Attempting</div>
-            </div>
-          </div> */}
-          {/* Circle Progress */}
           <div className="flex items-center">
-            <div className="relative w-40 h-40 mr-10"> {/* Increased size */}
+            <div className="relative w-40 h-40 mr-10">
               <svg className="w-40 h-40 transform -rotate-90" viewBox="0 0 100 100">
                 {/* Background circle */}
                 <circle cx="50" cy="50" r="45" stroke="#e5e7eb" strokeWidth="8" fill="none" />
@@ -193,8 +386,8 @@ export default function PracticeProblemProfileLeft() {
                   stroke="url(#gradient)"
                   strokeWidth="8"
                   fill="none"
-                  strokeDasharray="282.6" // 2 * π * r (approx. 2 * 3.14 * 45)
-                  strokeDashoffset="200" // Adjust based on progress
+                  strokeDasharray="282.6"
+                  strokeDashoffset={getStrokeDashOffset()}
                   strokeLinecap="round"
                 />
 
@@ -210,8 +403,8 @@ export default function PracticeProblemProfileLeft() {
               {/* Inner Text */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-purple-600">248</div> {/* Larger text */}
-                  <div className="text-sm text-gray-500">/3570 Problems</div>
+                  <div className="text-4xl font-bold text-purple-600">{getTotalSolved()}</div>
+                  <div className="text-sm text-gray-500">/{totalProblems.TOTAL} Problems</div>
                 </div>
               </div>
             </div>
@@ -230,25 +423,34 @@ export default function PracticeProblemProfileLeft() {
           <div className="space-y-2">
             <div className="flex items-center space-x-3">
               <span className="px-3 py-1 text-xs font-semibold text-white bg-green-500 rounded-full">Easy</span>
-              <span className="text-sm font-semibold text-gray-700">1<span className="text-gray-400"> / 879</span></span>
+              <span className="text-sm font-semibold text-gray-700">
+                {getSolvedByDifficulty('EASY')}
+                <span className="text-gray-400"> / {totalProblems.EASY}</span>
+              </span>
             </div>
             <div className="flex items-center space-x-3">
               <span className="px-3 py-1 text-xs font-semibold text-white bg-yellow-500 rounded-full">Med.</span>
-              <span className="text-sm font-semibold text-gray-700">0<span className="text-gray-400"> / 1852</span></span>
+              <span className="text-sm font-semibold text-gray-700">
+                {getSolvedByDifficulty('MEDIUM')}
+                <span className="text-gray-400"> / {totalProblems.MEDIUM}</span>
+              </span>
             </div>
             <div className="flex items-center space-x-3">
               <span className="px-3 py-1 text-xs font-semibold text-white bg-red-500 rounded-full">Hard</span>
-              <span className="text-sm font-semibold text-gray-700">0<span className="text-gray-400"> / 839</span></span>
+              <span className="text-sm font-semibold text-gray-700">
+                {getSolvedByDifficulty('HARD')}
+                <span className="text-gray-400"> / {totalProblems.HARD}</span>
+              </span>
             </div>
           </div>
 
-
-          {/* Badges */}
           {/* Badges */}
           <div className="text-right">
             <div className="flex items-center mb-2">
               <span className="bg-gradient-to-r from-[#5737F6] to-[#9612FA] text-white px-2 py-1 rounded text-xs font-medium mr-2">Badges</span>
-              <span className="text-2xl font-bold bg-gradient-to-r from-[#5737F6] to-[#9612FA] bg-clip-text text-transparent">0</span>
+              <span className="text-2xl font-bold bg-gradient-to-r from-[#5737F6] to-[#9612FA] bg-clip-text text-transparent">
+                {userProfile?.badges?.length || 0}
+              </span>
             </div>
             <div className="bg-gradient-to-r from-[#5737F6] to-[#9612FA] text-white px-3 py-1 rounded text-xs font-medium">
               Locked Badge
@@ -258,61 +460,78 @@ export default function PracticeProblemProfileLeft() {
             </div>
           </div>
         </div>
-
-        {/* Submission Stats */}
-        <div className="border-t pt-4">
-          <div className="flex items-center justify-between text-sm">
-            <div className="flex items-center">
-              <span className="bg-blue-500 text-white px-2 py-1 rounded text-xs font-bold mr-2">1</span>
-              <span className="text-blue-600 font-medium">submissions in the past one year</span>
-              <svg className="w-4 h-4 text-gray-400 ml-1" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <div className="text-gray-500">
-              <span>Total active days: 1</span>
-              <span className="ml-4">Max streak: 1</span>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Activity Tabs */}
-      <div className="bg-white rounded-lg p-6">
-        <div className="border-b mb-6">
-          <nav className="flex space-x-8">
-            <button className="text-blue-600 border-b-2 border-blue-600 pb-2 font-medium">Recent AC</button>
-            <button className="text-gray-500 pb-2 hover:text-gray-700">List</button>
-            <button className="text-gray-500 pb-2 hover:text-gray-700">Solutions</button>
-            <button className="text-gray-500 pb-2 hover:text-gray-700">Discuss</button>
-            <div className="ml-auto">
-              <button className="text-blue-600 text-sm hover:underline">View all submissions →</button>
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 mt-4">
+        <div className="border-b border-gray-200 px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <span className="bg-blue-500 text-white px-2 py-1 rounded text-xs font-bold mr-2">
+                {recentSubmissions.length}
+              </span>
+              <span className="text-gray-900 font-semibold text-sm">Latest Submissions (Past Week)</span>
             </div>
-          </nav>
+            <Link 
+              to="/singleProblems/submissions" 
+              className="text-blue-600 text-sm hover:underline font-medium"
+            >
+              View all submissions →
+            </Link>
+          </div>
         </div>
 
         {/* Recent Activity */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded">
-            <div className="flex items-center">
-              <div className="mr-4">
-                <h3 className="font-medium text-gray-900">Two Sum</h3>
-                <p className="text-sm text-gray-600">Solved using HashMap approach with O(n) time complexity</p>
-              </div>
-              <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-medium">Easy</span>
+        <div className="p-4">
+          {loading ? (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-2 border-gray-200 border-t-blue-600"></div>
             </div>
-            <span className="text-sm text-blue-600">6 days ago</span>
-          </div>
-
-          <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded">
-            <div className="flex items-center">
-              <div className="mr-4">
-                <h3 className="font-medium text-gray-900">Binary Search</h3>
-              </div>
-              <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs font-medium">Medium</span>
+          ) : recentSubmissions.length === 0 ? (
+            <div className="text-center py-8">
+              <p className="text-gray-500 text-sm">No submissions in the past week</p>
+              <Link
+                to="/singleProblems/submissions"
+                className="mt-2 inline-block text-blue-600 text-sm hover:underline"
+              >
+                View all submissions
+              </Link>
             </div>
-            <span className="text-sm text-blue-600">1 week ago</span>
-          </div>
+          ) : (
+            <div className="space-y-3">
+              {recentSubmissions.map((submission) => (
+                <div 
+                  key={submission._id}
+                  className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg border border-gray-100 transition-colors"
+                >
+                  <div className="flex items-center flex-1 min-w-0">
+                    <span 
+                      className={`text-lg font-bold mr-3 ${getStatusColor(submission.status)}`}
+                      title={submission.status}
+                    >
+                      {getStatusIcon(submission.status)}
+                    </span>
+                    <div className="flex-1 min-w-0 mr-3">
+                      <h3 className="font-medium text-gray-900 text-sm truncate">
+                        {submission.problem?.name || `Problem ${submission.problem?._id}`}
+                      </h3>
+                      <p className="text-xs text-gray-600 truncate">
+                        {submission.language} • {submission.executionTime || 'N/A'}ms
+                      </p>
+                    </div>
+                    {submission.problem?.difficulty && (
+                      <span className={`px-2 py-1 rounded text-xs font-medium whitespace-nowrap ${getDifficultyColor(submission.problem.difficulty)}`}>
+                        {submission.problem.difficulty}
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-xs text-gray-500 ml-3 whitespace-nowrap">
+                    {getTimeAgo(submission.createdAt)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
