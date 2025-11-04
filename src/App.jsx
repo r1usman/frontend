@@ -54,6 +54,11 @@ import CompeteLayout from "./DashBoard/components/Layout/CompeteLayout/CompeteLa
 import SubmissionDetail from "./Submissions/SubmissionDetail";
 import SubmissionsPage from "./Submissions/SubmissionsPage";
 
+// DefaultCourses
+import AdminDashboardCourses from "./AppCourses/Admin/AdminDashboard.jsx";
+import BlogPost from "./AppCourses/Admin/BlogPost.jsx";
+
+
 function App() {
   // const { role } = useContext(UserContext);
   return (
@@ -91,6 +96,18 @@ function App() {
             <Route path="Dashboard" element={<AdminDashboard />} />
             <Route path="courses" element={<ShowCourses />} />
             <Route path="course/:id" element={<CourseDetail />} />
+          </Route>
+
+          <Route
+            path="/Admin"
+            element={
+              <Protected allowed={["Admin"]}>
+                <DefaultLayout />
+              </Protected>
+            }
+          >
+            <Route path="Dashboard" element={<AdminDashboardCourses />} />
+            <Route path="BlogPost" element={<BlogPost />} />
           </Route>
 
           {/* Collaboration instructor */}
