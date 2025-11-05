@@ -57,6 +57,7 @@ import SubmissionsPage from "./Submissions/SubmissionsPage";
 // DefaultCourses
 import AdminDashboardCourses from "./AppCourses/Admin/AdminDashboard.jsx";
 import BlogPost from "./AppCourses/Admin/BlogPost.jsx";
+import Courses from "./AppCourses/Admin/Courses.jsx";
 
 
 function App() {
@@ -108,6 +109,7 @@ function App() {
           >
             <Route path="Dashboard" element={<AdminDashboardCourses />} />
             <Route path="BlogPost" element={<BlogPost />} />
+             <Route path="Courses" element={<Courses />} />
           </Route>
 
           {/* Collaboration instructor */}
