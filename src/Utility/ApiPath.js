@@ -8,6 +8,13 @@ export const API_PATH = {
         VERIFY_EMAIL: "/Auth/VerifyEmail",
         UPLOAD_PROFILE_IMG: "/Auth/uploadImg"
     },
+    PLATFORM_COURSES: {
+        CREATE: "/Default/Create",
+        COURSES: "/Default/Course",
+        UPDATE: (ID) => `/Assign/Update/${ID}`,
+        UPLOAD_THUMBNAIL: (ID) => `/Assign/${ID}/upload-image`,
+
+    },
     ASSIGN: {
         CREATE: "/Assign/Create",
         UPDATE: (ID) => `/Assign/Update/${ID}`,
