@@ -6,13 +6,14 @@ export const API_PATH = {
         REGISTER: "/Auth/register",
         PROFILE: "/Auth/profile",
         VERIFY_EMAIL: "/Auth/VerifyEmail",
-        UPLOAD_PROFILE_IMG: "/Auth/uploadImg"
+        UPLOAD_PROFILE_IMG: "/Auth/uploadImg",
+
     },
     PLATFORM_COURSES: {
         CREATE: "/Default/Create",
         COURSES: "/Default/Course",
-        UPDATE: (ID) => `/Assign/Update/${ID}`,
-        UPLOAD_THUMBNAIL: (ID) => `/Assign/${ID}/upload-image`,
+        GENERATE_IDEAS: "/Ask/Ideas",
+        SCRAPCONTENT: "/Scrap"
 
     },
     ASSIGN: {
