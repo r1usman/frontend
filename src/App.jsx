@@ -58,6 +58,7 @@ import SubmissionsPage from "./Submissions/SubmissionsPage";
 import AdminDashboardCourses from "./AppCourses/Admin/AdminDashboard.jsx";
 import BlogPost from "./AppCourses/Admin/BlogPost.jsx";
 import Courses from "./AppCourses/Admin/Courses.jsx";
+import EditBlog from "./AppCourses/Admin/EditBlog.jsx";
 
 
 function App() {
@@ -109,8 +110,11 @@ function App() {
           >
             <Route path="Dashboard" element={<AdminDashboardCourses />} />
             <Route path="BlogPost" element={<BlogPost />} />
-             <Route path="Courses" element={<Courses />} />
+            <Route path="Courses" element={<Courses />} />
+            <Route path="CreateBlog" element={<EditBlog />} />
           </Route>
+
+  
 
           {/* Collaboration instructor */}
           <Route
