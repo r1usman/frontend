@@ -13,8 +13,20 @@ export const API_PATH = {
         CREATE: "/Default/Create",
         COURSES: "/Default/Course",
         GENERATE_IDEAS: "/Ask/Ideas",
-        SCRAPCONTENT: "/Scrap"
-
+        SCRAPCONTENT: "/Scrap",
+        BLOG_GENERATION: "/Ask/Blog"
+    },
+    BLOG:
+    {
+        CREATE_POST: "/Blog/create",
+        UPDATE_POST: (id) => `/Blog/update/${id}`,
+        DELETE_POST: (id) => `/Blog/delete/${id}`,
+        GET_ALL_POSTS: "/Blog/posts",
+        GET_POST_BY_SLUG: "/Blog/slug/:slug",
+        GET_POSTS_BY_TAG: "/Blog/tag/:tag",
+        SEARCH_POSTS: "/Blog/search",
+        INCREMENT_VIEW: (id) => `/Blog/increment-view/${id}`,
+        LIKE_POST: (id) => `/Blog/like/${id}`
     },
     ASSIGN: {
         CREATE: "/Assign/Create",
