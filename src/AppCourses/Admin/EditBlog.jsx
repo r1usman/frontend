@@ -16,18 +16,24 @@ import { API_PATH } from "../../Utility/ApiPath";
 import { BrushCleaning } from "lucide-react";
 import Modal from "../../DashBoard/Modals/Modal"
 import CourseScraping from "./CourseScraping";
+import GenerateBlogPostForm from "./Components/GenerateBlogPostForm";
+import { useEffectEvent } from "react";
+import { getToastMessagesByType } from "../../Utility/Helper";
+import { toast } from "react-toastify";
 
 const EditBlog = ({ isEdit }) => {
   const navigate = useNavigate();
   const { postSlug = "" } = useParams();
 
   const [OpenScapingEnv, setOpenScapingEnv] = useState(false)
+  const [RegistedCourses, setRegistedCourses] = useState([])
   const [postData, setPostData] = useState({
     id: "",
     title: "",
     content: "",
     coverImageUrl: "",
     coverPreview: "",
+    BelongTo : "",
     tags: "",
     isDraft: "",
     generatedByAI: false,
@@ -74,25 +80,95 @@ const EditBlog = ({ isEdit }) => {
     };
 
 
-  // Handle Blog Post Publish
-  const handlePublish = async (isDraft) => {};
+    const GetRegisteredCourses = async ()=>{
+        try {
+            const result = await AxiosInstance.get(API_PATH.PLATFORM_COURSES.COURSES);
+            setRegistedCourses(result.data)
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
 
-  // Get Post Data By Slug
-  const fetchPostDetailsBySlug = async () => {};
+    const UpdateData = (key , value)=>{
+        setPostData((prev)=>(
+            {
+                ...prev , 
+                [key]: value
+            }
+        ))
+    }
 
-  // Delete Blog Post
-  const deletePost = async () => {};
+    const handlePublish = async (isDraft) => {
+        let coverImageUrl = "";
 
-//   useEffect(() => {
-//     if (isEdit) {
-//       fetchPostDetailsBySlug();
-//     } else {
-//       generatePostIdeas();
-//     }
-//     return () => {};
+
+        if (!postData.title.trim()) {
+            setError("Please enter a title.");
+            return;
+        }
+        if (!postData.content.trim()) {
+            setError("Please enter some content.");
+            return;
+        }
+
+
+        if (!postData.tags.length) {
+            setError("Please add some tags.");
+            return;
+        }
+
+        if (!postData.BelongTo.trim()) {
+            setError("Please Select the Category.");
+            return;
+        }
+
+        setLoading(true);
+        setError("");
+
+        try {
+            const reqPayload = {
+                title: postData.title,
+                content: postData.content,
+                coverImageUrl,
+                tags: postData.tags,
+                isDraft: !!isDraft,
+                generatedByAI: true,
+                BelongTo : postData.BelongTo
+            };
+
+            // Send request
+            const response = isEdit
+            ? await AxiosInstance.put(API_PATH.BLOG.UPDATE_POST(postData.id), reqPayload)
+            : await AxiosInstance.post(API_PATH.BLOG.CREATE_POST, reqPayload);
+
+            if (response.data) {
+            toast.success(
+                getToastMessagesByType(isDraft ? "draft" : isEdit ? "edit" : "published")
+            );
+            navigate("/Admin/BlogPost");
+            }
+        } catch (error) {
+            setError("Failed to publish blog post. Please try again.");
+            console.error("Error publishing blog post:", error);
+        } finally {
+            setLoading(false);
+        }
+        };
+
+
+    // Get Post Data By Slug
+    const fetchPostDetailsBySlug = async () => {};
+
+    // Delete Blog Post
+    const deletePost = async () => {};
+
+    useEffect (()=>{
+        GetRegisteredCourses();
+    },[])
+_
+    console.log("postData", postData);
     
-//   }, []);
-
     return (
 
     <div className="my-5">
@@ -102,6 +178,7 @@ const EditBlog = ({ isEdit }) => {
                 <h2 className="text-base md:text-lg font-medium ">
                     {!isEdit ? "Add New Post" : "Edit Post"}
                 </h2>
+
 
                 <div className="flex items-center gap-3">
                     {isEdit && (
@@ -114,6 +191,19 @@ const EditBlog = ({ isEdit }) => {
                         <span className="hidden md:block">Delete</span>
                     </button>
                     )}
+
+                     <div className='flex flex-col my-2  space-y-1.5 '>
+                        <select   onChange={ ({target})=>UpdateData("BelongTo", target.value)}  className='flex items-center gap-2.5 text-[13px] font-medium text-sky-500 bg-sky-50/60 rounded px-1.5 md:px-3 py-1 md:py-[3px] border border-sky-100 hover:border-sky-400 cursor-pointer hover:scale-[1.02] transition-all   focus:outline-none' name="" id="">
+                            <option value="" disabled> Category</option> 
+                            {
+                                
+                                RegistedCourses.map((data)=>(
+                                    <option value={data?._id}>{data?.title}</option>
+                                ))
+                            }
+    
+                        </select>
+                    </div>
 
                     
                     <button
@@ -256,8 +346,49 @@ const EditBlog = ({ isEdit }) => {
             type=""
             title="WebScraping For Content"
         >
-           <CourseScraping/>
+            <CourseScraping
+                setPostContent={(title, content) => {
+                    const postInfo = openBlogPostGenForm?.data || null;
+                    setPostData((prevState) => ({
+                        ...prevState,
+                        title: title || prevState.title,
+                        content: content,
+                        tags: postInfo?.tags || prevState.tags,
+                        generatedByAI:  false,
+                    }));
+                }}
+                handleCloseForm={() => {
+                    setOpenScapingEnv(false)
+                }}
+            />
         </Modal>
+
+        <Modal
+            isOpen={openBlogPostGenForm?.open}
+            onClose={() => {
+                setOpenBlogPostGenForm({ open: false, data: null });
+            }}
+            hideHeader
+            type ="Banner"
+            >
+            <GenerateBlogPostForm
+                contentParams={openBlogPostGenForm?.data || null}
+                setPostContent={(title, content) => {
+                const postInfo = openBlogPostGenForm?.data || null;
+                setPostData((prevState) => ({
+                    ...prevState,
+                    title: title || prevState.title,
+                    content: content,
+                    tags: postInfo?.tags || prevState.tags,
+                    generatedByAI: true,
+                }));
+                }}
+                handleCloseForm={() => {
+                setOpenBlogPostGenForm({ open: false, data: null });
+                }}
+            />
+            </Modal>
+
     </div>
 
     );
