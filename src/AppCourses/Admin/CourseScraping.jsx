@@ -5,7 +5,9 @@ import { LuSparkles } from "react-icons/lu";
 import AxiosInstance from "../../Utility/AxiosInstances";
 import { API_PATH } from "../../Utility/ApiPath";
 
-const CourseScraping = () => {
+const CourseScraping = ({setPostContent ,handleCloseForm}) => {
+
+  
   const [text, setText] = useState("");
   const [scrapingData, setScrapingData] = useState(null);
   const [formattedCategory, setFormattedCategory] = useState("Python");
@@ -68,6 +70,17 @@ const CourseScraping = () => {
     }
   };
 
+  console.log('scrapingData',scrapingData);
+  
+  const HandleSaveBlog = (e) => {
+  e.preventDefault();
+  try {
+    setPostContent(scrapingData.title , scrapingData.contentBlocks)
+    handleCloseForm();
+  } catch (error) {
+    console.log(error);
+  }
+};
   return (
     <div className="grid grid-cols-6 gap-2 p-3">
       {/* LEFT SIDE */}
@@ -130,11 +143,11 @@ const CourseScraping = () => {
 
     
         {scrapingData && (
-            <form className="mt-2">
-                <button type="submit" className="btn-primary1 ">
-                    Create Blog
+            <form className="mt-2" onSubmit={HandleSaveBlog}>
+                <button type="submit" className="btn-primary1">
+                  Create Blog
                 </button>
-            </form>
+              </form>
         )}
       </div>
 
