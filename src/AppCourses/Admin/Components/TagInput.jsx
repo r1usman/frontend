@@ -15,7 +15,7 @@ const TagInput = ({ tags, setTags }) => {
       }
     } else if (e.key === "Backspace" && !input && tags.length) {
       setTags(tags.slice(0,-1));
-    }s
+    }
   };
 
   const handleRemove = (index) => {
