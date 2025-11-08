@@ -56,3 +56,17 @@ export const dataURLtoFile = (dataUrl, fileName) => {
   }
   return new File([u8arr], fileName, { type: mime });
 };
+
+export const getToastMessagesByType = (type) => {
+  switch (type) {
+    case "edit":
+      return "Blog post updated successfully!";
+    case "draft":
+      return "Blog post saved as draft successfully!";
+    case "published":
+      return "Blog post published successfully!";
+    default:
+      return "Blog post published successfully!";
+  }
+};
+
