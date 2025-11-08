@@ -10,6 +10,7 @@ const BlogPostCard = () => {
        </div>
       </div>
       {data.map((item) => (
+        
         <NavLink key={item._id} to={`/Post/${item._id}`} state={{ item }}>
          
           <div className='border border-zinc-300 hover:shadow-xl rounded-md px-5 gap-3  py-4 flex group'>
