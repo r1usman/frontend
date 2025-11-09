@@ -17,6 +17,7 @@ const HandleImageChange= (e)=>{
         const preview = URL.createObjectURL(file);
         console.log(preview);
         setpreviewUrl(preview);
+        
     }
 }
 
