@@ -8,11 +8,13 @@ import moment from "moment";
 import Modal from "../../Collaboration/Layouts/Modal";
 import CreateDefaultCourses from "./Components/CreateCourses";
 import AssinmentCard from "./Components/CourseCard";
+import CourseCardComponent from "./Components/CourseCardComponent";
 
 const Courses = () => {
   const navigate = useNavigate();
   const [openCreateModal, setOpenCreateModal] = useState(false);
-
+  const [previewCourse, setpreviewCourse] = useState(false)
+  const [selectCourse, setselectCourse] = useState({})
 
   const [allCourses, setallCourses] = useState([]);
   const [page, setPage] = useState(1);
@@ -35,10 +37,12 @@ const Courses = () => {
     FetchCourses();
   },[])
 
+  console.log("selectCourse",selectCourse);
+  
 
   return (
     <div className="relative">
-      <div className="h-[110vh] font-urbanist grid grid-cols-1 md:grid-cols-5 md:gap-3 pt-1 pb-6 px-4 md:px-0 min-h-screen ">
+      <div className="h-[110vh] font-urbanist grid grid-cols-1 md:grid-cols-3 md:gap-3 pt-1 pb-6 px-4 md:px-0 min-h-screen ">
         <div
           className="h-[300px] flex flex-col gap-5 items-center justify-center border-2 border-dashed border-purple-300 rounded-md cursor-pointer"
           onClick={() => setOpenCreateModal(true)}
@@ -51,17 +55,21 @@ const Courses = () => {
 
         {allCourses?.map((challenge) => (
           <AssinmentCard
+            at={"Admin"}
             tag={"Edit"}
+            data={challenge}
             key={challenge?._id}
-            imgurl={challenge?.thumbnail || null}
+            imgurl={challenge?.image || null}
             title={challenge?.title || "Untitled Resume"}
-            dueDate ={challenge?.dueDate || null}
             lastUpdated={
               challenge?.updatedAt
                 ? moment(challenge.updatedAt).format("Do MMM YYYY")
                 : "Unknown"
             }
-            onselect={() => navigate(``)}
+            onselect={(selected) => {
+              setselectCourse(selected);
+              setpreviewCourse(true);
+            }}
           />
         ))}
       </div>
@@ -109,6 +117,17 @@ const Courses = () => {
         type="Banner"
       >
         <CreateDefaultCourses openCreateModal={openCreateModal} setOpenCreateModal={setOpenCreateModal} />
+      </Modal>
+
+
+
+      <Modal
+        isOpen={previewCourse}
+        title={selectCourse?.title}
+        onClose={() => setpreviewCourse(false)}
+        type="Print"
+      >
+        <CourseCardComponent FetchCourses ={FetchCourses} data ={selectCourse} previewCourse ={previewCourse}  setpreviewCourse={setpreviewCourse}/>
       </Modal>
     </div>
   );
