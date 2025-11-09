@@ -1,9 +1,9 @@
 import { LuEye, LuHeart, LuTrash2 } from "react-icons/lu";
 import python from "../../assests/python.jpg"
-const BlogPostSummaryCard = ({ title, imgUrl, updatedOn, tags, views, likes, onClick, onDelete }) => {
+const BlogPostSummaryCard = ({at , title, imgUrl, updatedOn, tags, views, likes, onClick, onDelete }) => {
     return (
         <div
-            className="flex items-start gap-4 bg-gray-50 border border-gray-200  p-3 mb-5 rounded-lg cursor-pointer  group"
+            className="flex items-start gap-4 bg-gray-50 border border-gray-200  p-3 mb-3 rounded-lg cursor-pointer  group"
             onClick={onClick}
         >
             <img
