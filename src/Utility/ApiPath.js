@@ -14,7 +14,9 @@ export const API_PATH = {
         COURSES: "/Default/Course",
         GENERATE_IDEAS: "/Ask/Ideas",
         SCRAPCONTENT: "/Scrap",
-        BLOG_GENERATION: "/Ask/Blog"
+        BLOG_GENERATION: "/Ask/Blog",
+        UPDATE: (id) => `/Default/Update/${id}`
+
     },
     BLOG:
     {
@@ -26,7 +28,8 @@ export const API_PATH = {
         GET_POSTS_BY_TAG: "/Blog/tag/:tag",
         SEARCH_POSTS: "/Blog/search",
         INCREMENT_VIEW: (id) => `/Blog/increment-view/${id}`,
-        LIKE_POST: (id) => `/Blog/like/${id}`
+        LIKE_POST: (id) => `/Blog/like/${id}`,
+        COURSE_BLOGS: (id) => `/Blog/CourseBlogs/${id}`
     },
     ASSIGN: {
         CREATE: "/Assign/Create",
