@@ -31,17 +31,42 @@ const CourseScraping = ({setPostContent ,handleCloseForm}) => {
     },
   ];
 
-  // ✅ Dynamically update scrapeLink when text or selected site changes
   useEffect(() => {
-    if (text.trim() === "") {
-      setScrapeLink("");
-      return;
-    }
-    const selected = websites[activeIndex];
-    const generatedLink = `${selected.baseUrl}/${formattedCategory.toLowerCase()}/${formattedCategory.toLowerCase()}_${text.toLowerCase()}.asp`;
-    setScrapeLink(generatedLink);
-  }, [text, activeIndex, formattedCategory]);
+  if (text.trim() === "") {
+    setScrapeLink("");
+    return;
+  }
 
+  const selected = websites[activeIndex];
+  let generatedLink = "";
+
+  switch (selected.site) {
+    case "W3Schools":
+      // Example: https://www.w3schools.com/python/python_loops.asp
+      generatedLink = `${selected.baseUrl}/${formattedCategory.toLowerCase()}/${formattedCategory.toLowerCase()}_${text.toLowerCase()}.asp`;
+      break;
+
+    case "TutorialsPoint":
+      // Example: https://www.tutorialspoint.com/python/python_loops.htm
+      generatedLink = `${selected.baseUrl}/${formattedCategory.toLowerCase()}/${formattedCategory.toLowerCase()}_${text.toLowerCase()}.htm`;
+      break;
+
+    case "GeeksForGeeks":
+      // Example: https://www.geeksforgeeks.org/python-loops/
+      generatedLink = `${selected.baseUrl}/${formattedCategory.toLowerCase()}/${text.toLowerCase()}/`;
+      break;
+
+    default:
+      generatedLink = `${selected.baseUrl}`;
+      break;
+  }
+
+  setScrapeLink(generatedLink);
+}, [text, activeIndex, formattedCategory]);
+
+
+  console.log(activeIndex);
+  
   const handleSelect = (index) => {
     setActiveIndex(index);
   };
@@ -54,6 +79,7 @@ const CourseScraping = ({setPostContent ,handleCloseForm}) => {
       const result = await AxiosInstance.post(API_PATH.PLATFORM_COURSES.SCRAPCONTENT, {
         topic: text || "output",
         category: formattedCategory.toLowerCase(),
+        platformLink : scrapeLink
       });
 
       setScrapingData({
@@ -105,7 +131,7 @@ const CourseScraping = ({setPostContent ,handleCloseForm}) => {
 
         {/* Website Selector */}
         <div className="flex items-center gap-2 mb-3">
-          {websites.map((item, index) => (
+          {websites.map((item, index , siteName) => (
             <HoverStack
               key={index}
               siteName={item.site}
@@ -125,7 +151,7 @@ const CourseScraping = ({setPostContent ,handleCloseForm}) => {
           <button
             onClick={handleScraping}
             disabled={isLoading || !scrapeLink}
-            className="absolute right-2 top-2 flex items-center gap-2.5 text-sm font-medium text-sky-600 bg-sky-100 rounded px-3 py-1 border border-sky-200 hover:border-sky-400 cursor-pointer hover:scale-105 transition-all"
+            className="absolute right-2 top-4 flex items-center gap-2.5 text-sm font-medium text-sky-600 bg-sky-100 rounded px-3 py-1 border border-sky-200 hover:border-sky-400 cursor-pointer hover:scale-105 transition-all"
           >
             <LuSparkles />
             {isLoading ? "Scraping..." : "Scrape"}
