@@ -78,14 +78,19 @@ import { image } from '@uiw/react-md-editor';
                 return 
             }
 
-            const uploadImage = await UploadImage(courseInfo?.image);
-            const CourseImage = uploadImage.Image || "";
+            const uploadImage = await UploadImage(courseInfo?.image , courseInfo?._id);
+            console.log("uploadImage", uploadImage);
+            
+            const CourseImage = uploadImage.image || "";
 
             
             const result = await AxiosInstance.put(API_PATH.PLATFORM_COURSES.UPDATE(courseInfo?._id) , {
                 ...courseInfo,
                 image : CourseImage
             })
+
+            console.log(result);
+            
             if(result)
             {
                 FetchCourses();
