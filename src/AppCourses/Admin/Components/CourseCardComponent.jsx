@@ -7,7 +7,7 @@ import { API_PATH } from '../../../Utility/ApiPath';
 import BlogPostSummaryCard from './BlogPostSummaryCard';
 import moment from 'moment';
 import Stats from '../Stats';
-import UploadImage from '../../../Authentication/Components/UploadImage';
+import UploadImage from '../Components/UploadCourse';
 import { image } from '@uiw/react-md-editor';
  const CourseCardComponent = ({ 
   data,
