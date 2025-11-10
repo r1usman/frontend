@@ -15,7 +15,8 @@ export const API_PATH = {
         GENERATE_IDEAS: "/Ask/Ideas",
         SCRAPCONTENT: "/Scrap",
         BLOG_GENERATION: "/Ask/Blog",
-        UPDATE: (id) => `/Default/Update/${id}`
+        UPDATE: (id) => `/Default/Update/${id}`,
+        UPLOAD_COURSE_IMAGE: (id) => `/Default/${id}/upload-image`,
 
     },
     BLOG:
