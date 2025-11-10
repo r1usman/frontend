@@ -164,8 +164,12 @@ const EditBlog = ({ isEdit }) => {
     const deletePost = async () => {};
 
     useEffect (()=>{
+        generatePostIdeas();
         GetRegisteredCourses();
+
     },[])
+
+
 
     console.log("postData", postData);
     
