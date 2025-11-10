@@ -1,6 +1,13 @@
 import { motion } from "framer-motion";
 import W from "../../assests/W.png"
-export default function HoverStack({ isActive, onClick }) {
+import G from "../../assests/Geek4Geek.png"
+import T from "../../assests/Tutorial.png"
+import { useState } from "react";
+
+export default function HoverStack({key, isActive, onClick , siteName }) {
+  console.log("siteName",siteName);
+  
+  const [image, setimage] = useState(siteName == "W3Schools" ? W : siteName=="GeeksForGeeks" ? G: T)
 
   return (
      <motion.div
@@ -16,7 +23,7 @@ export default function HoverStack({ isActive, onClick }) {
       <motion.div className="relative size-12">
         {/* Top image */}
         <motion.img
-          src={W}
+          src={image}
           alt="top"
           className="absolute top-0 left-0 w-full h-full rounded-2xl shadow-lg object-cover"
           variants={{
@@ -33,7 +40,7 @@ export default function HoverStack({ isActive, onClick }) {
 
 
         <motion.img
-          src={W}
+          src={image}
           alt="middle"
           className="absolute top-0 left-0 w-full h-full rounded-2xl shadow-lg object-cover z-10"
           variants={{
@@ -45,7 +52,7 @@ export default function HoverStack({ isActive, onClick }) {
           }}
         />
         <motion.img
-          src={W}
+          src={image}
           alt="bottom"
           className="absolute top-0 left-0 w-full h-full rounded-2xl shadow-lg object-cover"
           variants={{
