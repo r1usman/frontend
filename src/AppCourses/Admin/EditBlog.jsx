@@ -24,6 +24,8 @@ import { toast } from "react-toastify";
 const EditBlog = ({ isEdit }) => {
   const navigate = useNavigate();
   const { postSlug = "" } = useParams();
+  console.log(postSlug);
+  
 
   const [OpenScapingEnv, setOpenScapingEnv] = useState(false)
   const [RegistedCourses, setRegistedCourses] = useState([])
@@ -52,8 +54,7 @@ const EditBlog = ({ isEdit }) => {
     setPostData((prevData) => ({ ...prevData, [key]: value }));
   };
 
-  // Generate Blog Post Ideas Using AI
-  // Generate Blog Post Ideas Using AI
+
     const generatePostIdeas = async () => {
     setIdeaLoading(true);
 
@@ -158,14 +159,41 @@ const EditBlog = ({ isEdit }) => {
 
 
     // Get Post Data By Slug
-    const fetchPostDetailsBySlug = async () => {};
+    // Get Post Data By Slug
+        const fetchPostDetailsBySlug = async () => {
+        try {
+            const response = await AxiosInstance.get(
+            API_PATH.BLOG.GET_POST_BY_SLUG(postSlug));
+
+            if (response.data) {
+            const data = response.data;
+            setPostData((prevState) => ({
+                ...prevState,
+                id: data._id,
+                title: data.title,
+                content: data.content,
+                coverPreview: data.coverImageUrl,
+                tags: data.tags,
+                isDraft: data.isDraft,
+                generatedByAI: data.generatedByAI,
+            }));
+            }
+        } catch (error) {
+            console.error("Error fetching post details:", error);
+        }
+        };
+
 
     // Delete Blog Post
     const deletePost = async () => {};
 
     useEffect (()=>{
-        generatePostIdeas();
+        // generatePostIdeas();
         GetRegisteredCourses();
+        if(isEdit)
+        {
+            fetchPostDetailsBySlug();
+        }
 
     },[])
 
@@ -196,7 +224,7 @@ const EditBlog = ({ isEdit }) => {
                     </button>
                     )}
 
-                     <div className='flex flex-col my-2  space-y-1.5 '>
+                    <div className='flex flex-col my-2  space-y-1.5 '>
                         <select   onChange={ ({target})=>UpdateData("BelongTo", target.value)}  className='flex items-center gap-2.5 text-[13px] font-medium text-sky-500 bg-sky-50/60 rounded px-1.5 md:px-3 py-1 md:py-[3px] border border-sky-100 hover:border-sky-400 cursor-pointer hover:scale-[1.02] transition-all   focus:outline-none' name="" id="">
                             <option value="" disabled> Category</option> 
                             {
@@ -210,14 +238,18 @@ const EditBlog = ({ isEdit }) => {
                     </div>
 
                     
-                    <button
-                        className="flex items-center gap-2.5 text-[13px] font-medium text-sky-500 bg-sky-50/60 rounded px-1.5 md:px-3 py-1 md:py-[3px] border border-sky-100 hover:border-sky-400 cursor-pointer hover:scale-[1.02] transition-all   "
-                        disabled={loading}
-                        onClick={() => setOpenScapingEnv(true)}
-                        >
-                        <BrushCleaning  className="size-4"/>
-                        <span>Scrap Content</span>
-                    </button>
+                    {
+                        !isEdit && (
+                        <button
+                            className="flex items-center gap-2.5 text-[13px] font-medium text-sky-500 bg-sky-50/60 rounded px-1.5 md:px-3 py-1 md:py-[3px] border border-sky-100 hover:border-sky-400 cursor-pointer hover:scale-[1.02] transition-all   "
+                            disabled={loading}
+                            onClick={() => setOpenScapingEnv(true)}
+                            >
+                            <BrushCleaning  className="size-4"/>
+                            <span>Scrap Content</span>
+                        </button>
+                        )
+                    }
 
 
                     <button
