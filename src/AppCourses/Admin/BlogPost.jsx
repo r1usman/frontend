@@ -20,7 +20,12 @@ const BlogPosts = () => {
     open: false,
     data: null,
   });
-
+  console.log("page",page);
+  
+  console.log(totalPages);
+  console.log(filterStatus);
+  
+  
   const getAllPosts = async (pageNumber = 1) => {
     try {
     setIsLoading(true);
@@ -28,6 +33,8 @@ const BlogPosts = () => {
      const response = await AxiosInstance.get(`${API_PATH.BLOG.GET_ALL_POSTS}`, {
         params: { page: pageNumber, status: filterStatus },
       });
+      console.log(response);
+      
 
     const { posts, totalPages, counts } = response.data;
 
@@ -50,7 +57,14 @@ const BlogPosts = () => {
   }
   };
 
+  const handleLoadMore = ()=>{
+    if (page < totalPages)
+    {
+      getAllPosts(page+1)
+    }
+  }
 
+  console.log(blogPostList);
   
 
   const deletePost = async (postId) => {
@@ -73,7 +87,8 @@ const BlogPosts = () => {
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold mt-5 mb-5">Blog Posts</h2>
         <button
-          className="btn-small flex items-center gap-2"
+          className="flex item-center gap-2  bg-gradient-to-r from-sky-500 to-indigo-500 text-white text-sm font-medium px-3 py-1.5 rounded hover:bg-black hover:text-white transition-colors cursor-pointer hover:shadow-2xl hover:shadow-sky-200"
+
           onClick={() => navigate("/Admin/CreateBlog")}
         >
           <LuPlus className="text-[18px]" /> Create Post
@@ -103,6 +118,31 @@ const BlogPosts = () => {
             />
           ))}
         </div>
+
+        {
+          page !== totalPages && (
+            <div className="flex items-center justify-center mb-8">
+              <button
+                className="flex items-center gap-3 text-sm text-white font-medium bg-black px-7 py-2.5 rounded-full text-nowrap hover:scale-105 transition-all cursor-pointer"
+                disabled={isLoading}
+                onClick={handleLoadMore}
+              >
+                {isLoading ? (
+                  <>
+                    <LuLoaderCircle className="animate-spin text-[15px]" />
+                    Loading...
+                  </>
+                ) : (
+                  <>
+                    <LuGalleryVerticalEnd className="text-lg" />
+                    Load More
+                  </>
+                )}
+              </button>
+            </div>
+          )
+        }
+
 
     </div>
   );
