@@ -25,7 +25,7 @@ export const API_PATH = {
         UPDATE_POST: (id) => `/Blog/update/${id}`,
         DELETE_POST: (id) => `/Blog/delete/${id}`,
         GET_ALL_POSTS: "/Blog/posts",
-        GET_POST_BY_SLUG: "/Blog/slug/:slug",
+        GET_POST_BY_SLUG: (slug) => `/Blog/slug/${slug}`,
         GET_POSTS_BY_TAG: "/Blog/tag/:tag",
         SEARCH_POSTS: "/Blog/search",
         INCREMENT_VIEW: (id) => `/Blog/increment-view/${id}`,
