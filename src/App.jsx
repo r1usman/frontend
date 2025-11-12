@@ -112,6 +112,7 @@ function App() {
             <Route path="BlogPost" element={<BlogPost />} />
             <Route path="Courses" element={<Courses />} />
             <Route path="CreateBlog" element={<EditBlog />} />
+            <Route path="edit/:postSlug" element={<EditBlog  isEdit={true}/>} />
           </Route>
 
   
