@@ -3,7 +3,7 @@ import { ChevronRight } from 'lucide-react';
 import AxiosInstance from '../../../Utility/AxiosInstances';
 import { API_PATH } from '../../../Utility/ApiPath';
 import { set } from 'date-fns';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 const AssignmentItem = ({
   title,
