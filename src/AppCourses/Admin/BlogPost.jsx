@@ -104,6 +104,7 @@ const BlogPosts = () => {
         <div className="mt-5">
           {blogPostList?.map((post) => (
             <BlogPostSummaryCard
+              content= {post}
               key={post._id}
               title={post.title}
               imgUrl={post.coverImageUrl}
