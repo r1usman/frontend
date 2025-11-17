@@ -59,6 +59,7 @@ import AdminDashboardCourses from "./AppCourses/Admin/AdminDashboard.jsx";
 import BlogPost from "./AppCourses/Admin/BlogPost.jsx";
 import Courses from "./AppCourses/Admin/Courses.jsx";
 import EditBlog from "./AppCourses/Admin/EditBlog.jsx";
+import ShowDefaultCourses from "./AppCourses/Student/ShowDefaultCourses.jsx";
 
 
 function App() {
@@ -114,6 +115,16 @@ function App() {
             <Route path="CreateBlog" element={<EditBlog />} />
             <Route path="edit/:postSlug" element={<EditBlog  isEdit={true}/>} />
           </Route>
+
+
+          <Route
+            path="/Student/PlatfromCourse/:title"
+            element={
+              <Protected allowed={["Student"]}>
+                <ShowDefaultCourses />
+              </Protected>
+            }
+          />
 
   
 

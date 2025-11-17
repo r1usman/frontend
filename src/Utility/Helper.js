@@ -131,3 +131,13 @@ export const getLightColorFromImage = (imageUrl) => {
     };
   });
 };
+
+export const sanitizeMarkdown = (content) => {
+  // console.log("content_ sanitizeMarkdown", content);
+
+  const markdownBlockRegex = /^```(?:markdown)?\n([\s\S]*?)\n```$/m;
+  const match = content.match(markdownBlockRegex);
+  console.log("match", match);
+
+  return match ? match[1] : content;
+};
