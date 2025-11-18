@@ -7,6 +7,7 @@ import {
   selectLocalAudioTrackID,
   selectIsLocalAudioEnabled,
 } from "@100mslive/react-sdk";
+import { WhiteboardToggle } from "./WhiteboardToggle";
 
 function Header({
   onOpenResources,
@@ -14,6 +15,7 @@ function Header({
   onUseObsCamera,
   isDarkMode,
   onToggleTheme,
+  onOpenQueries, // added
 }) {
   const { addResources } = useResources();
   const hmsActions = useHMSActions();
@@ -199,16 +201,7 @@ function Header({
               <Users className="w-5 h-5" />
               <span className="text-sm font-medium">Participants</span>
             </button>
-            <button
-              className={`flex items-center space-x-2 ${
-                isDarkMode
-                  ? "text-gray-300 hover:text-white"
-                  : "text-gray-600 hover:text-gray-900"
-              } transition-colors duration-200`}
-            >
-              <Settings className="w-5 h-5" />
-              <span className="text-sm font-medium">Settings</span>
-            </button>
+            <WhiteboardToggle>Whiteboard</WhiteboardToggle>
             <button
               onClick={onOpenResources}
               className={`text-sm font-medium ${
@@ -228,6 +221,16 @@ function Header({
               }`}
             >
               Recorder
+            </button>
+            <button
+              onClick={onOpenQueries}
+              className={`text-sm font-medium ${
+                isDarkMode
+                  ? "text-gray-300 hover:text-white"
+                  : "text-gray-600 hover:text-gray-900"
+              }`}
+            >
+              Queries
             </button>
             <button
               onClick={onUseObsCamera}

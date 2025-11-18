@@ -13,8 +13,8 @@ function LiveClassAutoJoin() {
       setIsConnecting(true);
       const name = "jon";
       // vft-hqzi-alj
-      const roomCode = "vft-hqzi-alj";
-      // const roomCode = "ajs-hogy-ukz";
+      // const roomCode = "vft-hqzi-alj";
+      const roomCode = "ajs-hogy-ukz";
       try {
         const authToken = await hmsActions.getAuthTokenByRoomCode({ roomCode });
         if (isMounted) {

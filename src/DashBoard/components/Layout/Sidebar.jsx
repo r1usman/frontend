@@ -45,12 +45,6 @@ export const Sidebar = () => {
       path: "/Instructor/Competition",
       tooltip: "See your tasks",
     },
-    {
-      label: "Messages",
-      icon: <MessageSquare size={18} />,
-      path: "/messages",
-      tooltip: "Read messages",
-    }
   ];
 
   const studentNavItems = [
@@ -78,20 +72,13 @@ export const Sidebar = () => {
       path: "/Student/Competition/Dashboard",
       tooltip: "See your tasks",
     },
-    {
-      label: "Messages",
-      icon: <MessageSquare size={18} />,
-      path: "/messages",
-      tooltip: "Read messages",
-    },
 
     {
       label: "Problemset",
-      icon: <BookOpen size={18} />,  // you can pick a better icon if you want
+      icon: <BookOpen size={18} />, // you can pick a better icon if you want
       path: "/problemset",
       tooltip: "Browse coding problems",
-    }
-  
+    },
   ];
 
   const AdminNavItem = [

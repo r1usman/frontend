@@ -17,6 +17,8 @@
     "@gradio/client": "^1.19.0",
     "@headlessui/react": "^2.2.7",
     "@hello-pangea/dnd": "^18.0.1",
+    "@liveblocks/client": "^3.10.0",
+    "@liveblocks/react": "^3.10.0",
     "@monaco-editor/react": "^4.7.0",
     "@mui/x-charts": "^8.13.1",
     "@tailwindcss/vite": "^4.1.4",
