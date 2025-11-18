@@ -6,7 +6,6 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const MarkdownContent = ({ content }) => {
-    console.log("content xxx", content);
     
     if (!content) return null;
 
@@ -47,9 +46,7 @@ const MarkdownContent = ({ content }) => {
                 blockquote({ children }) {
                     return <blockquote className="border-l-4 border-gray-200 pl-4 italic  my-4">{children}</blockquote>;
                 },
-                h1({ children }) {
-                    return <h1 className="text-2xl font-bold mt-4 mb-4">{children}</h1>;
-                },
+                
                 h2({ children }) {
                     return <h2 className="text-xl  font-bold  mt-6 mb-3 "> {children}</h2>;
                 },
