@@ -15,6 +15,7 @@ export const API_PATH = {
         GENERATE_IDEAS: "/Ask/Ideas",
         SCRAPCONTENT: "/Scrap",
         BLOG_GENERATION: "/Ask/Blog",
+        BLOG_SUMMARY: "/Ask/PostSummary",
         UPDATE: (id) => `/Default/Update/${id}`,
         UPLOAD_COURSE_IMAGE: (id) => `/Default/${id}/upload-image`,
 
@@ -31,6 +32,12 @@ export const API_PATH = {
         INCREMENT_VIEW: (id) => `/Blog/increment-view/${id}`,
         LIKE_POST: (id) => `/Blog/like/${id}`,
         COURSE_BLOGS: (id) => `/Blog/CourseBlogs/${id}`
+    },
+
+    COMMENTS: {
+        CREATE_COMMENT: (postId) => `/Comment/${postId}`,
+        GET_COMMENTS: (postId) => `/Comment/post/${postId}`,
+        DELETE_COMMENT: (commentId) => `/Comment/${commentId}`,
     },
     ASSIGN: {
         CREATE: "/Assign/Create",
