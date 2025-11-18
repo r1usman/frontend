@@ -18,7 +18,7 @@ const Dashboard = () => {
     submissionsPerDay: [],
     problemsByDifficulty: {}
   });
-  console.log(demoData);
+  console.log("demoData",demoData);
   
 
   const [AllChallenge, setAllChallenge] = useState([])

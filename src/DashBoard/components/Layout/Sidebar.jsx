@@ -7,10 +7,11 @@ import {
   LayoutDashboard,
   LogOut,
   MessageSquare,
+  Paperclip,
   Settings,
   Trophy,
 } from "lucide-react";
-import { FaUser } from "react-icons/fa";
+import { FaBlogger, FaBloggerB, FaComment, FaUser } from "react-icons/fa";
 import { UserContext } from "../../../GlobalContext/UserContext";
 import Modal from "../../Modals/Modal.jsx";
 
@@ -80,12 +81,39 @@ export const Sidebar = () => {
     },
   ];
 
+  const AdminNavItem = [
+    {
+      label: "Dashboard",
+      icon: <LayoutDashboard size={18} />,
+      path: "/Admin/Dashboard",
+      tooltip: "View your dashboard",
+    },
+    {
+      label: "BlogPost",
+      icon: <FaBloggerB size={18} />,
+      path: "/Admin/BlogPost",
+      tooltip: "View your dashboard",
+    },
+    {
+      label: "Courses",
+      icon: <Paperclip size={18} />,
+      path: "/Admin/Courses",
+      tooltip: "View your dashboard",
+    },
+    {
+      label: "Commemt",
+      icon: <FaComment size={18} />,
+      path: "/Admin/Commemt",
+      tooltip: "View your dashboard",
+    },
+    
+  ];
   const handleLogout = () => {
     navigate("/Login");
   };
 
   const navItems =
-    User.status === "Instructor" ? instructorNavItems : studentNavItems;
+    User.status === "Instructor" ? instructorNavItems :User.status === "Student"? studentNavItems : AdminNavItem; 
 
   return (
     <div className="z-50 min-h-screen fixed border w-[20%] font-urbanist border-gray-200/50 flex flex-col justify-between">

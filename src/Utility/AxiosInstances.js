@@ -4,7 +4,7 @@ import { BASE_URL } from "./ApiPath";
 const AxiosInstance = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
-  timeout: 10000,
+
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",

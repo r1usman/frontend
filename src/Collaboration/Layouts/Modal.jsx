@@ -59,7 +59,7 @@ const Modal = ({
           </svg>
         </button>
 
-        <div className="flex-1 py-2">
+        <div className="flex-1 ">
           {children}
         </div>
       </div>

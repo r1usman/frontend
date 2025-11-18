@@ -54,6 +54,14 @@ import CompeteLayout from "./DashBoard/components/Layout/CompeteLayout/CompeteLa
 import SubmissionDetail from "./Submissions/SubmissionDetail";
 import SubmissionsPage from "./Submissions/SubmissionsPage";
 
+// DefaultCourses
+import AdminDashboardCourses from "./AppCourses/Admin/AdminDashboard.jsx";
+import BlogPost from "./AppCourses/Admin/BlogPost.jsx";
+import Courses from "./AppCourses/Admin/Courses.jsx";
+import EditBlog from "./AppCourses/Admin/EditBlog.jsx";
+import ShowDefaultCourses from "./AppCourses/Student/ShowDefaultCourses.jsx";
+
+
 function App() {
   // const { role } = useContext(UserContext);
   return (
@@ -92,6 +100,33 @@ function App() {
             <Route path="courses" element={<ShowCourses />} />
             <Route path="course/:id" element={<CourseDetail />} />
           </Route>
+
+          <Route
+            path="/Admin"
+            element={
+              <Protected allowed={["Admin"]}>
+                <DefaultLayout />
+              </Protected>
+            }
+          >
+            <Route path="Dashboard" element={<AdminDashboardCourses />} />
+            <Route path="BlogPost" element={<BlogPost />} />
+            <Route path="Courses" element={<Courses />} />
+            <Route path="CreateBlog" element={<EditBlog />} />
+            <Route path="edit/:postSlug" element={<EditBlog  isEdit={true}/>} />
+          </Route>
+
+
+          <Route
+            path="/Student/PlatfromCourse/:title"
+            element={
+              <Protected allowed={["Student"]}>
+                <ShowDefaultCourses />
+              </Protected>
+            }
+          />
+
+  
 
           {/* Collaboration instructor */}
           <Route
