@@ -15,6 +15,7 @@ function Header({
   onUseObsCamera,
   isDarkMode,
   onToggleTheme,
+  onOpenQueries, // added
 }) {
   const { addResources } = useResources();
   const hmsActions = useHMSActions();
@@ -220,6 +221,16 @@ function Header({
               }`}
             >
               Recorder
+            </button>
+            <button
+              onClick={onOpenQueries}
+              className={`text-sm font-medium ${
+                isDarkMode
+                  ? "text-gray-300 hover:text-white"
+                  : "text-gray-600 hover:text-gray-900"
+              }`}
+            >
+              Queries
             </button>
             <button
               onClick={onUseObsCamera}
