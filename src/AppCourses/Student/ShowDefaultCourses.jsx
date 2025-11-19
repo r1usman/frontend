@@ -26,7 +26,7 @@ const ShowDefaultCourses = () => {
                 <h1 className="text-gray-900" >Code Ascend</h1>
             </div>
                 <div  className="w-[88%] pl-13  pr-5 ">
-                    <BlogHeader/>
+                    <BlogHeader course={course}/>
                 </div>
             </div>
 
