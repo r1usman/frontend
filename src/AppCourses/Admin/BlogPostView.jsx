@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../../Utility/AxiosInstances";
 import { API_PATH } from "../../Utility/ApiPath";
 import moment from "moment";
+import { SearchContext } from "../ContextApi/BlogContext";
 
 import {
   LuCircleAlert,
@@ -24,14 +25,16 @@ import CommentReplyInput from "./Components/CommentReplyInput";
 import toast from "react-hot-toast";
 import Drawer from "./Components/Drawer";
 import LikeCommentButton from "./Components/LikeCommentButton";
+import axios, { Axios } from "axios";
 const BlogPostView = ({Blog}) => {
-  console.log("Blog",Blog)
   
   const [blogPostData, setBlogPostData] = useState(Blog);
   const [comments, setComments] = useState(null);
-
-    const { loading , User} = useContext(UserContext);
-    console.log("User Protected" , User);
+  const {selectedBlog } = useContext(SearchContext)
+   const commentsRef = useRef(null);
+  
+    const { User} = useContext(UserContext);
+    console.log("selectedBlog",selectedBlog);
   
 
 
@@ -44,8 +47,14 @@ const BlogPostView = ({Blog}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  const fetchPostDetailsBySlug = async () => {
-    console.log("Fetching post by slug...");
+  const fetchPostDetailsBySlug = async (BlogSlug) => {
+    try {
+      const response = await AxiosInstance.get(API_PATH.BLOG.GET_POST_BY_SLUG(BlogSlug));
+      setBlogPostData(response.data);
+    } catch (error) {
+      console.log(error);
+      
+    }
    
   };
 
@@ -68,14 +77,15 @@ const BlogPostView = ({Blog}) => {
     setSummaryContent(null);
     setIsLoading(true);
     setOpenSummarizeDrawer(true);
+
     
-    const response = await AxiosInstance.post(
-      API_PATH.PLATFORM_COURSES.BLOG_SUMMARY,
-      {
-        content: Blog?.content || "",
-      }
-    );
-    
+    // const response = await AxiosInstance.post(
+    //   API_PATH.PLATFORM_COURSES.BLOG_SUMMARY,
+    //   {
+    //     content: Blog?.content ,
+    //   }
+    // );
+    const response = await axios.post("http://localhost:3000/Ask/PostSummary",{content: Blog?.content })
     if (response.data) {
       setSummaryContent(response.data);
     }
@@ -87,7 +97,12 @@ const BlogPostView = ({Blog}) => {
   }
 };
 
-  console.log("setSummaryContent", setSummaryContent);
+  console.log("summaryContent", summaryContent);
+  
+
+  const FetchBlog= async(BlogSlug)=>{
+    
+  }
   
 
 
@@ -96,9 +111,10 @@ const BlogPostView = ({Blog}) => {
   };
 
   const handleCancelReply = () => {
-    setReplyText("");
+    setShowReplyForm("")
   };
 
+  
 
   const handleAddReply = async () => {
     try {
@@ -120,14 +136,24 @@ const BlogPostView = ({Blog}) => {
     }
   };
 
+  console.log("Blog",Blog);
+  
   
 
   useEffect(() => {
-    if(Blog)
-    {
-      fetchCommentByPostId(Blog?._id);
-    }
-  }, [Blog])
+  if (Blog && !selectedBlog) {
+    fetchPostDetailsBySlug(Blog?.slug);
+    fetchCommentByPostId(Blog._id);
+    
+  }
+
+  if (selectedBlog) {
+    fetchPostDetailsBySlug(selectedBlog?.slug);
+    
+  }
+
+}, [Blog, selectedBlog]);
+
   
   console.log("Blog Id" , Blog?._id);
   
@@ -137,28 +163,28 @@ const BlogPostView = ({Blog}) => {
   return (
     <div className="overflow-y-scroll ">
       <div className="mt-6  mb-2 px-6">
-          <title>{Blog?.title}</title>
-          <meta name="description" content={Blog?.title} />
-          <meta property="og:title" content={Blog?.title} />
-          <meta property="og:image" content={Blog?.coverImageUrl} />
+          <title>{blogPostData?.title}</title>
+          <meta name="description" content={blogPostData?.title} />
+          <meta property="og:title" content={blogPostData?.title} />
+          <meta property="og:image" content={blogPostData?.coverImageUrl} />
           <meta property="og:type" content="article" />
           
           {/* Blog Post Content */}
           <div className="grid grid-cols-12 gap-8 relative">
             <div className="col-span-12 md:col-span-8 relative">
               <h1 className="text-lg md:text-2xl font-bold mb-2 line-clamp-3">
-                {Blog?.title}
+                {blogPostData?.title}
               </h1>
               
               <div className="flex items-center gap-1 flex-wrap mt-3 mb-5">
                 <span className="text-[13px] text-gray-500 font-medium">
-                  {moment(Blog?.updatedAt || "").format("Do MMM YYYY")}
+                  {moment(blogPostData?.updatedAt || "").format("Do MMM YYYY")}
                 </span>
                 
                 <LuDot className="text-xl text-gray-400" />
                 
                 <div className="flex items-center flex-wrap gap-2">
-                  {Blog?.tags.slice(0, 3).map((tag, index) => (
+                  {blogPostData?.tags.slice(0, 3).map((tag, index) => (
                     <button
                       key={index}
                       className="bg-sky-200/50 text-sky-800/80 text-xs font-medium px-3 py-0.5  rounded-full text-nowrap cursor-pointer hover:scale-[1.02] transition-all my-1"
@@ -175,12 +201,18 @@ const BlogPostView = ({Blog}) => {
                 <LuDot className="text-xl text-gray-400" />
 
       
-            <button 
+              <button 
                 className="border flex items-center gap-2 bg-gradient-to-r from-blue-500 to-cyan-400 text-white text-xs px-3 py-1.5 rounded-full text-nowrap cursor-pointer"
                 onClick={generateBlogPostSummary}
+                disabled={isLoading}
               >
-                <LuSparkles className="text-sm" /> Summarize Post
+                <LuSparkles className="text-sm" /> 
+                Summarize Post
+                {isLoading && (
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                )}
               </button>
+
               </div>
         </div>
       </div>
@@ -188,13 +220,13 @@ const BlogPostView = ({Blog}) => {
       </div>
       <div className="px-4">
           <MarkdownContent
-              content={Blog?.content}
+              content={blogPostData?.content}
           />
 
-          <SharePost title={Blog?.title} />
-
-          <div className="bg-gray-50 p-4 rounded-lg ">
-            <div className="flex items-center justify-between mb-4">
+          <SharePost title={blogPostData?.title} />
+          <div ref={commentsRef} className=" size-8"></div>
+          <div className="bg-gray-50 p-4 rounded-lg  " >
+            <div className="flex items-center justify-between mb-4 ">
               <h4 className="text-lg font-semibold">Comments</h4>
 
               <button
@@ -254,9 +286,11 @@ const BlogPostView = ({Blog}) => {
 
           </div>
           <LikeCommentButton
-            postId={Blog?._id || ""}
-            likes={Blog?.likes || 0}
+            postId={blogPostData?._id || ""}
+            likes={blogPostData?.likes || 0}
             comments={comments?.length || 0}
+            fetchPostDetailsBySlug ={()=>fetchPostDetailsBySlug(blogPostData?._id)}
+            commentsRef={commentsRef}
           />
           <Drawer
               isOpen={openSummarizeDrawer}
@@ -273,6 +307,7 @@ const BlogPostView = ({Blog}) => {
                 <MarkdownContent content={summaryContent?.summary || ""} />
               )}
             </Drawer>
+
 
 
 
