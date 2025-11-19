@@ -42,17 +42,14 @@ const CourseScraping = ({setPostContent ,handleCloseForm}) => {
 
   switch (selected.site) {
     case "W3Schools":
-      // Example: https://www.w3schools.com/python/python_loops.asp
       generatedLink = `${selected.baseUrl}/${formattedCategory.toLowerCase()}/${formattedCategory.toLowerCase()}_${text.toLowerCase()}.asp`;
       break;
 
     case "TutorialsPoint":
-      // Example: https://www.tutorialspoint.com/python/python_loops.htm
       generatedLink = `${selected.baseUrl}/${formattedCategory.toLowerCase()}/${formattedCategory.toLowerCase()}_${text.toLowerCase()}.htm`;
       break;
 
     case "GeeksForGeeks":
-      // Example: https://www.geeksforgeeks.org/python-loops/
       generatedLink = `${selected.baseUrl}/${formattedCategory.toLowerCase()}/${text.toLowerCase()}/`;
       break;
 
@@ -109,16 +106,13 @@ const CourseScraping = ({setPostContent ,handleCloseForm}) => {
 };
   return (
     <div className="grid grid-cols-6 gap-2 p-3">
-      {/* LEFT SIDE */}
       <div className="col-span-3 rounded-md bg-white p-3">
-        {/* Category Selector (optional) */}
         <div className="flex items-center gap-2 mb-4 bg-gray-200 p-1 w-fit rounded-md">
           <button className="text-gray-800 font-semibold bg-white rounded px-2 py-1 text-sm hover:bg-gray-100">
             Default
           </button>
         </div>
 
-        {/* Title Input */}
         <div className="mt-4 mb-3">
           <label className="block text-gray-500 text-sm font-medium mb-1">
             Post Title
@@ -129,7 +123,6 @@ const CourseScraping = ({setPostContent ,handleCloseForm}) => {
           />
         </div>
 
-        {/* Website Selector */}
         <div className="flex items-center gap-2 mb-3">
           {websites.map((item, index , siteName) => (
             <HoverStack
@@ -141,7 +134,6 @@ const CourseScraping = ({setPostContent ,handleCloseForm}) => {
           ))}
         </div>
 
-        {/* Input + Scrape Button */}
         <div className="relative mb-3">
           <Input
             value={text}
