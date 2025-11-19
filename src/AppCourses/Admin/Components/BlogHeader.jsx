@@ -3,13 +3,17 @@ import { Bell, ChevronDown } from 'lucide-react';
 import { UserContext } from '../../../GlobalContext/UserContext';
 import AxiosInstance from '../../../Utility/AxiosInstances';
 import { FaRegFileAlt, FaRegCommentDots, FaCogs, FaBell } from "react-icons/fa";
+import SearchBarPopup from './SearchBar';
+import SearchBar from './SearchBar';
 
-export const BlogHeader = () => {
+export const BlogHeader = ({course}) => {
   const { User } = useContext(UserContext);
 
   const [notifications, setNotifications] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [openSearchBar, setOpenSearchBar] = useState(false);
+
   const dropdownRef = useRef(null);
   const profileRef = useRef(null);
 
@@ -88,6 +92,9 @@ export const BlogHeader = () => {
         <h2 className="text-sm text-gray-500">Welcome back</h2>
         <h1 className="text-xl font-semibold">{userName}</h1>
       </div>
+
+      <SearchBar course={course}/>
+
 
       <div className="flex items-center space-x-4">
         <div className="text-sm text-gray-500">{formattedDate}</div>
