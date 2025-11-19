@@ -58,7 +58,7 @@ const CommentInfoCard = ({
     };
 
     return (
-    <div className="bg-white p-3 rounded-lg cursor-pointer group mb-5">
+    <div className="bg-white p-3 rounded-lg cursor-pointer group mb-5 ">
         <div className="grid grid-cols-12 gap-3">
             <div className="col-span-12 md:col-span-8 order-2 md:order-1">
                 <div className="flex items-start gap-3">
