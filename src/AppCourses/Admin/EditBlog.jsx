@@ -188,7 +188,7 @@ const EditBlog = ({ isEdit }) => {
     const deletePost = async () => {};
 
     useEffect (()=>{
-        generatePostIdeas();
+        // generatePostIdeas();
         GetRegisteredCourses();
         if(isEdit)
         {
