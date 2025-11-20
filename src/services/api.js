@@ -1,7 +1,9 @@
 const API_BASE_URL = "http://localhost:3000/api";
+export const ASSET_BASE_URL = "http://localhost:3000/api/assets";
 
 // Helper to get token
 const getAuthToken = () => localStorage.getItem("token");
+const getToken = () => localStorage.getItem("token");
 
 // Auth API
 export const authApi = {
@@ -25,6 +27,14 @@ export const authApi = {
 };
 
 export const problemsApi = {
+  // Problem Statistics
+  getProblemStats: async () => {
+    const response = await fetch(`${API_BASE_URL}/problems/stats`);
+    if (!response.ok) throw new Error("Failed to fetch problem statistics");
+    return response.json();
+  },
+
+
   // Get all problems
   getAllProblems: async () => {
     const response = await fetch(`${API_BASE_URL}/problems`);
@@ -69,6 +79,22 @@ export const problemsApi = {
     return response.json();
   },
 
+  // New method for generating AI problem
+  // generateAiProblem: async (problemId) => {
+  //   const response = await fetch(`${API_BASE_URL}/ai-problems/generate/${problemId}`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Authorization': `Bearer ${getToken()}`,
+  //       'Content-Type': 'application/json'
+  //     }
+  //   });
+  //   if (!response.ok) {
+  //     const error = await response.json();
+  //     throw new Error(error.message || 'Failed to generate AI problem');
+  //   }
+  //   return response.json();
+  // },
+
   // Add this new method
   getPersonalizedProblems: async () => {
     const token = getAuthToken();
@@ -86,35 +112,6 @@ export const problemsApi = {
     if (!response.ok) throw new Error("Failed to fetch personalized problems");
     return response.json();
   },
-
-  // =================================================================
-  // =================================================================
-  // =============================== Submission Routes ==================================
-  // =================================================================
-  // =================================================================
-
-  // submitCode: async (submissionData) => {
-  //   const token = getAuthToken();
-
-  //   if (!token) {
-  //     throw new Error('Authentication required');
-  //   }
-
-  //   const response = await fetch(`${API_BASE_URL}/submissions`, {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'Authorization': `Bearer ${token}`
-  //     },
-  //     body: JSON.stringify(submissionData)
-  //   });
-
-  //   // Testing
-  //   console.log(response)
-
-  //   if (!response.ok) throw new Error('Failed to submit code');
-  //   return response.json();
-  // },
 
   // Submit code solution
   submitCode: async (submissionData) => {
@@ -178,6 +175,104 @@ export const problemsApi = {
     });
 
     if (!response.ok) throw new Error("Failed to update submission");
+    return response.json();
+  },
+};
+
+// Add AI Problems API
+export const aiProblemsApi = {
+  // Generate AI problem variant
+  generateAiProblem: async (problemId) => {
+    const token = getAuthToken();
+    
+    if (!token) {
+      throw new Error("AUTHENTICATION_REQUIRED");
+    }
+
+    console.log('🔄 Generating AI problem for:', problemId);
+    
+    const response = await fetch(`${API_BASE_URL}/ai-problems/generate/${problemId}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    console.log('📡 Response status:', response.status);
+    
+    if (!response.ok) {
+      let errorMessage = 'Failed to generate AI problem';
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.message || errorMessage;
+        console.error('❌ Backend error:', errorData);
+      } catch (e) {
+        errorMessage = `HTTP error! status: ${response.status}`;
+      }
+      throw new Error(errorMessage);
+    }
+    
+    const result = await response.json();
+    console.log('📦 Response data:', result);
+    return result;
+  },
+
+  // Get AI problem by ID
+  getAiProblemById: async (id) => {
+    const token = getAuthToken();
+    
+    if (!token) {
+      throw new Error("AUTHENTICATION_REQUIRED");
+    }
+
+    const response = await fetch(`${API_BASE_URL}/ai-problems/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    if (!response.ok) throw new Error("Failed to fetch AI problem");
+    return response.json();
+  }
+};
+
+
+export const userApi = {
+  // Fetch user stats by ID
+  getUserStats: async (userId) => {
+    const token = getAuthToken();
+
+    if (!token) {
+      throw new Error("AUTHENTICATION_REQUIRED");
+    }
+
+    const response = await fetch(`${API_BASE_URL}/user/stats/${userId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) throw new Error("Failed to fetch user stats");
+    return response.json();
+  },
+};
+
+
+export const badgesApi = {
+  getMyBadges: async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("AUTHENTICATION_REQUIRED");
+    }
+
+    const response = await fetch("http://localhost:3000/api/badges/my-badges", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) throw new Error("Failed to fetch badges");
     return response.json();
   },
 };

@@ -53,6 +53,9 @@ import CompeteLayout from "./DashBoard/components/Layout/CompeteLayout/CompeteLa
 
 import SubmissionDetail from "./Submissions/SubmissionDetail";
 import SubmissionsPage from "./Submissions/SubmissionsPage";
+import ProblemGenerator from './problemGeneration/ProblemGenerator.jsx';
+import AiProblemCompare from "./problemGeneration/AiProblemCompare.jsx";
+
 
 // DefaultCourses
 import AdminDashboardCourses from "./AppCourses/Admin/AdminDashboard.jsx";
@@ -249,6 +252,15 @@ function App() {
             path="/problems/:problemId/submissions"
             element={<SubmissionsPage />}
           />
+
+          {/* Add this new route */}
+          <Route path="problem-generator" element={<ProblemGenerator />} />
+
+          <Route
+            path="/ai-problem-compare/:originalId/:generatedId"
+            element={<AiProblemCompare />}
+          />
+
 
           {/* Not Found */}
           <Route path="*" element={<NoFound />} />
