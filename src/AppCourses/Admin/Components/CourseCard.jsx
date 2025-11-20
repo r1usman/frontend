@@ -22,7 +22,7 @@ const CourseCard = ({at,data, imgurl, title, lastUpdated, onselect, DeletedArray
     
     return(
         <div
-            className={`${DeletedArray ? DeletedArray?.includes(ID)?"border border-purple-600 ":"" : ""} h-[300px] flex flex-col items-center justify-between bg-white rounded-lg border border-gray-200  relative cursor-pointer hover:border-purple-600 overflow-hidden transition`}
+            className={`${DeletedArray ? DeletedArray?.includes(ID)?"border border-purple-600 ":"" : ""} h-[300px] flex flex-col items-center justify-between bg-white rounded-lg border border-gray-200  relative cursor-pointer hover:border-sky-600 overflow-hidden transition`}
             style={{backgroundColor: bgColor}}
 
             onClick={()=>{tag == "Edit" ? onselect(data) : "" }}
