@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
+  Archive,
   BarChart2,
   BookOpen,
   FileText,
@@ -90,19 +91,19 @@ export const Sidebar = () => {
     },
     {
       label: "BlogPost",
-      icon: <FaBloggerB size={18} />,
+      icon: <Archive size={18} />,
       path: "/Admin/BlogPost",
       tooltip: "View your dashboard",
     },
     {
       label: "Courses",
-      icon: <Paperclip size={18} />,
+      icon: <BookOpen size={18} />,
       path: "/Admin/Courses",
       tooltip: "View your dashboard",
     },
     {
       label: "Commemt",
-      icon: <FaComment size={18} />,
+      icon: <MessageSquare size={18} />,
       path: "/Admin/Commemt",
       tooltip: "View your dashboard",
     },
@@ -146,8 +147,8 @@ export const Sidebar = () => {
             className={({ isActive }) =>
               `flex items-center gap-4 w-full text-[15px] py-3 px-5 cursor-pointer transition-colors duration-200 ${
                 isActive
-                  ? "bg-purple-600/15 border-r-4 border-purple-600 text-purple-700"
-                  : "hover:bg-gray-50"
+                  ? `${ User.status == "Instructor" || User.status == "Student" ?"bg-purple-600/15 border-r-4 border-purple-600 text-purple-700":"bg-sky-600/15 border-r-4 border-sky-600 text-sky-700 font-medium tracking-wider"}`
+                  : `${ User.status == "Instructor" || User.status == "Student" ?"hover:bg-gray-50":"hover:bg-gray-50 tracking-wider"}`
               }`
             }
           >
