@@ -7,6 +7,7 @@ import { API_PATH } from "../../Utility/ApiPath";
 
 const CourseScraping = ({setPostContent ,handleCloseForm}) => {
 
+
   
   const [text, setText] = useState("");
   const [scrapingData, setScrapingData] = useState(null);
@@ -168,8 +169,6 @@ const CourseScraping = ({setPostContent ,handleCloseForm}) => {
               </form>
         )}
       </div>
-
-      {/* RIGHT SIDE (Preview Section) */}
       <div className="col-span-3 min-h-[85vh] border border-dotted border-sky-500 p-3 overflow-y-auto max-h-[90vh] bg-white rounded-md flex items-center justify-center">
         {isLoading ? (
           <div className="flex flex-col items-center justify-center h-full">
