@@ -141,7 +141,7 @@ import { image } from '@uiw/react-md-editor';
                 }
                 </div>
                 
-                <div className="w-1/3  m-1.5 flex items-center justify-center bg-sky-50 ">
+                <div className="w-1/3  m-1.5 flex items-center justify-center  ">
                     <Stats totalLikes={totalLikes}  totalviews ={totalviews} numberofblogs ={Articles.length}/>
                 </div>
             </div>
