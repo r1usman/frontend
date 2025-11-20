@@ -26,7 +26,9 @@ import toast from "react-hot-toast";
 import Drawer from "./Components/Drawer";
 import LikeCommentButton from "./Components/LikeCommentButton";
 import axios, { Axios } from "axios";
-const BlogPostView = ({Blog}) => {
+const BlogPostView = ({Blog, calledby}) => {
+  console.log("Blog here", Blog);
+  
   
   const [blogPostData, setBlogPostData] = useState(Blog);
   const [comments, setComments] = useState(null);
@@ -135,16 +137,16 @@ const BlogPostView = ({Blog}) => {
       
     }
   };
-
-  console.log("Blog",Blog);
-  
   
 
   useEffect(() => {
   if (Blog && !selectedBlog) {
     fetchPostDetailsBySlug(Blog?.slug);
     fetchCommentByPostId(Blog._id);
-    
+  }
+  if(Blog && !selectedBlog && calledby)
+  {
+    setBlogPostData(Blog)
   }
 
   if (selectedBlog) {
@@ -201,17 +203,21 @@ const BlogPostView = ({Blog}) => {
                 <LuDot className="text-xl text-gray-400" />
 
       
-              <button 
-                className="border flex items-center gap-2 bg-gradient-to-r from-blue-500 to-cyan-400 text-white text-xs px-3 py-1.5 rounded-full text-nowrap cursor-pointer"
-                onClick={generateBlogPostSummary}
-                disabled={isLoading}
-              >
-                <LuSparkles className="text-sm" /> 
-                Summarize Post
-                {isLoading && (
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                )}
-              </button>
+              {
+                !calledby && (
+                  <button 
+                    className="border flex items-center gap-2 bg-gradient-to-r from-blue-500 to-cyan-400 text-white text-xs px-3 py-1.5 rounded-full text-nowrap cursor-pointer"
+                    onClick={generateBlogPostSummary}
+                    disabled={isLoading}
+                  >
+                    <LuSparkles className="text-sm" /> 
+                    Summarize Post
+                    {isLoading && (
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    )}
+                  </button>
+                )
+              }
 
               </div>
         </div>
@@ -225,73 +231,81 @@ const BlogPostView = ({Blog}) => {
 
           <SharePost title={blogPostData?.title} />
           <div ref={commentsRef} className=" size-8"></div>
-          <div className="bg-gray-50 p-4 rounded-lg  " >
-            <div className="flex items-center justify-between mb-4 ">
-              <h4 className="text-lg font-semibold">Comments</h4>
+          {
+            !calledby && (
+               <div className="bg-gray-50 p-4 rounded-lg" >
+                  <div className="flex items-center justify-between mb-4 ">
+                    <h4 className="text-lg font-semibold">Comments</h4>
 
-              <button
-                className="flex items-center justify-center gap-3 bg-linear-to-r from-sky-500  to-cyan-400 text-xs font-semibold text-white px-5 py-2 rounded-full hover:bg-black hover:text-white cursor-pointer"
-                onClick={() => {
-                  if (!User) {
-                    setOpenAuthForm(true);
-                    return;
-                  }
-                  setShowReplyForm(true);
-                }}
-              >
-                Add Comment
-              </button>
-            </div>
+                    <button
+                      className="flex items-center justify-center gap-3 bg-linear-to-r from-sky-500  to-cyan-400 text-xs font-semibold text-white px-5 py-2 rounded-full hover:bg-black hover:text-white cursor-pointer"
+                      onClick={() => {
+                        if (!User) {
+                          setOpenAuthForm(true);
+                          return;
+                        }
+                        setShowReplyForm(true);
+                      }}
+                    >
+                      Add Comment
+                    </button>
+                  </div>
 
-            {showReplyForm && (
-              <div className="_bg-white pt-1 pb-5 pr-8 rounded-lg mb-8">
-                <CommentReplyInput
-                  user={User}
-                  authorName={User.name}
-                  content={""}
-                  replyText={replyText}
-                  setReplyText={setReplyText}
-                  handleAddReply={handleAddReply}
-                  handleCancelReply={handleCancelReply}
-                  disableAutoGen
-                  type="new"
-                />
-              </div>
-            )}
-            {comments?.length > 0 &&
-                comments.map((comment) => (
-                  <CommentInfoCard
-                    key={comment._id}
-                    commentId={comment._id || null}
-                    authorName={comment?.author?.name || ""}
-                    authorPhoto={comment?.author?.profileImage || ""}
-                    content={comment.content}
-                    updatedOn={
-                      comment.updatedAt
-                        ? moment(comment.updatedAt).format("Do MMM YYYY, h:mm A")
-                        : null
+                  {showReplyForm && (
+                    <div className="_bg-white pt-1 pb-5 pr-8 rounded-lg mb-8">
+                      <CommentReplyInput
+                        user={User}
+                        authorName={User.name}
+                        content={""}
+                        replyText={replyText}
+                        setReplyText={setReplyText}
+                        handleAddReply={handleAddReply}
+                        handleCancelReply={handleCancelReply}
+                        disableAutoGen
+                        type="new"
+                      />
+                    </div>
+                  )}
+                  {comments?.length > 0 &&
+                      comments.map((comment) => (
+                        <CommentInfoCard
+                          key={comment._id}
+                          commentId={comment._id || null}
+                          authorName={comment?.author?.name || ""}
+                          authorPhoto={comment?.author?.profileImage || ""}
+                          content={comment.content}
+                          updatedOn={
+                            comment.updatedAt
+                              ? moment(comment.updatedAt).format("Do MMM YYYY, h:mm A")
+                              : null
+                          }
+                          post={comment.post}
+                          replies={comment.replies || []}
+                          getAllComments={() => fetchCommentByPostId(Blog._id)}
+                          onDelete={(commentId) =>
+                            setOpenDeleteAlert({
+                              open: true,
+                              data: commentId || comment._id,
+                            })
+                          }
+                        />
+                      ))
                     }
-                    post={comment.post}
-                    replies={comment.replies || []}
-                    getAllComments={() => fetchCommentByPostId(Blog._id)}
-                    onDelete={(commentId) =>
-                      setOpenDeleteAlert({
-                        open: true,
-                        data: commentId || comment._id,
-                      })
-                    }
-                  />
-                ))
-              }
 
-          </div>
-          <LikeCommentButton
-            postId={blogPostData?._id || ""}
-            likes={blogPostData?.likes || 0}
-            comments={comments?.length || 0}
-            fetchPostDetailsBySlug ={()=>fetchPostDetailsBySlug(blogPostData?._id)}
-            commentsRef={commentsRef}
-          />
+                </div>
+            )
+          }
+          {
+            !calledby && (
+              <LikeCommentButton
+                postId={blogPostData?._id || ""}
+                likes={blogPostData?.likes || 0}
+                comments={comments?.length || 0}
+                fetchPostDetailsBySlug ={()=>fetchPostDetailsBySlug(blogPostData?._id)}
+                commentsRef={commentsRef}
+              />
+            )
+          }
           <Drawer
               isOpen={openSummarizeDrawer}
               onClose={() => setOpenSummarizeDrawer(false)}
