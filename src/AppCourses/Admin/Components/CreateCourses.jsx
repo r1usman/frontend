@@ -17,7 +17,7 @@ const CreateCourse = ({setOpenCreateModal , OpenCreateModal}) => {
     {
         e.preventDefault();
         if (!Title) {
-        seterror("Please enter a challenge title");
+        seterror("Please enter a course title");
         return;
         }
         seterror("")
@@ -47,24 +47,24 @@ const CreateCourse = ({setOpenCreateModal , OpenCreateModal}) => {
 
   return (
     <div className="font-urbanist w-[90vw] md:w-[39vw] px-6 flex flex-col justify-center ">
-      <h3 className="text-lg font-semibold text-black">Create New Assingment</h3>
+      <h3 className="text-lg font-semibold text-black">Create New Course</h3>
       <p className="text-xs text-slate-700 mt-[5px] mb-3">
-        Give your Assingment   a title to get started. You can edit all details later.
+        Give your course a title to get started. You can edit all details later.
       </p>
 
       <form onSubmit={handleCreateChallenge}>
         <Input
           value={Title}
           onchange={(e) => setTitle(e.target.value)}
-          label="Assingment Title"
-          placeholder="e.g. Basic of Data Structure"
+          label="Course Title"
+          placeholder="e.g. Basics of Data Structure"
           type="text"
         />
 
         {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
 
-        <button type="submit" className="btn-primary">
-          Create Assingment
+        <button type="submit" className="btn-primary1">
+          Create Course
         </button>
       </form>
     </div>
