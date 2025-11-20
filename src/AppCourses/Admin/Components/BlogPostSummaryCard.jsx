@@ -4,12 +4,18 @@ import { LucideView } from "lucide-react";
 import { useState } from "react";
 import BlogPostView from "../BlogPostView";
 import Modal from "../../../DashBoard/Modals/Modal";
-const BlogPostSummaryCard = ({at , title,content, imgUrl, updatedOn, tags, views, likes, onClick, onDelete }) => {
+const BlogPostSummaryCard = ({at ,blog, title, content, imgUrl, updatedOn, tags, views, likes, onClick, onDelete }) => {
     const [AllowViewBlog, setAllowViewBlog] = useState(false)
+    console.log("EachBlog COnetnt" , blog);
+    
     const handleView = (e)=>{
         e.stopPropagation();
+
         setAllowViewBlog(true)
     }
+    
+
+    
 
     return (
         <div
@@ -81,9 +87,9 @@ const BlogPostSummaryCard = ({at , title,content, imgUrl, updatedOn, tags, views
                 onClose={(e) => {setAllowViewBlog(false) , e.stopPropagation();  }}
                 isOpen={AllowViewBlog}
                 type="BlogView"
-                title={`${content?.title}`}
+                title={"Preview"}
             >
-               <BlogPostView Blog ={content}/>
+               <BlogPostView Blog ={content} calledby={"Admin"}/>
         </Modal>
         </div>
     );
