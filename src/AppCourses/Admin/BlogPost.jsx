@@ -13,6 +13,7 @@ const BlogPosts = () => {
   const [tabs, settabs] = useState([])
   const [filterStatus, setFilterStatus] = useState("All");
   const [blogPostList, setBlogPostList] = useState([]);
+  const [BlogDetails, setBlogDetails] = useState([])
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -20,10 +21,11 @@ const BlogPosts = () => {
     open: false,
     data: null,
   });
-  console.log("page",page);
   
-  console.log(totalPages);
-  console.log(filterStatus);
+    
+
+  
+  
   
   
   const getAllPosts = async (pageNumber = 1) => {
@@ -37,7 +39,7 @@ const BlogPosts = () => {
       
 
     const { posts, totalPages, counts } = response.data;
-
+    
     setBlogPostList((prevPosts) =>
       pageNumber === 1 ? posts : [...prevPosts, ...posts]
     );
@@ -64,8 +66,7 @@ const BlogPosts = () => {
     }
   }
 
-  console.log(blogPostList);
-  
+
 
   const deletePost = async (postId) => {
     try {
@@ -102,9 +103,10 @@ const BlogPosts = () => {
         />
 
         <div className="mt-5">
-          {blogPostList?.map((post) => (
+          {blogPostList?.map((post ,index) => (
             <BlogPostSummaryCard
               content= {post}
+             
               key={post._id}
               title={post.title}
               imgUrl={post.coverImageUrl}
