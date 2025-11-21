@@ -306,6 +306,7 @@ const EditBlog = ({ isEdit }) => {
                         <MDEditor
                         value={postData.content}
                         onChange={(data) => handleValueChange("content", data)}
+        
                         commands={[
                             commands.bold,
                             commands.italic,
@@ -321,6 +322,9 @@ const EditBlog = ({ isEdit }) => {
                             commands.checkedListCommand,
                         ]}
                         hideMenu={true}
+                        
+                        
+                        
                         />
                     </div>
                 </div>

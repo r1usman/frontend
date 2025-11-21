@@ -11,7 +11,7 @@ const CourseScraping = ({setPostContent ,handleCloseForm}) => {
   
   const [text, setText] = useState("");
   const [scrapingData, setScrapingData] = useState(null);
-  const [formattedCategory, setFormattedCategory] = useState("Python");
+  const [formattedCategory, setFormattedCategory] = useState("css");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
@@ -51,7 +51,7 @@ const CourseScraping = ({setPostContent ,handleCloseForm}) => {
       break;
 
     case "GeeksForGeeks":
-      generatedLink = `${selected.baseUrl}/${formattedCategory.toLowerCase()}/${text.toLowerCase()}/`;
+      generatedLink = `${selected.baseUrl}/${formattedCategory.toLowerCase()}/${formattedCategory.toLowerCase()}_${text.toLowerCase()}/`;
       break;
 
     default:
@@ -63,7 +63,15 @@ const CourseScraping = ({setPostContent ,handleCloseForm}) => {
 }, [text, activeIndex, formattedCategory]);
 
 
-  console.log(activeIndex);
+  const Languages = activeIndex ==0  ?
+    [{ platform : "C++", tag : "css"},{platform : "Python",tag : "Python"},]
+    : activeIndex == 1 ? [{ platform : "C++", tag : "cplusplus"},{platform : "Python",tag : "Python"},]
+    :    [{ platform : "C++", tag : "cpp"},{platform : "Python",tag : "Python"},]
+
+
+
+  console.log("formattedCategory" , formattedCategory );
+  
   
   const handleSelect = (index) => {
     setActiveIndex(index);
@@ -94,7 +102,6 @@ const CourseScraping = ({setPostContent ,handleCloseForm}) => {
     }
   };
 
-  console.log('scrapingData',scrapingData);
   
   const HandleSaveBlog = (e) => {
   e.preventDefault();
@@ -108,10 +115,26 @@ const CourseScraping = ({setPostContent ,handleCloseForm}) => {
   return (
     <div className="grid grid-cols-6 gap-2 p-3">
       <div className="col-span-3 rounded-md bg-white p-3">
-        <div className="flex items-center gap-2 mb-4 bg-gray-200 p-1 w-fit rounded-md">
+        <div className="flex justify-between ">
+          <div className="flex items-center gap-2 mb-4 bg-gray-200 p-1 w-fit rounded-md">
           <button className="text-gray-800 font-semibold bg-white rounded px-2 py-1 text-sm hover:bg-gray-100">
             Default
           </button>
+        </div>
+        <div>
+          <div className='flex flex-col my-2  space-y-1.5 '>
+                <select  onChange={({target})=>setFormattedCategory(target.value)}  className='flex items-center gap-2.5 text-[13px] font-medium text-sky-500 bg-sky-50/60 rounded px-1.5 md:px-3 py-1 md:py-[3px] border border-sky-100 hover:border-sky-400 cursor-pointer hover:scale-[1.02] transition-all   focus:outline-none' name="" id="">
+                    <option disabled> Category</option> 
+                    {
+                        
+                        Languages.map((data)=>(
+                            <option value={data.tag}>{data.platform}</option>
+                        ))
+                    }
+
+                </select>
+            </div>
+        </div>
         </div>
 
         <div className="mt-4 mb-3">
@@ -155,7 +178,7 @@ const CourseScraping = ({setPostContent ,handleCloseForm}) => {
         {scrapeLink && (
           <p className="text-gray-500 italic mt-3 text-sm"> {scrapeLink} </p>
         )}
-        <p className="text-gray-500 italic mt-1 text-sm"> The system fetched this topic from an external source. Please research the original page before writing</p>
+        <p className="text-gray-500 italic mt-1 text-sm"> Enter a topic that actually exists on the chosen website (e.g., W3Schools, GeeksForGeeks, etc.). The scraper can’t fetch random or unsupported topics.</p>
 
 
         {error && <p className="text-red-600 text-sm mt-2">{error}</p>}

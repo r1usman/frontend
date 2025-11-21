@@ -169,3 +169,43 @@
     color: #681db8 !important;
     background-color: #d0f4ff !important;
 }
+
+.mdeditor-light .w-md-editor-text-input {
+    color: #000 !important;
+}
+
+.w-md-editor-text {
+    color: black !important;
+}
+
+.w-md-editor-text-input {
+    color: black !important;
+}
+
+
+/* Fix editor input on dark theme */
+.w-md-editor {
+    --color-fg-default: #000000 !important;
+    /* default text */
+    --color-fg-muted: #cccccc !important;
+    --color-fg-subtle: #cccccc !important;
+}
+
+.w-md-editor-text,
+.w-md-editor-text-input,
+.w-md-editor-text-pre {
+    color: #000000 !important;
+    /* white text for dark mode */
+    -webkit-text-fill-color: #000000 !important;
+}
+
+/* Fix code / syntax tokens */
+.w-md-editor-text-pre span {
+    color: #ffffff !important;
+}
+
+/* Fix duplicate ghost text inside the editor */
+.w-md-editor-text-pre {
+    visibility: hidden;
+    /* display: none !important; */
+}

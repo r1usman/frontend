@@ -75,3 +75,7 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #a1a1a1;
 }
+
+.mdeditor-light .w-md-editor-text-input {
+  color: #000 !important;
+}
