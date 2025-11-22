@@ -6,6 +6,8 @@ import AxiosInstance from "../../Utility/AxiosInstances";
 import { API_PATH } from "../../Utility/ApiPath";
 import Tabs from "./Components/Tabs";
 import BlogPostSummaryCard from "./Components/BlogPostSummaryCard";
+import Modal from "../../DashBoard/Modals/Modal";
+import DeleteCard from "../../Collaboration/Components/Cards/DeleteCard";
 
 
 const BlogPosts = () => {
@@ -17,7 +19,7 @@ const BlogPosts = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [openDeleteAlert, setOpenDeleteAlert] = useState({
+  const [openDeleteAlert,   setOpenDeleteAlert] = useState({
     open: false,
     data: null,
   });
@@ -70,7 +72,7 @@ const BlogPosts = () => {
 
   const deletePost = async (postId) => {
     try {
-      await axiosInstance.delete(`${API_PATHS.DELETE_POST}/${postId}`);
+      await AxiosInstance.delete(API_PATH.BLOG.DELETE_POST(postId))
       toast.success("Post deleted successfully!");
       getAllPosts(page);
     } catch (error) {
@@ -105,19 +107,21 @@ const BlogPosts = () => {
         <div className="mt-5">
           {blogPostList?.map((post ,index) => (
             <BlogPostSummaryCard
+          
               content= {post}
-             
-              key={post._id}
-              title={post.title}
-              imgUrl={post.coverImageUrl}
+              id={post?._id}
+              title={post?.title}
+              imgUrl={post?.coverImageUrl}
               updatedOn={
-                post.updatedAt ? moment(post.updatedAt).format("Do MMM YYYY") : "N/A"
+                post?.updatedAt ? moment(post?.updatedAt).format("Do MMM YYYY") : "N/A"
               }
-              tags={post.tags}
-              likes={post.likes}
-              views={post.views}
+              tags={post?.tags}
+              likes={post?.likes}
+              views={post?.views}
               onClick={() => navigate(`/admin/edit/${post.slug}`)}
-              onDelete={() => setOpenDeleteAlert({ open: true, data: post._id })}
+              onDelete={(id)=> deletePost(id)}
+              getAllPosts={getAllPosts}
+              
             />
           ))}
         </div>
@@ -145,7 +149,8 @@ const BlogPosts = () => {
             </div>
           )
         }
-
+      
+      
 
     </div>
   );
