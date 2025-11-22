@@ -1,5 +1,7 @@
 import html2canvas from "html2canvas";
 import moment from "moment";
+import python from "../assests/Icons/I4.svg"
+import Cplus from "../assests/Icons/I2.svg"
 
 export const formatYearMonth = (yearMonth) =>
   yearMonth ? moment(yearMonth).format("Do MMM YYYY") : "";
@@ -141,3 +143,38 @@ export const sanitizeMarkdown = (content) => {
 
   return match ? match[1] : content;
 };
+
+
+
+export const languageConfig = {
+  C: {
+    title: "C++ Course Catalog",
+    description: "Master C++ from basics to advanced concepts and sharpen your competitive programming skills.",
+    color: "bg-blue-500/70",
+    button: "Start Learning C++",
+    image: Cplus,
+  },
+  Python: {
+    title: "Python Course Catalog",
+    description: "Learn Python for automation, AI, machine learning, and software development.",
+    color: "bg-yellow-500/70",
+    button: "Start Learning Python",
+    image: python,
+  },
+  javascript: {
+    title: "JavaScript Course Catalog",
+    description: "Explore modern JavaScript for front-end and back-end web development.",
+    color: "bg-yellow-400/70",
+    button: "Start Learning JavaScript",
+    image: "/images/js.png",
+  },
+  default: {
+    title: "Course Catalog",
+    description: "Discover our comprehensive collection of courses to boost your skills.",
+    color: "bg-purple-500/70",
+    button: "Create Course",
+    image: "",
+  },
+};
+
+
