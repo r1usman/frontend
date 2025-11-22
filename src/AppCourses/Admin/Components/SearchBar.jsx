@@ -3,7 +3,7 @@ import axios from "axios";
 import { SearchContext } from "../../ContextApi/BlogContext";
 import { LuSearch } from "react-icons/lu";
 
-const SearchBar = ({ course }) => {
+const SearchBar = ({ course , setActiveTopic }) => {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -78,6 +78,7 @@ const SearchBar = ({ course }) => {
               className="flex items-center gap-2 line-clamp-1 px-2 py-3 text-sm hover:bg-gray-100 cursor-pointer border-b border-gray-100"
               onClick={() => {
                 setSelectedBlog(item);
+                setActiveTopic("")
                 setQuery("")
                 setSuggestions([]);
               }}
