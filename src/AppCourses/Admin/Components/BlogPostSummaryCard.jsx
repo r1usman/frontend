@@ -2,11 +2,16 @@ import { LuEye, LuHeart, LuTrash2 } from "react-icons/lu";
 import python from "../../assests/python.jpg"
 import { LucideView } from "lucide-react";
 import { useState } from "react";
-import BlogPostView from "../BlogPostView";
+
+
 import Modal from "../../../DashBoard/Modals/Modal";
-const BlogPostSummaryCard = ({at ,blog, title, content, imgUrl, updatedOn, tags, views, likes, onClick, onDelete }) => {
+import BlogPosts from "../BlogPost";
+import BlogPostView from "../BlogPostView";
+import DeleteCard from "../../../Collaboration/Components/Cards/DeleteCard";
+import DeleteBlogCard from "./DeleteBlogCard";
+const BlogPostSummaryCard = ({id,at ,blog, title,Articles , index, content,getAllPosts, imgUrl, updatedOn, tags, views, likes, onClick, onDelete }) => {
     const [AllowViewBlog, setAllowViewBlog] = useState(false)
-    console.log("EachBlog COnetnt" , blog);
+    const [DeletePost, setDeletePost] = useState(false)
     
     const handleView = (e)=>{
         e.stopPropagation();
@@ -77,7 +82,7 @@ const BlogPostSummaryCard = ({at ,blog, title, content, imgUrl, updatedOn, tags,
                     className="hidden md:flex items-center gap-2 text-xs text-rose-500  font-medium bg-rose-50 px-3 py-1 rounded text-nowrap border border-rose-100  hover:border-rose-200 cursor-pointer"
                     onClick={(e) => {
                         e.stopPropagation();
-                        onDelete();
+                        setDeletePost(true)
                     }}
                     >
                     <LuTrash2 /> <span className="hidden md:block">Delete</span>
@@ -89,7 +94,22 @@ const BlogPostSummaryCard = ({at ,blog, title, content, imgUrl, updatedOn, tags,
                 type="BlogView"
                 title={"Preview"}
             >
-               <BlogPostView Blog ={content} calledby={"Admin"}/>
+                <BlogPostView Blog ={content} title={title} calledby={"Admin"}/>
+        </Modal>
+        <Modal
+            isOpen = {DeletePost}
+            onClose = {(e)=>{ setDeletePost((prev)=>!prev) ,e.stopPropagation() }}
+            title={`Delete Blog`}
+            type={"small"}
+        >
+            <DeleteBlogCard 
+                id={id}
+                AssingmentInfo = {title}
+                deletePost = {onDelete}
+                setDeletePost={setDeletePost}
+                getAllPosts={getAllPosts}
+            />
+
         </Modal>
         </div>
     );
