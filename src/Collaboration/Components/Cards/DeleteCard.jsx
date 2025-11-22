@@ -4,6 +4,8 @@ import React from 'react'
 import { LuBatteryWarning, LuDelete, LuFileWarning, LuMailWarning } from 'react-icons/lu'
 
 const DeleteCard = ({AssingmentInfo, HandleDelete}) => {
+  console.log(AssingmentInfo);
+  
   return (
     <div className=''>
       <div className="font-urbanist text-black px-6 space-y-5">
