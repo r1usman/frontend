@@ -18,7 +18,7 @@ const CourseCard = ({
   
   return (
     <div
-      className={` rounded-lg w-75 flex-shrink-0 transition-transform duration-200 hover:bg-opacity-80  hover:shadow-lg cursor-pointer`}
+      className={` rounded-lg w-75 flex-shrink-0 transition-transform duration-200 hover:bg-opacity-80 hover:scale-[1.02] overflow-none  hover:shadow-lg cursor-pointer`}
       onClick={handleNavigate}
     >
       <img src={img} alt="" className="rounded-lg" />
@@ -60,7 +60,7 @@ useEffect(()=>{
         
       </div>
 
-      <div className="flex space-x-4 overflow-x-auto pb-4">
+      <div className="flex gap-3  overflow-x-auto pb-4 pt-1 px-2">
         {
           Courses.map((course)=>{
             return(
