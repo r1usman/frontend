@@ -20,15 +20,17 @@ import GenerateBlogPostForm from "./Components/GenerateBlogPostForm";
 import { useEffectEvent } from "react";
 import { getToastMessagesByType } from "../../Utility/Helper";
 import { toast } from "react-toastify";
+import DeleteBlogCard from "./Components/DeleteBlogCard";
+import DeleteBlogFromEdit from "./Components/DeleteBlogFromEdit";
 
 const EditBlog = ({ isEdit }) => {
   const navigate = useNavigate();
+  const [DeletePost, setDeletePost] = useState(false)
   const { postSlug = "" } = useParams();
-  console.log(postSlug);
   
-
   const [OpenScapingEnv, setOpenScapingEnv] = useState(false)
   const [RegistedCourses, setRegistedCourses] = useState([])
+
   const [postData, setPostData] = useState({
     id: "",
     title: "",
@@ -40,6 +42,9 @@ const EditBlog = ({ isEdit }) => {
     isDraft: "",
     generatedByAI: false,
   });
+
+  console.log(postData);
+  
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -184,8 +189,16 @@ const EditBlog = ({ isEdit }) => {
         };
 
 
-    // Delete Blog Post
-    const deletePost = async () => {};
+    const deletePost = async (postId) => {
+    try {
+      await AxiosInstance.delete(API_PATH.BLOG.DELETE_POST(postId))
+      toast.success("Post deleted successfully!");
+      navigate("/Admin/BlogPost")
+    } catch (error) {
+      toast.error("Failed to delete post!");
+      console.error(error);
+    }
+  };
 
     useEffect (()=>{
         // generatePostIdeas();
@@ -205,7 +218,7 @@ const EditBlog = ({ isEdit }) => {
 
     <div className="my-5">
         <div className="grid grid-cols-1 md:grid-cols-12  my-4 ">
-            <div className="form-card p-6 col-span-12 md:col-span-8 border border-dotted border-sky-500 p-3 rounded-md">
+            <div className={`form-card p-6 col-span-12 ${isEdit ?"md:col-span- ":"md:col-span-8 "} border border-dotted border-sky-500 p-3 rounded-md`}>
                 <div className="flex items-center justify-between">
                 <h2 className="text-base md:text-lg font-medium ">
                     {!isEdit ? "Add New Post" : "Edit Post"}
@@ -217,7 +230,7 @@ const EditBlog = ({ isEdit }) => {
                     <button
                         className="flex items-center gap-2.5 text-[13px] font-medium text-rose-500 rounded px-1.5 md:px-3 py-1 md:py-[3px] border border-rose-50 hover:border-rose-300 cursor-pointer hover:scale-[1.02] transition-all  "
                         disabled={loading}
-                        onClick={() => setOpenDeleteAlert(true)}
+                        onClick={() => setDeletePost(true)}
                     >
                         <LuTrash2 className="text-sm" />
                         <span className="hidden md:block">Delete</span>
@@ -225,8 +238,8 @@ const EditBlog = ({ isEdit }) => {
                     )}
 
                     <div className='flex flex-col my-2  space-y-1.5 '>
-                        <select   onChange={ ({target})=>UpdateData("BelongTo", target.value)}  className='flex items-center gap-2.5 text-[13px] font-medium text-sky-500 bg-sky-50/60 rounded px-1.5 md:px-3 py-1 md:py-[3px] border border-sky-100 hover:border-sky-400 cursor-pointer hover:scale-[1.02] transition-all   focus:outline-none' name="" id="">
-                            <option value="" disabled> Category</option> 
+                        <select value={postData?.BelongTo}   onChange={ ({target})=>UpdateData("BelongTo", target.value)}  className='flex items-center gap-2.5 text-[13px] font-medium text-sky-500 bg-sky-50/60 rounded px-1.5 md:px-3 py-1 md:py-[3px] border border-sky-100 hover:border-sky-400 cursor-pointer hover:scale-[1.02] transition-all   focus:outline-none' name="" id="">
+                            <option disabled value={""}> Category</option> 
                             {
                                 
                                 RegistedCourses.map((data)=>(
@@ -383,7 +396,7 @@ const EditBlog = ({ isEdit }) => {
         <Modal
             onClose={() => setOpenScapingEnv(false)}
             isOpen={OpenScapingEnv}
-            type=""
+            type="BlogView"
             title="WebScraping For Content"
         >
             <CourseScraping
@@ -428,6 +441,21 @@ const EditBlog = ({ isEdit }) => {
                 }}
             />
             </Modal>
+            <Modal
+            isOpen = {DeletePost}
+            onClose = {(e)=>{ setDeletePost((prev)=>!prev) ,e.stopPropagation() }}
+            title={`Delete Blog`}
+            type={"small"}
+        >
+            <DeleteBlogFromEdit 
+                id={postData?.id}
+                AssingmentInfo = {postData?.title}
+                deletePost={(id)=>deletePost(id)}
+                setDeletePost={setDeletePost}
+            />
+
+        </Modal>
+        
 
     </div>
 
