@@ -10,10 +10,6 @@ import {
   LuDot,
   LuSparkles,
 } from "react-icons/lu";
-
-// import CommentReplyInput from "../../components/Inputs/CommentReplyInput";
-// import toast from "react-hot-toast";
-// import TrendingPostsSection from "./components/TrendingPostsSection";
 import SkeletonLoader from "../Admin/Components/SkeletonLoader";
 import { sanitizeMarkdown } from "../../Utility/Helper";
 import MarkdownContent from "./Components/MarkdownContent";
@@ -25,7 +21,7 @@ import CommentReplyInput from "./Components/CommentReplyInput";
 import toast from "react-hot-toast";
 import Drawer from "./Components/Drawer";
 import LikeCommentButton from "./Components/LikeCommentButton";
-import axios, { Axios } from "axios";
+import axios from "axios";
 const BlogPostView = ({Blog, calledby}) => {
   console.log("Blog here", Blog);
   
@@ -81,12 +77,6 @@ const BlogPostView = ({Blog, calledby}) => {
     setOpenSummarizeDrawer(true);
 
     
-    // const response = await AxiosInstance.post(
-    //   API_PATH.PLATFORM_COURSES.BLOG_SUMMARY,
-    //   {
-    //     content: Blog?.content ,
-    //   }
-    // );
     const response = await axios.post("http://localhost:3000/Ask/PostSummary",{content: Blog?.content })
     if (response.data) {
       setSummaryContent(response.data);
@@ -101,12 +91,6 @@ const BlogPostView = ({Blog, calledby}) => {
 
   console.log("summaryContent", summaryContent);
   
-
-  const FetchBlog= async(BlogSlug)=>{
-    
-  }
-  
-
 
   const incrementViews = async (postId) => {
     console.log("Incrementing views for:", postId);
@@ -174,7 +158,7 @@ const BlogPostView = ({Blog, calledby}) => {
           {/* Blog Post Content */}
           <div className="grid grid-cols-12 gap-8 relative">
             <div className="col-span-12 md:col-span-8 relative">
-              <h1 className="text-lg md:text-2xl font-bold mb-2 line-clamp-3">
+              <h1 className="text-lg text-sky-500 md:text-2xl font-bold mb-2 line-clamp-3">
                 {blogPostData?.title}
               </h1>
               
@@ -186,7 +170,7 @@ const BlogPostView = ({Blog, calledby}) => {
                 <LuDot className="text-xl text-gray-400" />
                 
                 <div className="flex items-center flex-wrap gap-2">
-                  {blogPostData?.tags.slice(0, 3).map((tag, index) => (
+                  {blogPostData?.tags?.slice(0, 3).map((tag, index) => (
                     <button
                       key={index}
                       className="bg-sky-200/50 text-sky-800/80 text-xs font-medium px-3 py-0.5  rounded-full text-nowrap cursor-pointer hover:scale-[1.02] transition-all my-1"
