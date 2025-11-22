@@ -4,11 +4,11 @@ import { LuFileImage, LuLoaderCircle } from 'react-icons/lu';
 import CoursePhotoSelector from './CoursePhotoSelector';
 import AxiosInstance from '../../../Utility/AxiosInstances';
 import { API_PATH } from '../../../Utility/ApiPath';
-import BlogPostSummaryCard from './BlogPostSummaryCard';
 import moment from 'moment';
 import Stats from '../Stats';
 import UploadImage from '../Components/UploadCourse';
 import { image } from '@uiw/react-md-editor';
+import PreviewBlogPostSummaryCard from './PreviewBlogPostSummaryCard';
  const CourseCardComponent = ({ 
   data,
   previewCourse,
@@ -16,7 +16,6 @@ import { image } from '@uiw/react-md-editor';
   FetchCourses
 
 }) => {
-    console.log("data",data);
     
     const [courseInfo, setcourseInfo] = useState(data)
     const [Articles, setArticles] = useState([])
@@ -120,8 +119,6 @@ import { image } from '@uiw/react-md-editor';
     },[error])
 
 
-    console.log("courseInfo", courseInfo);
-    
 
     return (
         <div className="w-full  bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
@@ -159,7 +156,7 @@ import { image } from '@uiw/react-md-editor';
                 onChange={({ target }) => handleCourseInfo("description", target.value)}
             />
             <div className='flex items-center justify-end'>
-                <button onClick={UpdateCourse} className='btn-primary'>
+                <button onClick={UpdateCourse} className='btn-primary1'>
                     {isLoading && <LuLoaderCircle className="animate-spin text-lg" />}
                     {isLoading ? "Saving..." : "Save "}
 
@@ -168,10 +165,13 @@ import { image } from '@uiw/react-md-editor';
         </div>
 
             <div className="mt-5 px-3">
-                {Articles?.map((post) => (
-                    <BlogPostSummaryCard
+                {Articles?.map((post , index) => (
+                    <PreviewBlogPostSummaryCard
                     at={"Course"}
+                    index={index}
                     key={post._id}
+                    Articles ={Articles}
+                    content={post.content}
                     title={post.title}
                     imgUrl={post.coverImageUrl}
                     updatedOn={
