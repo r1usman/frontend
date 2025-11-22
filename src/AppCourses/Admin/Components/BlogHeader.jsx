@@ -6,7 +6,7 @@ import { FaRegFileAlt, FaRegCommentDots, FaCogs, FaBell } from "react-icons/fa";
 import SearchBarPopup from './SearchBar';
 import SearchBar from './SearchBar';
 
-export const BlogHeader = ({course}) => {
+export const BlogHeader = ({course , setActiveTopic}) => {
   const { User } = useContext(UserContext);
 
   const [notifications, setNotifications] = useState([]);
@@ -93,7 +93,7 @@ export const BlogHeader = ({course}) => {
         <h1 className="text-xl font-semibold">{userName}</h1>
       </div>
 
-      <SearchBar course={course}/>
+      <SearchBar course={course} setActiveTopic ={setActiveTopic}/>
 
 
       <div className="flex items-center space-x-4">
