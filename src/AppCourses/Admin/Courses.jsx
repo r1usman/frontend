@@ -37,7 +37,6 @@ const Courses = () => {
     FetchCourses();
   },[])
 
-  console.log("selectCourse",selectCourse);
   
 
   return (
@@ -73,41 +72,6 @@ const Courses = () => {
           />
         ))}
       </div>
-
-      {/* Pagination Controls */}
-      {/* <div className="flex justify-center gap-2 py-4 font-urbanist ">
-        <button
-          className="btn-small-light disabled:opacity-50"
-          onClick={() => setPage((prev)=>prev-1)}
-          disabled={page === 1}
-        >
-          Prev
-        </button>
-        {
-          [...Array(totalPages)].map((_, index) => {
-            const pageNumber = index + 1; 
-            return (
-              <div
-                key={index}
-                onClick={() => setPage(pageNumber)}
-                className={`min-w-8 flex items-center border px-3 rounded-md cursor-pointer ${
-                  page === pageNumber ? "bg-purple-500 text-white" : ""
-                }`}
-              >
-                {pageNumber}
-              </div>
-            );
-          })
-        }
-
-        <button
-          className="btn-small-light disabled:opacity-50"
-          onClick={() => setPage((prev)=>prev+1)}
-          disabled={page === totalPages}
-        >
-          Next
-        </button>
-      </div> */}
 
       
       <Modal
