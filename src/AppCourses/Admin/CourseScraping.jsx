@@ -17,6 +17,9 @@ const CourseScraping = ({setPostContent ,handleCloseForm}) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [scrapeLink, setScrapeLink] = useState("");
 
+  console.log("formattedCategory",formattedCategory );
+  
+
   const websites = [
     {
       site: "W3Schools",
@@ -123,7 +126,7 @@ const CourseScraping = ({setPostContent ,handleCloseForm}) => {
         </div>
         <div>
           <div className='flex flex-col my-2  space-y-1.5 '>
-                <select  onChange={({target})=>setFormattedCategory(target.value)}  className='flex items-center gap-2.5 text-[13px] font-medium text-sky-500 bg-sky-50/60 rounded px-1.5 md:px-3 py-1 md:py-[3px] border border-sky-100 hover:border-sky-400 cursor-pointer hover:scale-[1.02] transition-all   focus:outline-none' name="" id="">
+                <select value={formattedCategory}  onChange={({target})=>setFormattedCategory(target.value)}  className='flex items-center gap-2.5 text-[13px] font-medium text-sky-500 bg-sky-50/60 rounded px-1.5 md:px-3 py-1 md:py-[3px] border border-sky-100 hover:border-sky-400 cursor-pointer hover:scale-[1.02] transition-all   focus:outline-none' name="" id="">
                     <option disabled> Category</option> 
                     {
                         
@@ -178,7 +181,7 @@ const CourseScraping = ({setPostContent ,handleCloseForm}) => {
         {scrapeLink && (
           <p className="text-gray-500 italic mt-3 text-sm"> {scrapeLink} </p>
         )}
-        <p className="text-gray-500 italic mt-1 text-sm"> Enter a topic that actually exists on the chosen website (e.g., W3Schools, GeeksForGeeks, etc.). The scraper can’t fetch random or unsupported topics.</p>
+        <p className="text-gray-500 italic mt-1 text-sm"> Enter a topic that actually exists on the chosen website (e.g., W3Schools, tutorialspoint, etc.). The scraper can’t fetch random or unsupported topics.</p>
 
 
         {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
