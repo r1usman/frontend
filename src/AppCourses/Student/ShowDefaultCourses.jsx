@@ -6,6 +6,7 @@ import { Header } from "../../DashBoard/components/Layout/Header";
 import { BlogHeader } from "../Admin/Components/BlogHeader";
 import { LuChevronsLeft, LuChevronsRightLeft } from "react-icons/lu";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Introduction from "./Introduction";
 
 
 const ShowDefaultCourses = () => {
@@ -17,6 +18,8 @@ const ShowDefaultCourses = () => {
 
     if (!course) return <div>No Course Found</div>;
 
+    console.log("ActiveTopic", ActiveTopic);
+    
     return (
         <div className="w-full h-screen overflow-hidden">
 
@@ -26,7 +29,7 @@ const ShowDefaultCourses = () => {
                 <h1 className="text-gray-900" >Code Ascend</h1>
             </div>
                 <div  className="w-[88%] pl-13  pr-5 ">
-                    <BlogHeader course={course}/>
+                    <BlogHeader course={course} setActiveTopic={setActiveTopic}/>
                 </div>
             </div>
 
@@ -40,7 +43,11 @@ const ShowDefaultCourses = () => {
 
 
                 <div className="ml-[22%] w-[78%] mt-10 h-[calc(100vh-56px)] overflow-y-auto p-6">
-                    <BlogPostView Blog={ActiveTopic}  />
+                    {
+                        ActiveTopic?.type == "introduction"?
+                        <Introduction course ={course}/>:
+                        <BlogPostView Blog={ActiveTopic}  />
+                    }
                 </div>
 
             </div>
