@@ -39,10 +39,9 @@ import PreviewBlogPostSummaryCard from './PreviewBlogPostSummaryCard';
             console.log(id);
             
             const result = await AxiosInstance.get(API_PATH.BLOG.COURSE_BLOGS(id))
-            console.log("result",result);
+            console.log("result",result.data);
             
             setArticles(result.data.posts)
-            settotalLikes(result.data.totalLikes)
             settotalviews(result.data.totalViews)
             
         } catch (error) {
@@ -52,6 +51,14 @@ import PreviewBlogPostSummaryCard from './PreviewBlogPostSummaryCard';
 
     }
 
+    useEffect(() => {
+        const totalLikes = Articles.reduce((sum, post) => {
+            return sum + ((post.likedBy?.length )|| 0);
+        }, 0);
+        settotalLikes(totalLikes)
+        
+    }, [Articles])
+    
     useEffect(()=>{
         if(courseInfo)
         {
