@@ -17,8 +17,6 @@ const ShowDefaultCourses = () => {
     const [ActiveTopic, setActiveTopic] = useState(null);
 
     if (!course) return <div>No Course Found</div>;
-
-    console.log("ActiveTopic", ActiveTopic);
     
     return (
         <div className="w-full h-screen overflow-hidden">
