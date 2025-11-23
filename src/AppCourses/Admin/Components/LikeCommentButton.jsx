@@ -1,27 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { LuMessageCircle } from "react-icons/lu";
 import { PiHandsClapping } from "react-icons/pi";
 import clsx from "clsx";
 import AxiosInstance from "../../../Utility/AxiosInstances";
 import { API_PATH } from "../../../Utility/ApiPath";
+import { UserContext } from "../../../GlobalContext/UserContext";
+import axios from "axios";
 
-const LikeCommentButton = ({ postId, likes, comments , fetchPostDetailsBySlug,commentsRef }) => {
+
+const LikeCommentButton = ({ likedBy,postId, likes, comments , fetchPostDetailsBySlug,commentsRef }) => {
   const [postLikes, setPostLikes] = useState(0);
   const [liked, setLiked] = useState(false);
+  const {User} = useContext(UserContext)
 
-  useEffect(() => {
-    if (likes !== undefined) setPostLikes(likes);
-  }, [likes]);
+  console.log("likedBy",likedBy);
+  
+
+ useEffect(() => {
+  if (likes !== undefined) setPostLikes(likes);
+
+  if (likedBy && User?._id) {
+    const hasLiked = likedBy.includes(User._id);
+    setLiked(hasLiked);
+  }
+}, [likes, likedBy, User]);
+
 
   const handleLikeClick = async () => {
   if (!postId) return;
 
   try {
-    const response = await AxiosInstance.put(API_PATH.BLOG.LIKE_POST(postId));
+    const response = await AxiosInstance.put(API_PATH.BLOG.LIKE_POST(postId))
 
-    if (response.data?.likes !== undefined) {
-      setPostLikes(response.data.likes);  
-    }
+    setPostLikes(response.data.likedBy.length || 0); 
     fetchPostDetailsBySlug();
     setLiked(true);
     setTimeout(() => setLiked(false), 500);
@@ -44,7 +55,7 @@ const handleCommentClick = () => {
           <PiHandsClapping
             className={clsx(
               "text-[22px] transition-transform duration-300",
-              liked && "scale-125 text-cyan-500"
+              liked ? "text-cyan-500 scale-110" : "text-white"
             )}
           />
           <span className="text-base font-medium leading-4">{postLikes}</span>
