@@ -22,6 +22,7 @@ export const API_PATH = {
     },
     BLOG:
     {
+
         CREATE_POST: "/Blog/create",
         UPDATE_POST: (id) => `/Blog/update/${id}`,
         DELETE_POST: (id) => `/Blog/delete/${id}`,
@@ -32,10 +33,12 @@ export const API_PATH = {
         INCREMENT_VIEW: (id) => `/Blog/increment-view/${id}`,
         LIKE_POST: (id) => `/Blog/like/${id}`,
         COURSE_BLOGS: (id) => `/Blog/CourseBlogs/${id}`
+
     },
 
     COMMENTS: {
         CREATE_COMMENT: (postId) => `/Comment/${postId}`,
+        GET_ALL_COMMENTS: '/Comment',
         GET_COMMENTS: (postId) => `/Comment/post/${postId}`,
         DELETE_COMMENT: (commentId) => `/Comment/${commentId}`,
     },
