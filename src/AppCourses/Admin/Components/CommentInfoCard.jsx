@@ -7,9 +7,13 @@ import { UserContext } from "../../../GlobalContext/UserContext";
 import AxiosInstance from "../../../Utility/AxiosInstances";
 import { API_PATH } from "../../../Utility/ApiPath";
 import CommentReplyInput from "./CommentReplyInput";
+import Modal from "../../../DashBoard/Modals/Modal";
+import DeleteComments from "./DeleteComments";
 
 
 const CommentInfoCard = ({
+    admin,
+    status,
     commentId,
     authorName,
     authorPhoto,
@@ -19,13 +23,17 @@ const CommentInfoCard = ({
     replies,
     getAllComments,
     onDelete,
-     isSubReply = false, 
+    isSubReply = false, 
     }) => {
     const { User } = useContext(UserContext);
-
+    console.log("replies", replies);
+    
     const [replyText, setReplyText] = useState("");
     const [showReplyForm, setShowReplyForm] = useState(false);
     const [showSubReplies, setShowSubReplies] = useState(false);
+    const [deleteComment, setdeleteComment] = useState(false)
+
+    
     // Handles canceling a reply
     const handleCancelReply = () => {
     setReplyText("");
@@ -58,9 +66,9 @@ const CommentInfoCard = ({
     };
 
     return (
-    <div className="bg-white p-3 rounded-lg cursor-pointer group mb-5 ">
-        <div className="grid grid-cols-12 gap-3">
-            <div className="col-span-12 md:col-span-8 order-2 md:order-1">
+    <div className="pb-1 rounded-lg cursor-pointer group ">
+        <div className="grid grid-cols-12 gap-3 mx-3 my-2">
+            <div className={`col-span-12 md:col-span-12 order-2 md:order-1 border p-2 rounded-md ${status== "Admin" ?" border-sky-200 bg-sky-50":"border-gray-200 "} `}>
                 <div className="flex items-start gap-3">
                     <img
                         src={authorPhoto}
@@ -70,7 +78,17 @@ const CommentInfoCard = ({
                     <div className="flex-1">
                         {/* Author and date */}
                         <div className="flex items-center gap-1">
-                            <h3 className="text-[12px] text-gray-500 font-medium">{authorName}</h3>
+                            <div className="flex items-center gap-3">
+                                <h3 className="text-[12px] text-gray-500 font-medium">{authorName}</h3>
+
+                                {status == "Admin" && (
+                                    <span className="border flex items-center gap-2 bg-gradient-to-r from-blue-500 to-cyan-400 text-white text-xs px-2 py-0.5 rounded-full text-nowrap cursor-pointer"
+>
+                                    Admin
+                                    </span>
+                                )}
+                                </div>
+
                             <LuDot className="text-gray-500" />
                             <span className="text-[12px] text-gray-500 font-medium">
                                 {updatedOn || "_"}
@@ -78,8 +96,20 @@ const CommentInfoCard = ({
                         </div>
 
                         {/* Comment content */}
-                        <p className="text-sm text-black font-medium">{content}</p>
-
+                        <div className="relative">
+                            <p
+                            className={`text-sm font-medium text-black`}
+                            >
+                            {content}
+                            </p>
+                        {
+                                admin && (
+                                    <div onClick={()=>setdeleteComment(true)} className="  absolute right-0 md:right-5 top-0 text-red-500 border p-2 hover:bg-red-500 hover:text-white rounded-md transition-all ease-in duration-100">
+                                        <LuTrash2/>
+                                    </div>
+                                )
+                            }
+                        </div>
                         {/* Actions */}
                         <div className="flex items-center gap-3 mt-1.5">
                             {!isSubReply && (
@@ -111,6 +141,7 @@ const CommentInfoCard = ({
                                 </>
                             )}
                         </div>
+                        
                     </div>
                 </div>
             </div>
@@ -138,6 +169,7 @@ const CommentInfoCard = ({
                         commentId={reply._id}
                         authorName={reply?.author?.name}
                         authorPhoto={reply?.author?.profileImage}
+                        status ={reply?.author?.status}
                         content={reply.content}
                         post={reply.post}
                         replies={reply.replies || []}
@@ -152,7 +184,24 @@ const CommentInfoCard = ({
                     />
                     </div>
                 ))}
+
+                <Modal
+                        isOpen = {deleteComment}
+                        onClose = {(e)=>{ setdeleteComment((prev)=>!prev) ,e.stopPropagation() }}
+                        title={`Delete Commemt`}
+                        type={"small"}
+                    >
+                        <DeleteComments
+                            commentId ={commentId}
+                            Author = {authorName}
+                            content={content}
+                            onDelete ={onDelete}
+                            getAllComments={getAllComments}
+                        />
+        
+                </Modal>
     </div>
+    
    
 );
 
