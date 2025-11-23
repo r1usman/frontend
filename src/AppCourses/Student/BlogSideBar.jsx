@@ -38,11 +38,7 @@ const BlogSideBar = ({ course, onSelectBlog }) => {
     useEffect(() => {
         if (course?._id) fetchBlogs();
     }, [course]);
-
-
-    console.log("activeBlog",course);
     
-
     return (
         <div className="font-urbanist h-full shadow-lg">
             <div className="p-4 h-[calc(100%-100px)]">
