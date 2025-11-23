@@ -9,8 +9,6 @@ const SearchBar = ({ course , setActiveTopic }) => {
   const [loading, setLoading] = useState(false);
 
   const {selectedBlog,setSelectedBlog} = useContext(SearchContext)
-
-  console.log("selectedBlog", selectedBlog);
   
   useEffect(() => {
     if (!query) {
