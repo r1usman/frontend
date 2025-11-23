@@ -89,11 +89,15 @@ const BlogPostView = ({Blog, calledby}) => {
   }
 };
 
-  console.log("summaryContent", summaryContent);
   
 
   const incrementViews = async (postId) => {
-    console.log("Incrementing views for:", postId);
+    try {
+      const response = await AxiosInstance.put(API_PATH.BLOG.INCREMENT_VIEW(postId));
+    } catch (error) {
+      console.log(error);
+      
+    }
   };
 
   const handleCancelReply = () => {
@@ -122,11 +126,16 @@ const BlogPostView = ({Blog, calledby}) => {
     }
   };
   
-
+  console.log("selectedBlog",selectedBlog);
+  console.log("calledby", calledby);
+  
+  
   useEffect(() => {
   if (Blog && !selectedBlog) {
     fetchPostDetailsBySlug(Blog?.slug);
     fetchCommentByPostId(Blog._id);
+    if(!calledby)
+      incrementViews(Blog?._id)
   }
   if(Blog && !selectedBlog && calledby)
   {
@@ -134,9 +143,12 @@ const BlogPostView = ({Blog, calledby}) => {
   }
 
   if (selectedBlog) {
+    if(!calledby)
+      incrementViews(selectedBlog?._id)
     fetchPostDetailsBySlug(selectedBlog?.slug);
     
   }
+
 
 }, [Blog, selectedBlog]);
 
@@ -250,30 +262,39 @@ const BlogPostView = ({Blog, calledby}) => {
                       />
                     </div>
                   )}
-                  {comments?.length > 0 &&
-                      comments.map((comment) => (
-                        <CommentInfoCard
-                          key={comment._id}
-                          commentId={comment._id || null}
-                          authorName={comment?.author?.name || ""}
-                          authorPhoto={comment?.author?.profileImage || ""}
-                          content={comment.content}
-                          updatedOn={
-                            comment.updatedAt
-                              ? moment(comment.updatedAt).format("Do MMM YYYY, h:mm A")
-                              : null
-                          }
-                          post={comment.post}
-                          replies={comment.replies || []}
-                          getAllComments={() => fetchCommentByPostId(Blog._id)}
-                          onDelete={(commentId) =>
-                            setOpenDeleteAlert({
-                              open: true,
-                              data: commentId || comment._id,
-                            })
-                          }
-                        />
-                      ))
+                  {comments?.length > 0 ?
+                      (
+                        comments.map((comment) => (
+                          <CommentInfoCard
+                            key={comment._id}
+                            commentId={comment._id || null}
+                            authorName={comment?.author?.name || ""}
+                            authorPhoto={comment?.author?.profileImage || ""}
+                            content={comment.content}
+                            updatedOn={
+                              comment.updatedAt
+                                ? moment(comment.updatedAt).format("Do MMM YYYY, h:mm A")
+                                : null
+                            }
+                            post={comment.post}
+                            replies={comment.replies || []}
+                            getAllComments={() => fetchCommentByPostId(Blog._id)}
+                            onDelete={(commentId) =>
+                              setOpenDeleteAlert({
+                                open: true,
+                                data: commentId || comment._id,
+                              })
+                            }
+                          />
+                        ))
+                      )
+                      :
+                      (
+                        <div className="text-center  text-gray-500 text-sm italic">
+                            No comments available.
+                        </div>
+                      )
+                      
                     }
 
                 </div>
@@ -283,7 +304,8 @@ const BlogPostView = ({Blog, calledby}) => {
             !calledby && (
               <LikeCommentButton
                 postId={blogPostData?._id || ""}
-                likes={blogPostData?.likes || 0}
+                likes={blogPostData?.likedBy.length || 0}
+                likedBy={blogPostData?.likedBy}
                 comments={comments?.length || 0}
                 fetchPostDetailsBySlug ={()=>fetchPostDetailsBySlug(blogPostData?._id)}
                 commentsRef={commentsRef}
