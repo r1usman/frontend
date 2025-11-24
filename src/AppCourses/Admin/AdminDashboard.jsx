@@ -56,7 +56,6 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          {/* Summary Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mt-5">
 
             <DashboardSummaryCard
@@ -95,17 +94,14 @@ const AdminDashboard = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 my-4 md:my-6">
 
-          {/* Tag Insights */}
           <div className="col-span-12 md:col-span-7 bg-white p-6 rounded-2xl shadow-md shadow-gray-200 border border-gray-200/50">
             <div className="flex items-center justify-between ">
               <h5 className="font-medium ">Tag Insights</h5>
             </div>
             <TagInsights tagUsage={dashboardData?.tagUsage} />
 
-            {/* Add your Tag Insights content here */}
           </div>
 
-          {/* Top Posts */}
           <div className="col-span-12 md:col-span-5 bg-white p-6 rounded-2xl shadow-md shadow-md shadow-gray-200 border border-gray-200/50">
             <div className="flex items-center justify-between">
               <h5 className="font-medium ">Top Posts</h5>
@@ -123,7 +119,6 @@ const AdminDashboard = () => {
 
           </div>
 
-          {/* Recent Comments */}
           <div className="col-span-12 bg-white p-6 rounded-2xl shadow-md shadow-md shadow-gray-200 border border-gray-200/50">
             <div className="flex items-center justify-between">
               <h5 className="font-medium ">Recent Comments</h5>
