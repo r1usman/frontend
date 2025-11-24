@@ -1,13 +1,13 @@
 import React from "react";
-import { LuHeart } from "react-icons/lu";
+import { LuHeart , LuFileText } from "react-icons/lu";
 import Python from "../../assests/python.jpg"
+
 
 const TopPostCard = ({ title, coverImageUrl, views, likes, maxViews }) => {
   const viewPercentage = ((views / maxViews) * 100).toFixed(0);
 
     return (
         <div className="bg-white py-4 flex flex-col gap-3 border-b border-gray-100">
-        {/* Post header */}
         <div className="flex items-start gap-2">
             <img
             src={Python}
@@ -19,7 +19,6 @@ const TopPostCard = ({ title, coverImageUrl, views, likes, maxViews }) => {
             </h3>
         </div>
 
-        {/* Progress bar */}
         <div className="relative w-full h-1.5 bg-sky-100/60 rounded-full overflow-hidden mt-1">
             <div
             className="h-full bg-linear-to-r from-sky-500 to-cyan-400 rounded-full transition-all duration-300"
