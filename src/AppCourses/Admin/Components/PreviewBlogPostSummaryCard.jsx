@@ -1,18 +1,40 @@
 import { LuEye, LuHeart, LuTrash2 } from "react-icons/lu";
 import python from "../../assests/python.jpg"
+import CPlus from "../../assests/CPlus.png"
 import { LucideView } from "lucide-react";
 import { useState } from "react";
 import BlogPosts1 from "../Components/BlogPost1";
 
 import Modal from "../../../DashBoard/Modals/Modal";
-const PreviewBlogPostSummaryCard = ({at ,blog, title,Articles , index, content, imgUrl, updatedOn, tags, views, likes, onClick, onDelete }) => {
+import DeleteBlogCard from "./DeleteBlogCard";
+import AxiosInstance from "../../../Utility/AxiosInstances";
+import { API_PATH } from "../../../Utility/ApiPath";
+const PreviewBlogPostSummaryCard = ({at ,id,blog,FetchCourseArticels, title,Articles , index, content, imgUrl, updatedOn, tags, views, likes, onClick, courseID }) => {
     const [AllowViewBlog, setAllowViewBlog] = useState(false)
-    // console.log("EachBlog COnetnt" , content);
-    
+    const [DeletePost, setDeletePost] = useState(false)
+    const [BlogImage, setBlogImage] = useState(imgUrl)
+
+
     const handleView = (e)=>{
         e.stopPropagation();
 
         setAllowViewBlog(true)
+    }
+
+    const deletePost = async (postId) => {
+    try {
+        console.log("Here");
+        
+        await AxiosInstance.delete(API_PATH.BLOG.DELETE_POST(postId))
+        FetchCourseArticels(courseID);
+    } catch (error) {
+        
+        console.error(error);
+    }
+    };
+
+    const fetchdata = ()=>{
+        FetchCourseArticels(courseID);
     }
     
 
@@ -24,7 +46,7 @@ const PreviewBlogPostSummaryCard = ({at ,blog, title,Articles , index, content, 
             onClick={onClick}
         >
             <img
-            src={python}
+            src={BlogImage== "Python"? python: CPlus}
             alt={title}
             className="w-16 h-16 rounded-lg "
             />
@@ -74,24 +96,41 @@ const PreviewBlogPostSummaryCard = ({at ,blog, title,Articles , index, content, 
             
                 </button>
 
+
                     <button
                     className="hidden md:flex items-center gap-2 text-xs text-rose-500  font-medium bg-rose-50 px-3 py-1 rounded text-nowrap border border-rose-100  hover:border-rose-200 cursor-pointer"
                     onClick={(e) => {
                         e.stopPropagation();
-                        onDelete();
+                        setDeletePost(true);
                     }}
                     >
                     <LuTrash2 /> <span className="hidden md:block">Delete</span>
                     </button>
             </div>
-             <Modal
+            <Modal
                 onClose={(e) => {setAllowViewBlog(false) , e.stopPropagation();  }}
-                isOpen={AllowViewBlog}
-                type="BlogView"
-                title={"Preview"}
+                    isOpen={AllowViewBlog}
+                    type="BlogView"
+                    title={"Preview"}
+                >
+                <BlogPosts1 Blog ={Articles[index]} title={title} calledby={"Admin"}/>
+            </Modal>
+            <Modal
+                isOpen = {DeletePost}
+                onClose = {(e)=>{ setDeletePost((prev)=>!prev) ,e.stopPropagation() }}
+                title={`Delete Blog`}
+                type={"small"}
             >
-               <BlogPosts1 Blog ={Articles[index]} title={title} calledby={"Admin"}/>
-        </Modal>
+                <DeleteBlogCard 
+                    id ={id}
+                    AssingmentInfo={title}
+                    getAllPosts={fetchdata}
+                    deletePost= {deletePost}
+                    setDeletePost={setDeletePost}
+
+                />
+
+            </Modal>
         </div>
     );
 
