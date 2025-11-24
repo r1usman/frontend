@@ -18,11 +18,15 @@ import PreviewBlogPostSummaryCard from './PreviewBlogPostSummaryCard';
 }) => {
     
     const [courseInfo, setcourseInfo] = useState(data)
+    const [Id, setId] = useState(data._id)
     const [Articles, setArticles] = useState([])
     const [totalviews, settotalviews] = useState("")
     const [totalLikes, settotalLikes] = useState("")
     const [error, seterror] = useState("")
     const [isLoading, setisLoading] = useState(false)
+    
+    console.log("data", data);
+    
 
 
     const handleCourseInfo = (key , value)=>{
@@ -36,7 +40,7 @@ import PreviewBlogPostSummaryCard from './PreviewBlogPostSummaryCard';
 
     const FetchCourseArticels = async(id)=>{
         try {
-            console.log(id);
+            
             
             const result = await AxiosInstance.get(API_PATH.BLOG.COURSE_BLOGS(id))
             console.log("result",result.data);
@@ -125,6 +129,8 @@ import PreviewBlogPostSummaryCard from './PreviewBlogPostSummaryCard';
         }
     },[error])
 
+    
+
 
 
     return (
@@ -176,17 +182,19 @@ import PreviewBlogPostSummaryCard from './PreviewBlogPostSummaryCard';
                     <PreviewBlogPostSummaryCard
                     at={"Course"}
                     index={index}
-                    key={post._id}
+                    id={post._id}
+                    courseID = {courseInfo?._id}
                     Articles ={Articles}
                     content={post.content}
                     title={post.title}
-                    imgUrl={post.coverImageUrl}
+                    imgUrl={data?.title}
                     updatedOn={
                         post.updatedAt ? moment(post.updatedAt).format("Do MMM YYYY") : "N/A"
                     }
                     tags={post.tags}
                     likes={post.likes}
                     views={post.views}
+                    FetchCourseArticels ={FetchCourseArticels}
                     onClick={() => navigate(`/admin/edit/${post.slug}`)}
                     onDelete={() => setOpenDeleteAlert({ open: true, data: post._id })}
                     />
