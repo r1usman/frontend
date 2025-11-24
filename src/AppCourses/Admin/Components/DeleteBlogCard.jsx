@@ -4,11 +4,12 @@ import React from 'react'
 import { LuBatteryWarning, LuDelete, LuFileWarning, LuMailWarning } from 'react-icons/lu'
 
 const DeleteBlogCard = ({id,AssingmentInfo,getAllPosts, deletePost, setDeletePost}) => {
-  console.log(AssingmentInfo);
+  console.log("AssingmentInfo", AssingmentInfo);
+
   
   return (
     <div className=''>
-      <div className="font-urbanist text-black px-6 space-y-5">
+      <div className="font-urbanist text-black px-6 space-y-4">
           <div className='space-y-3'>
             <div className='flex items-center gap-3 mt-2'>
               <OctagonAlert className='size-6 text-red-500' />
