@@ -304,7 +304,7 @@ const BlogPostView = ({Blog, calledby}) => {
             !calledby && (
               <LikeCommentButton
                 postId={blogPostData?._id || ""}
-                likes={blogPostData?.likedBy.length || 0}
+                likes={blogPostData?.likedBy?.length || 0}
                 likedBy={blogPostData?.likedBy}
                 comments={comments?.length || 0}
                 fetchPostDetailsBySlug ={()=>fetchPostDetailsBySlug(blogPostData?._id)}
