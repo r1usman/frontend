@@ -254,7 +254,7 @@ const EditBlog = ({ isEdit }) => {
                     {
                         !isEdit && (
                         <button
-                            className="flex items-center gap-2.5 text-[13px] font-medium text-sky-500 bg-sky-50/60 rounded px-1.5 md:px-3 py-1 md:py-[3px] border border-sky-100 hover:border-sky-400 cursor-pointer hover:scale-[1.02] transition-all   "
+                            className="flex items-center gap-1.5 text-[13px] font-medium text-sky-500 bg-sky-50/60 rounded px-1.5 md:px-1.5 py-1 md:py-[3px] border border-sky-100 hover:border-sky-400 cursor-pointer hover:scale-[1.02] transition-all   "
                             disabled={loading}
                             onClick={() => setOpenScapingEnv(true)}
                             >
@@ -266,7 +266,7 @@ const EditBlog = ({ isEdit }) => {
 
 
                     <button
-                    className="flex items-center gap-2.5 text-[13px] font-medium text-sky-500 bg-sky-50/60 rounded px-1.5 md:px-3 py-1 md:py-[3px] border border-sky-100 hover:border-sky-400 cursor-pointer hover:scale-[1.02] transition-all   "
+                    className="flex items-center gap-1.5 text-[13px] font-medium text-sky-500 bg-sky-50/60 rounded px-1.5 md:px-1.5 py-1 md:py-[3px] border border-sky-100 hover:border-sky-400 cursor-pointer hover:scale-[1.02] transition-all   "
                     disabled={loading}
                     onClick={() => handlePublish(true)}
                     >
