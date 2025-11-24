@@ -99,7 +99,7 @@
 }
 
 .btn-Delete {
-    @apply w-full text-sm font-medium text-white bg-red-500 shadow-lg shadow-red-500/5 p-[10px] rounded-md my-1 hover:bg-red-600/15 hover:text-black cursor-pointer;
+    @apply w-full text-sm font-medium text-white bg-red-500 shadow-lg shadow-red-500/5 p-[10px] rounded-md hover:bg-red-600/15 hover:text-black cursor-pointer;
 }
 
 .smooth-collapse {
