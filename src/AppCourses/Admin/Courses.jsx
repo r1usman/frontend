@@ -21,6 +21,8 @@ const Courses = () => {
   const [totalPages, setTotalPages] = useState(1);
 
 
+  console.log("selectCourse", selectCourse);
+  
   const FetchCourses = async()=>{
     try {
         const result = await AxiosInstance.get(API_PATH.PLATFORM_COURSES.COURSES);
@@ -74,14 +76,14 @@ const Courses = () => {
       </div>
 
       
-      <Modal
+      {/* <Modal
         isOpen={openCreateModal}
         title={"Add Assingment"}
         onClose={() => setOpenCreateModal(false)}
         type="Banner"
       >
         <CreateDefaultCourses openCreateModal={openCreateModal} setOpenCreateModal={setOpenCreateModal} />
-      </Modal>
+      </Modal> */}
 
 
 
