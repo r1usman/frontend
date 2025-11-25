@@ -54,7 +54,7 @@ useEffect(()=>{
   console.log(Courses);
   
   return (
-    <div className="px-4 py-3 rounded-md bg-gray-50">
+    <div className="px-4 py-3 rounded-lg shadow-sm shadow-purple-300  bg-white">
       <div className="flex justify-between items-center mb-4 ">
         <h2 className="text-lg font-medium">Continue Courses</h2>
         

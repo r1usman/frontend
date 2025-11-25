@@ -32,8 +32,7 @@ const SignUp = () => {
       
       try {
         const uploadImage = await UploadImage(ProfilePic);
-      
-      
+    
         const profileImageUrl = uploadImage.Image || "";
 
         const VerifyEmail = await AxiosInstance.post(API_PATH.AUTH.VERIFY_EMAIL,{ email })
@@ -201,7 +200,7 @@ const SignUp = () => {
                       </label>
                       <input
                         className='w-full p-2 bg-slate-100 focus:outline-none text-slate-700 border border-slate-200 rounded-[4px] placeholder:text-slate-700'
-                        type='text'
+                        type='email'
                         value={email}
                         placeholder='john@gmail.com'
                         onChange={(e) => setemail(e.target.value)}

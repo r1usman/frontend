@@ -61,8 +61,8 @@ const CourseItem = ({
 
 const CourseList = () => {
   return (
-    <div>
-      <div className="flex justify-between items-center mb-4">
+    <div className="px-4 py-3 rounded-lg shadow-sm shadow-purple-300  bg-white">
+      <div className="flex justify-between items-center mb-4 ">
         <h2 className="text-lg font-medium">Your courses</h2>
         <button className="text-sm text-blue-500 hover:text-blue-700 transition-colors">
           See all
