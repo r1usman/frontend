@@ -176,15 +176,15 @@ export default function LiveClass() {
                         className="absolute inset-0 bg-black/50"
                         onClick={() => setIsQueriesOpen(false)}
                       />
-                      <div className="absolute inset-x-0 top-20 mx-auto max-w-3xl px-4">
+                      <div className="absolute inset-x-0 top-16 mx-auto w-full max-w-5xl px-4">
                         <div
                           className={`${
                             isDarkMode
                               ? "bg-gray-900 border-gray-800"
                               : "bg-white border-gray-200"
-                          } border rounded-xl shadow-lg`}
+                          } border rounded-xl shadow-lg max-h-[85vh] overflow-hidden flex flex-col`}
                         >
-                          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-800">
+                          <div className="flex items-center justify-between px-4 py-3 border-b">
                             <h3
                               className={`text-sm font-medium ${
                                 isDarkMode ? "text-gray-100" : "text-gray-900"
@@ -203,7 +203,7 @@ export default function LiveClass() {
                               Close
                             </button>
                           </div>
-                          <div className="p-4">
+                          <div className="p-4 min-h-0 flex-1 overflow-hidden">
                             <QueryPanel isDarkMode={isDarkMode} />
                           </div>
                         </div>

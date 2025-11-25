@@ -17,12 +17,44 @@ import {
 const QueryContext = createContext(null);
 const TAG = "queries-v1";
 
+// Add: initial seed queries and stable IDs
+const INITIAL_QUERY_TEXTS = [
+  "At what temperature does pure water boil when measured at standard atmospheric pressure?",
+  "Can you describe the primary function of chlorophyll in green foliage?",
+  "Would you please detail the essential steps required for a plant to convert light energy into chemical energy?",
+  "Could you tell me what the boiling point is for H₂O at sea level?",
+  "What is the mechanism by which plants synthesize their own food using sunlight?",
+  "What is the thermal point at which liquid water turns into a gas?",
+  "What are the core differences that exist between the mitochondrion and the chloroplast?",
+  "Could you explain how the process of photosynthesis is actually carried out in a typical plant cell?",
+  "What is the molecular formula for water, and exactly how many atoms does that molecule contain?",
+  "Can you explain the cellular procedure where plants create glucose from carbon dioxide and water?",
+];
+
+// Simple stable hash for consistent IDs across peers
+function stableIdFromText(text) {
+  let h = 5381;
+  for (let i = 0; i < text.length; i++) h = (h * 33) ^ text.charCodeAt(i);
+  return `seed-${(h >>> 0).toString(16)}`;
+}
+
+function seedInitialQueries() {
+  const now = Date.now();
+  return INITIAL_QUERY_TEXTS.map((t, i) => ({
+    id: stableIdFromText(t),
+    text: t,
+    createdAt: now + i, // preserves order
+    authorId: "system",
+    authorName: "System",
+  }));
+}
+
 export function QueryProvider({ children }) {
   const hmsActions = useHMSActions();
   const localPeer = useHMSStore(selectLocalPeer);
   const messages = useHMSStore(selectHMSMessages);
 
-  const [queries, setQueries] = useState([]); // {id,text,createdAt,authorId,authorName}
+  const [queries, setQueries] = useState(() => seedInitialQueries()); // pre-populated
   const [uniqueQueries, setUniqueQueries] = useState(null);
   const [isClustering, setIsClustering] = useState(false);
   const [error, setError] = useState(null);

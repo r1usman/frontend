@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useQueries } from "./QueryContext";
 
 export default function QueryPanel({ isDarkMode }) {
@@ -21,9 +21,12 @@ export default function QueryPanel({ isDarkMode }) {
 
   return (
     <div
-      className={`space-y-4 ${isDarkMode ? "text-gray-100" : "text-gray-800"}`}
+      className={`flex flex-col min-h-0 ${
+        isDarkMode ? "text-gray-100" : "text-gray-800"
+      } h-[70vh] md:h-[72vh]`}
     >
-      <form onSubmit={handleAdd} className="flex space-x-2">
+      {/* Input row */}
+      <form onSubmit={handleAdd} className="flex gap-2">
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -31,7 +34,7 @@ export default function QueryPanel({ isDarkMode }) {
           className={`flex-1 px-3 py-2 rounded border text-sm ${
             isDarkMode
               ? "bg-gray-800 border-gray-700 text-gray-100 placeholder-gray-500"
-              : "bg-white border-gray-300 text-gray-900 placeholder-gray-400"
+              : "bg-white border-gray-300 text-gray-900 placeholder-gray-500"
           }`}
         />
         <button
@@ -46,7 +49,8 @@ export default function QueryPanel({ isDarkMode }) {
         </button>
       </form>
 
-      <div className="flex items-center gap-2 flex-wrap">
+      {/* Actions */}
+      <div className="mt-3 flex items-center gap-2 flex-wrap">
         <button
           disabled={!queries.length || isClustering}
           onClick={clusterQueries}
@@ -58,7 +62,7 @@ export default function QueryPanel({ isDarkMode }) {
               : "bg-indigo-500 hover:bg-indigo-600 text-white"
           } disabled:opacity-50`}
         >
-          {isClustering ? "Clustering..." : "Cluster"}
+          {isClustering ? "Clustering..." : "Find Unique"}
         </button>
         <button
           disabled={!queries.length}
@@ -76,80 +80,117 @@ export default function QueryPanel({ isDarkMode }) {
         </span>
       </div>
 
-      <div className="space-y-3">
-        <h4
-          className={`text-sm font-semibold ${
-            isDarkMode ? "text-gray-200" : "text-gray-700"
+      {error && (
+        <div
+          className={`mt-3 text-xs px-3 py-2 rounded ${
+            isDarkMode ? "bg-red-900 text-red-200" : "bg-red-100 text-red-700"
           }`}
         >
-          Submitted Queries
-        </h4>
-        {queries.length === 0 && (
-          <p
-            className={`text-xs ${
-              isDarkMode ? "text-gray-400" : "text-gray-500"
-            }`}
-          >
-            No queries yet.
-          </p>
-        )}
-        <ul className="space-y-1 max-h-48 overflow-auto pr-1">
-          {queries.map((q) => (
-            <li
-              key={q.id}
-              className={`text-xs px-2 py-1 rounded border flex justify-between gap-3 ${
-                isDarkMode
-                  ? "border-gray-700 bg-gray-800"
-                  : "border-gray-200 bg-white"
-              }`}
-              title={new Date(q.createdAt).toLocaleString()}
-            >
-              <span className="truncate">{q.text}</span>
-              <span
-                className={`shrink-0 opacity-70 ${
-                  isDarkMode ? "text-gray-300" : "text-gray-500"
-                }`}
-              >
-                {q.authorName || "Anon"}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
+          {error}
+        </div>
+      )}
 
-      <div className="space-y-3">
-        <h4
-          className={`text-sm font-semibold ${
-            isDarkMode ? "text-gray-200" : "text-gray-700"
+      {/* Content grid */}
+      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 min-h-0 flex-1">
+        {/* Submitted Queries */}
+        <section
+          className={`flex flex-col min-h-0 rounded border ${
+            isDarkMode
+              ? "border-gray-800 bg-gray-900"
+              : "border-gray-200 bg-white"
           }`}
         >
-          Unique Queries
-        </h4>
-        {!uniqueQueries && (
-          <p
-            className={`text-xs ${
-              isDarkMode ? "text-gray-400" : "text-gray-500"
+          <header
+            className={`px-3 py-2 border-b text-sm font-semibold ${
+              isDarkMode
+                ? "border-gray-800 text-gray-200"
+                : "border-gray-200 text-gray-700"
             }`}
           >
-            No unique queries yet. Click Cluster.
-          </p>
-        )}
-        {uniqueQueries && Array.isArray(uniqueQueries) && (
-          <ul className="space-y-1 max-h-72 overflow-auto pr-1">
-            {uniqueQueries.map((q, i) => (
-              <li
-                key={i}
-                className={`text-xs px-2 py-1 rounded border ${
-                  isDarkMode
-                    ? "border-gray-700 bg-gray-800"
-                    : "border-gray-200 bg-white"
+            Submitted Queries
+          </header>
+          <div className="min-h-0 flex-1 overflow-auto p-2 space-y-2">
+            {queries.length === 0 ? (
+              <p
+                className={`text-xs ${
+                  isDarkMode ? "text-gray-400" : "text-gray-500"
                 }`}
               >
-                {q}
-              </li>
-            ))}
-          </ul>
-        )}
+                No queries yet.
+              </p>
+            ) : (
+              <ul className="space-y-1">
+                {queries.map((q) => (
+                  <li
+                    key={q.id}
+                    className={`text-xs px-2 py-1 rounded border ${
+                      isDarkMode
+                        ? "border-gray-800 bg-gray-850"
+                        : "border-gray-200 bg-gray-50"
+                    } flex items-start justify-between gap-2`}
+                    title={new Date(q.createdAt).toLocaleString()}
+                  >
+                    <span className="flex-1 min-w-0 whitespace-normal break-words leading-snug">
+                      {q.text}
+                    </span>
+                    <span
+                      className={`shrink-0 ml-2 opacity-70 ${
+                        isDarkMode ? "text-gray-300" : "text-gray-500"
+                      }`}
+                    >
+                      {q.authorName || "Anon"}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </section>
+
+        {/* Unique Queries */}
+        <section
+          className={`flex flex-col min-h-0 rounded border ${
+            isDarkMode
+              ? "border-gray-800 bg-gray-900"
+              : "border-gray-200 bg-white"
+          }`}
+        >
+          <header
+            className={`px-3 py-2 border-b text-sm font-semibold ${
+              isDarkMode
+                ? "border-gray-800 text-gray-200"
+                : "border-gray-200 text-gray-700"
+            }`}
+          >
+            Unique Queries
+          </header>
+          <div className="min-h-0 flex-1 overflow-auto p-2">
+            {!uniqueQueries || uniqueQueries.length === 0 ? (
+              <p
+                className={`text-xs ${
+                  isDarkMode ? "text-gray-400" : "text-gray-500"
+                }`}
+              >
+                No unique queries yet. Click “Find Unique”.
+              </p>
+            ) : (
+              <ul className="space-y-1">
+                {uniqueQueries.map((q, i) => (
+                  <li
+                    key={i}
+                    className={`text-xs px-2 py-1 rounded border ${
+                      isDarkMode
+                        ? "border-gray-800 bg-gray-850"
+                        : "border-gray-200 bg-gray-50"
+                    }`}
+                  >
+                    {q}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </section>
       </div>
     </div>
   );
