@@ -56,12 +56,6 @@ export const Sidebar = () => {
       tooltip: "View your dashboard",
     },
     {
-      label: "Courses",
-      icon: <BookOpen size={18} />,
-      path: "/student/courses",
-      tooltip: "Browse your courses",
-    },
-    {
       label: "Assignments",
       icon: <FileText size={18} />,
       path: "/Student/Assingment/Dashboard",
@@ -73,10 +67,16 @@ export const Sidebar = () => {
       path: "/Student/Competition/Dashboard",
       tooltip: "See your tasks",
     },
+     {
+      label: "Courses",
+      icon: <BookOpen size={18} />,
+      path: "/student/courses",
+      tooltip: "Browse your courses",
+    },
 
     {
       label: "Problemset",
-      icon: <BookOpen size={18} />, // you can pick a better icon if you want
+      icon: <BookOpen size={18} />,
       path: "/problemset",
       tooltip: "Browse coding problems",
     },
