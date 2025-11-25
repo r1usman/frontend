@@ -18,16 +18,12 @@ function CourseCard({ course, showJoinButton = false }) {
   };
 
   const handleJoinLiveClass = (e) => {
-    e.stopPropagation(); // Prevent card click
-    navigate("/instructor/live");
+    e.stopPropagation();
+    navigate("/liveclass/" + course._id);
   };
 
   return (
-    <div
-      className="bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-slate-200 hover:border-slate-300 group cursor-pointer flex flex-col h-full"
-      onClick={() => navigate(`/Instructor/course/${course._id}`)}
-    >
-      {/* Course Image */}
+    <div className="bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-slate-200 hover:border-slate-300 group cursor-pointer flex flex-col h-full">
       <div className="h-48 overflow-hidden">
         <img
           src={course.image}
@@ -36,27 +32,20 @@ function CourseCard({ course, showJoinButton = false }) {
         />
       </div>
 
-      {/* Course Content */}
       <div className="p-6 flex flex-col flex-grow">
-        {/* Level Badge */}
-
-        {/* Course Title */}
         <h3 className="text-xl font-semibold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">
           {course.title}
         </h3>
 
-        {/* Instructor */}
         <p className="text-slate-600 mb-3">
           by <span className="font-medium">{course.instructor}</span>
         </p>
 
-        {/* Description */}
         <p className="text-slate-600 text-sm mb-4 leading-relaxed flex-grow line-clamp-2">
           {course.description}
         </p>
 
-        {/* Join Live Class Button */}
-        {showJoinButton && (
+        {showJoinButton && course?.live === true && (
           <div className="mt-auto">
             <button
               onClick={handleJoinLiveClass}
@@ -68,7 +57,13 @@ function CourseCard({ course, showJoinButton = false }) {
           </div>
         )}
 
-        {/* Course Stats */}
+        {!course?.live && showJoinButton && (
+          <div className="mt-auto">
+            <div className="w-full px-4 py-2 rounded-lg border border-slate-200 text-xs text-slate-500 text-center">
+              Live not started
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

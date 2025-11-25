@@ -53,9 +53,8 @@ import CompeteLayout from "./DashBoard/components/Layout/CompeteLayout/CompeteLa
 
 import SubmissionDetail from "./Submissions/SubmissionDetail";
 import SubmissionsPage from "./Submissions/SubmissionsPage";
-import ProblemGenerator from './problemGeneration/ProblemGenerator.jsx';
+import ProblemGenerator from "./problemGeneration/ProblemGenerator.jsx";
 import AiProblemCompare from "./problemGeneration/AiProblemCompare.jsx";
-
 
 // DefaultCourses
 import AdminDashboardCourses from "./AppCourses/Admin/AdminDashboard.jsx";
@@ -64,7 +63,6 @@ import Courses from "./AppCourses/Admin/Courses.jsx";
 import EditBlog from "./AppCourses/Admin/EditBlog.jsx";
 import ShowDefaultCourses from "./AppCourses/Student/ShowDefaultCourses.jsx";
 import Comments from "./AppCourses/Admin/Components/Comments .jsx";
-
 
 function App() {
   // const { role } = useContext(UserContext);
@@ -117,10 +115,9 @@ function App() {
             <Route path="BlogPost" element={<BlogPost />} />
             <Route path="Courses" element={<Courses />} />
             <Route path="CreateBlog" element={<EditBlog />} />
-            <Route path="edit/:postSlug" element={<EditBlog  isEdit={true}/>} />
+            <Route path="edit/:postSlug" element={<EditBlog isEdit={true} />} />
             <Route path="Commemt" element={<Comments />} />
           </Route>
-
 
           <Route
             path="/Student/PlatfromCourse/:title"
@@ -130,8 +127,6 @@ function App() {
               </Protected>
             }
           />
-
-  
 
           {/* Collaboration instructor */}
           <Route
@@ -230,7 +225,7 @@ function App() {
 
           <Route path="/instructor/course/:id" element={<CourseDetail />} />
 
-          <Route path="/instructor/live" element={<LiveClass />} />
+          <Route path="/liveclass/:courseId" element={<LiveClass />} />
 
           {/* Default course */}
           <Route path="/0/*" element={<PythonCourse />} />
@@ -262,7 +257,6 @@ function App() {
             path="/ai-problem-compare/:originalId/:generatedId"
             element={<AiProblemCompare />}
           />
-
 
           {/* Not Found */}
           <Route path="*" element={<NoFound />} />
