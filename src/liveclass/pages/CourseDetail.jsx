@@ -22,6 +22,7 @@ function CourseDetail() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isStartingClass, setIsStartingClass] = useState(false);
+  const [liveStartError, setLiveStartError] = useState(null);
 
   useEffect(() => {
     setIsLoading(true);
@@ -83,8 +84,30 @@ function CourseDetail() {
     }
   };
 
-  const handleStartLiveClass = () => {
-    navigate("/instructor/live");
+  const handleStartLiveClass = async () => {
+    if (isStartingClass) return;
+    setIsStartingClass(true);
+    setLiveStartError(null);
+    try {
+      const res = await fetch(
+        `http://localhost:3000/courses/${id}/live/start`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ courseId: id }),
+        }
+      );
+      if (!res.ok) {
+        throw new Error(`Failed to start live class (${res.status})`);
+      }
+      // Optional: read response if needed
+      // const data = await res.json();
+      navigate(`/liveclass/${id}`);
+    } catch (e) {
+      setLiveStartError(e.message || "Unable to start live class");
+    } finally {
+      setIsStartingClass(false);
+    }
   };
 
   if (isLoading) {
@@ -154,6 +177,9 @@ function CourseDetail() {
                     </>
                   )}
                 </button>
+                {liveStartError && (
+                  <p className="mt-2 text-sm text-red-600">{liveStartError}</p>
+                )}
               </div>
             </div>
           </div>

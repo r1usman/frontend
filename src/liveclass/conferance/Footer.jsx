@@ -1,25 +1,51 @@
 import { useAVToggle, useHMSActions } from "@100mslive/react-sdk";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Mic,
   MicOff,
   Video,
   VideoOff,
-  Phone,
   PhoneOff,
   Settings,
   Users,
 } from "lucide-react";
+import { useState } from "react";
 
 function Footer({ isDarkMode }) {
   const { isLocalAudioEnabled, isLocalVideoEnabled, toggleAudio, toggleVideo } =
     useAVToggle();
   const hmsActions = useHMSActions();
   const navigate = useNavigate();
+  const { courseId } = useParams(); // expects a route param like /:courseId/...
+
+  const [isEndingClass, setIsEndingClass] = useState(false);
+  const [liveEndError, setLiveEndError] = useState(null);
 
   const handleEndCall = async () => {
-    await hmsActions.leave();
-    navigate(-1); // Go back to the previous page
+    if (isEndingClass) return;
+    setIsEndingClass(true);
+    setLiveEndError(null);
+    try {
+      if (courseId) {
+        const res = await fetch(
+          `http://localhost:3000/courses/${courseId}/live/stop`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ courseId }),
+          }
+        );
+        if (!res.ok) {
+          throw new Error(`Stop live failed (${res.status})`);
+        }
+      }
+    } catch (e) {
+      setLiveEndError(e.message || "Unable to end live class");
+    } finally {
+      await hmsActions.leave();
+      setIsEndingClass(false);
+      navigate(-1);
+    }
   };
 
   return (
@@ -105,7 +131,9 @@ function Footer({ isDarkMode }) {
             {/* End Call */}
             <button
               onClick={handleEndCall}
-              className="p-4 bg-red-600 hover:bg-red-500 text-white rounded-full transition-all duration-200 transform hover:scale-105 flex items-center space-x-2"
+              disabled={isEndingClass}
+              className="p-4 bg-red-600 hover:bg-red-500 disabled:opacity-50 text-white rounded-full transition-all duration-200 transform hover:scale-105 flex items-center"
+              title="End Live Class"
             >
               <PhoneOff className="w-6 h-6" />
             </button>
@@ -117,10 +145,23 @@ function Footer({ isDarkMode }) {
               isDarkMode ? "text-gray-400" : "text-gray-500"
             }`}
           >
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span className="text-sm font-medium">Connected</span>
+            <div
+              className={`w-2 h-2 rounded-full ${
+                isEndingClass ? "bg-yellow-400" : "bg-green-500"
+              }`}
+            ></div>
+            <span className="text-sm font-medium">
+              {isEndingClass ? "Ending..." : "Connected"}
+            </span>
           </div>
         </div>
+
+        {/* Error Message */}
+        {liveEndError && (
+          <p className="mt-3 text-xs text-red-500 text-center">
+            {liveEndError}
+          </p>
+        )}
 
         {/* Control Labels */}
         <div className="flex items-center justify-center mt-3 space-x-12">
@@ -148,7 +189,7 @@ function Footer({ isDarkMode }) {
                 isDarkMode ? "text-gray-400" : "text-gray-500"
               }`}
             >
-              End Call
+              End Class
             </p>
           </div>
         </div>
