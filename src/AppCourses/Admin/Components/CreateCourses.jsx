@@ -21,13 +21,14 @@ const CreateCourse = ({ setOpenCreateModal, OpenCreateModal }) => {
       }
       seterror("");
       const response = await AxiosInstance.post(
-        API_PATH.PLATFORM_COURSES.CREATE,
-        { title: Title }
+        "http://localhost:3000/courses/",
+        { title: Title },
+        { withCredentials: true }
       );
       setOpenCreateModal(false);
 
       if (response.data?._id) {
-        navigate(`/Admin/Courses`);
+        navigate(`/Instructor/content`);
       }
     } catch (error) {
       seterror(error.response.data.message);

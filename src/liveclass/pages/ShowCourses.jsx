@@ -34,6 +34,7 @@ function ShowCourses() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({
           ...formData,
           instructor: User.name,

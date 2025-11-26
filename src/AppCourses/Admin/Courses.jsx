@@ -43,7 +43,7 @@ const Courses = () => {
   return (
     <div className="relative">
       <div className="h-[110vh] font-urbanist grid grid-cols-1 md:grid-cols-3 md:gap-3 pt-1 pb-6 px-4 md:px-0 min-h-screen ">
-        {/* <div
+        <div
           className="h-[300px] flex flex-col gap-5 items-center justify-center border-2 border-dashed border-sky-500 rounded-md cursor-pointer"
           onClick={() => setOpenCreateModal(true)}
         >
@@ -51,7 +51,7 @@ const Courses = () => {
             <LucideCirclePlus className="text-xl text-sky-500" />
           </div>
           <h3 className="font-medium text-gray-800">Add New Course</h3>
-        </div> */}
+        </div>
 
         {allCourses?.map((challenge) => (
           <AssinmentCard
