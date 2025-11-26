@@ -16,6 +16,7 @@ import Modal from '../../../Layouts/Modal';
 
 
 const OnlineCompiler = ({CompetitonDetail , ActualSubmissionData}) => { 
+  
   const navigator = useNavigate();
   const [code, setCode] = 
     useState(`

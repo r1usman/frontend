@@ -41,6 +41,7 @@ const Problemset = () => {
   const [error, setError] = useState(null);
   const [allTags, setAllTags] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [aiProblems, setAiProblems] = useState([]);
 
   // New states for personalized
   const [activeTab, setActiveTab] = useState("all");
