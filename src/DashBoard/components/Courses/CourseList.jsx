@@ -1,19 +1,9 @@
-import React, { useContext } from "react";
-import { BookOpen, Clock, ChevronRight } from "lucide-react";
-import { Link } from "react-router";
+import React, { useContext, useEffect, useState } from "react";
+import { ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../../GlobalContext/UserContext";
 
-const CourseItem = ({
-  title,
-  category,
-  instructor,
-  instructorAvatar,
-  duration,
-  level,
-  image,
-}) => {
-  console.log("hello");
-
+const CourseItem = ({ title, category, instructor, image }) => {
   return (
     <div className="cursor-pointer flex border border-gray-100 rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-200 bg-white">
       <div className="w-32 h-24 overflow-hidden flex-shrink-0">
@@ -23,14 +13,7 @@ const CourseItem = ({
         <div className="flex items-start justify-between">
           <div>
             <h3 className="font-medium mb-1">{title}</h3>
-            <div className="flex items-center mb-2">
-              <img
-                src={instructorAvatar}
-                alt={instructor}
-                className="w-5 h-5 rounded-full object-cover mr-2"
-              />
-              <p className="text-xs text-gray-600">{instructor}</p>
-            </div>
+            <p className="text-xs text-gray-600 mb-2">by {instructor}</p>
           </div>
           <div
             className={`text-xs ${
@@ -45,13 +28,7 @@ const CourseItem = ({
           </div>
         </div>
 
-        <div className="flex justify-between items-center mt-2">
-          <div className="flex items-center text-xs text-gray-500">
-            <Clock size={12} className="mr-1" />
-            <span>{duration}</span>
-            <span className="mx-2">•</span>
-            <span>{level}</span>
-          </div>
+        <div className="flex justify-end mt-2">
           <ChevronRight size={16} className="text-gray-400" />
         </div>
       </div>
@@ -60,53 +37,91 @@ const CourseItem = ({
 };
 
 const CourseList = () => {
+  const navigate = useNavigate();
+  const { User } = useContext(UserContext);
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    (async () => {
+      setLoading(true);
+      setErr(null);
+      try {
+        const res = await fetch("http://localhost:3000/courses");
+        if (!res.ok) throw new Error(`GET / failed (${res.status})`);
+        const data = await res.json();
+        if (isMounted) {
+          const list = Array.isArray(data) ? data : data?.courses || [];
+          setCourses(list);
+        }
+      } catch (e) {
+        if (isMounted) setErr(e.message || "Failed to load courses");
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    })();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const visibleCourses = courses.slice(0, 4);
+
   return (
-    <div className="px-4 py-3 rounded-lg shadow-sm shadow-purple-300  bg-white">
+    <div className="px-4 py-3 rounded-lg shadow-sm shadow-purple-300 bg-white">
       <div className="flex justify-between items-center mb-4 ">
         <h2 className="text-lg font-medium">Your courses</h2>
-        <button className="text-sm text-blue-500 hover:text-blue-700 transition-colors">
+        <button
+          onClick={() => navigate("/student/courses")}
+          className="text-sm text-blue-500 hover:text-blue-700 transition-colors"
+        >
           See all
         </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <CourseItem
-          title="Illustrations from scratch"
-          category="Illustrations"
-          instructor="Whitney Rhode"
-          instructorAvatar="https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150"
-          duration="14 hours"
-          level="Elementary"
-          image="https://images.pexels.com/photos/196645/pexels-photo-196645.jpeg?auto=compress&cs=tinysrgb&w=300"
-        />
-        <CourseItem
-          title="Mobile design"
-          category="Mobile Design"
-          instructor="Lisa Williams"
-          instructorAvatar="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150"
-          duration="10 hours"
-          level="Advanced"
-          image="https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=300"
-        />
-        <CourseItem
-          title="Front-end basics"
-          category="Web Development"
-          instructor="Mike Johnson"
-          instructorAvatar="https://images.pexels.com/photos/1516680/pexels-photo-1516680.jpeg?auto=compress&cs=tinysrgb&w=150"
-          duration="18 hours"
-          level="Elementary"
-          image="https://images.pexels.com/photos/270360/pexels-photo-270360.jpeg?auto=compress&cs=tinysrgb&w=300"
-        />
-        <CourseItem
-          title="Advanced React Patterns"
-          category="Web Development"
-          instructor="John Doe"
-          instructorAvatar="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150"
-          duration="12 hours"
-          level="Advanced"
-          image="https://images.pexels.com/photos/11035380/pexels-photo-11035380.jpeg?auto=compress&cs=tinysrgb&w=300"
-        />
-      </div>
+      {err && <div className="text-sm text-red-600 mb-3">Error: {err}</div>}
+
+      {loading ? (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {[...Array(4)].map((_, i) => (
+            <div
+              key={i}
+              className="animate-pulse flex border border-gray-100 rounded-lg overflow-hidden bg-white"
+            >
+              <div className="w-32 h-24 bg-gray-200" />
+              <div className="p-3 flex-1">
+                <div className="h-4 bg-gray-200 w-40 mb-3 rounded" />
+                <div className="h-3 bg-gray-200 w-24 rounded mb-2" />
+                <div className="h-3 bg-gray-200 w-32 rounded" />
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {visibleCourses.length === 0 ? (
+            <div className="col-span-full text-sm text-gray-500">
+              No courses found.
+            </div>
+          ) : (
+            visibleCourses.map((c, idx) => (
+              <CourseItem
+                key={c._id || idx}
+                title={c.title || "Untitled"}
+                category={c.category || c.subject || "General"}
+                instructor={c.instructor || c.instructor || "Instructor"}
+                image={
+                  c.image ||
+                  c.thumbnail ||
+                  "https://images.pexels.com/photos/270360/pexels-photo-270360.jpeg?auto=compress&cs=tinysrgb&w=300"
+                }
+              />
+            ))
+          )}
+        </div>
+      )}
     </div>
   );
 };
