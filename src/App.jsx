@@ -258,6 +258,10 @@ function App() {
             element={<AiProblemCompare />}
           />
 
+          <Route path="/ai-problems/compare/:originalId/:generatedId" element={<AiProblemCompare />} />
+
+
+
           {/* Not Found */}
           <Route path="*" element={<NoFound />} />
         </Routes>

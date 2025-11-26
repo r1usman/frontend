@@ -127,42 +127,6 @@
 //     }
 //   };
 
-//    const handleRun = async () => {
-//     setLoading(true);
-//     setResult(null);
-
-//     try {
-//       // Prepare the run data for Piston API
-//       const runData = {
-//         language: language,
-//         version: languageVersions[language],
-//         code: code,
-//         // Add test cases as input if available
-//         stdin: testcases && testcases.length > 0 ? testcases[0].input : ""
-//       };
-
-//       console.log("🔹 Running code with Piston API:", runData);
-
-//       // Call the Piston API through your backend
-//       const data = await problemsApi.runCode(runData);
-//       console.log("✅ Run result:", data);
-
-//       // Format the result for display
-//       setResult({
-//         run: true,
-//         output: data.run?.output || data.output || "No output",
-//         stderr: data.run?.stderr || data.stderr || "",
-//         code: data.run?.code || data.code || 0,
-//         executionTime: data.run?.executionTime || "N/A"
-//       });
-//     } catch (error) {
-//       console.error("❌ Run error:", error);
-//       setResult({ error: error.message || "Failed to run code" });
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
 //   return (
 //     <div className="space-y-4">
 //       {/* Timer Display with Manual Controls */}
@@ -251,12 +215,13 @@
 
 //       {/* Action Buttons */}
 //       <div className="flex gap-3">
-//         <button
+//         {/* <button
 //           onClick={handleRun}
-//           className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
+//           disabled={loading}
+//           className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors font-medium"
 //         >
-//           Run Code
-//         </button>
+//           {loading ? "Running..." : "Run Code"}
+//         </button> */}
 //         <button
 //           onClick={handleSubmit}
 //           disabled={loading}
@@ -269,25 +234,64 @@
 //       {/* Results Display */}
 //       {result && (
 //         <div
-//           className={`p-4 rounded-lg ${
-//             result.error
+//           className={`p-4 rounded-lg ${result.error
 //               ? "bg-red-50 border border-red-200"
-//               : "bg-green-50 border border-green-200"
-//           }`}
+//               : result.run
+//                 ? "bg-blue-50 border border-blue-200"
+//                 : "bg-green-50 border border-green-200"
+//             }`}
 //         >
 //           <h3 className="font-bold mb-2">
-//             {result.error ? "Submission Failed" : "Submission Result"}
+//             {result.error ? "Error" : result.run ? "Run Result" : "Submission Result"}
 //           </h3>
 
-//           {/* Show detailed results */}
+//           {/* Run Code Results */}
+//           {result.run && !result.error && (
+//             <div className="space-y-3">
+//               <div className="flex items-center gap-2">
+//                 <span className={`px-3 py-1 rounded-full text-sm font-medium ${result.code === 0
+//                     ? 'bg-blue-100 text-blue-800'
+//                     : 'bg-red-100 text-red-800'
+//                   }`}>
+//                   {result.code === 0 ? 'EXECUTED' : 'RUNTIME ERROR'}
+//                 </span>
+//                 {result.executionTime !== "N/A" && (
+//                   <span className="text-sm text-gray-600">
+//                     Execution Time: {result.executionTime}ms
+//                   </span>
+//                 )}
+//               </div>
+
+//               {/* Output */}
+//               {result.output && (
+//                 <div className="space-y-1">
+//                   <p className="font-semibold text-sm">Output:</p>
+//                   <pre className="p-3 bg-white rounded border border-blue-200 text-xs overflow-x-auto whitespace-pre-wrap">
+//                     {result.output}
+//                   </pre>
+//                 </div>
+//               )}
+
+//               {/* Stderr */}
+//               {result.stderr && (
+//                 <div className="space-y-1">
+//                   <p className="font-semibold text-sm text-red-700">Errors:</p>
+//                   <pre className="p-3 bg-red-50 rounded border border-red-200 text-xs overflow-x-auto whitespace-pre-wrap text-red-800">
+//                     {result.stderr}
+//                   </pre>
+//                 </div>
+//               )}
+//             </div>
+//           )}
+
+//           {/* Submission Results */}
 //           {result.newSubmission && (
 //             <div className="space-y-3">
 //               <div className="flex items-center gap-2">
-//                 <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-//                   result.newSubmission.status === 'accepted' 
-//                     ? 'bg-green-100 text-green-800' 
+//                 <span className={`px-3 py-1 rounded-full text-sm font-medium ${result.newSubmission.status === 'accepted'
+//                     ? 'bg-green-100 text-green-800'
 //                     : 'bg-red-100 text-red-800'
-//                 }`}>
+//                   }`}>
 //                   {result.newSubmission.status.toUpperCase()}
 //                 </span>
 //                 <span className="text-sm text-gray-600">
@@ -300,14 +304,12 @@
 //                 <div className="space-y-2">
 //                   <p className="font-semibold text-sm">Test Cases:</p>
 //                   {result.newSubmission.results.map((test, idx) => (
-//                     <div key={idx} className={`p-3 rounded border ${
-//                       test.passed ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'
-//                     }`}>
+//                     <div key={idx} className={`p-3 rounded border ${test.passed ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'
+//                       }`}>
 //                       <div className="flex items-center justify-between mb-1">
 //                         <span className="font-medium text-sm">Test {idx + 1}</span>
-//                         <span className={`text-xs font-medium ${
-//                           test.passed ? 'text-green-700' : 'text-red-700'
-//                         }`}>
+//                         <span className={`text-xs font-medium ${test.passed ? 'text-green-700' : 'text-red-700'
+//                           }`}>
 //                           {test.passed ? '✓ PASSED' : '✗ FAILED'}
 //                         </span>
 //                       </div>
@@ -343,7 +345,7 @@
 
 // export default CodeEditor;
 
-// ==========================================================
+// ===========================================
 
 import React, { useState, useContext, useEffect } from "react";
 import Editor from "@monaco-editor/react";
@@ -351,7 +353,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../GlobalContext/UserContext";
 import { problemsApi } from "../../services/api";
 
-const CodeEditor = ({ testcases, problemId }) => {
+const CodeEditor = ({ testcases, problemId, isAiProblem = false }) => { // Add isAiProblem prop
   const navigate = useNavigate();
   const { User } = useContext(UserContext);
 
@@ -447,6 +449,7 @@ const CodeEditor = ({ testcases, problemId }) => {
       version: languageVersions[language],
       code: code,
       problemId: problemId,
+      isAiProblem: isAiProblem, // Add this flag
       // Include timing data in the format your backend expects
       elapsedTimeMs: elapsedTime,
       startedAt: startTime ? startTime.toISOString() : new Date().toISOString(),
@@ -455,11 +458,17 @@ const CodeEditor = ({ testcases, problemId }) => {
 
     console.log("🔹 Sending to backend:", submissionData);
     console.log("🔹 Problem ID:", problemId);
+    console.log("🔹 Is AI Problem:", isAiProblem);
 
     try {
       const data = await problemsApi.submitCode(submissionData);
       console.log("✅ Backend returned:", data);
       setResult(data);
+      
+      // Show success message for AI problems
+      if (isAiProblem && data.newSubmission?.status === 'accepted') {
+        alert('🎉 Congratulations! You solved the AI-generated problem!');
+      }
     } catch (error) {
       console.error("❌ Error details:", error);
 
@@ -474,49 +483,23 @@ const CodeEditor = ({ testcases, problemId }) => {
     }
   };
 
-//   const handleRun = async () => {
-//   setLoading(true);
-//   setResult(null);
-
-//   try {
-//     // Run for each testcase
-//     const results = [];
-//     for (let i = 0; i < testcases.length; i++) {
-//       const runData = {
-//         language,
-//         version: languageVersions[language],
-//         files: [{ name: "main", content: code }],
-//         stdin: testcases[i].input  // <-- full input for this testcase
-//       };
-
-//       console.log(`🔹 Running testcase ${i + 1}:`, runData);
-
-//       const data = await problemsApi.runCode(runData); // direct Piston call
-
-//       results.push({
-//         input: testcases[i].input,
-//         expected: testcases[i].expectedOutput,
-//         output: data.run?.stdout || data.stdout || "",
-//         stderr: data.run?.stderr || data.stderr || "",
-//         code: data.run?.code || 0,
-//         executionTime: data.run?.time || "N/A",
-//         passed: (data.run?.stdout?.trim() || data.stdout?.trim()) === (testcases[i].expectedOutput?.trim())
-//       });
-//     }
-
-//     setResult({ run: true, results });
-//   } catch (error) {
-//     console.error("❌ Run error:", error);
-//     setResult({ error: error.message || "Failed to run code" });
-//   } finally {
-//     setLoading(false);
-//   }
-// };
-
-
-
   return (
     <div className="space-y-4">
+      {/* AI Problem Badge (optional, shows if it's an AI problem) */}
+      {isAiProblem && (
+        <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 rounded-lg p-3">
+          <div className="flex items-center gap-2">
+            <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            <span className="text-sm font-semibold text-purple-700">AI Generated Problem</span>
+          </div>
+          <p className="text-xs text-purple-600 mt-1">
+            This problem was generated by AI. Solving it won't affect your stats, but it's great practice!
+          </p>
+        </div>
+      )}
+
       {/* Timer Display with Manual Controls */}
       <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-4">
         <div className="flex items-center justify-between">
@@ -603,13 +586,6 @@ const CodeEditor = ({ testcases, problemId }) => {
 
       {/* Action Buttons */}
       <div className="flex gap-3">
-        {/* <button
-          onClick={handleRun}
-          disabled={loading}
-          className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors font-medium"
-        >
-          {loading ? "Running..." : "Run Code"}
-        </button> */}
         <button
           onClick={handleSubmit}
           disabled={loading}
@@ -685,6 +661,11 @@ const CodeEditor = ({ testcases, problemId }) => {
                 <span className="text-sm text-gray-600">
                   Time: {result.newSubmission.elapsedTimeMs ? (result.newSubmission.elapsedTimeMs / 1000).toFixed(2) : '0'}s
                 </span>
+                {isAiProblem && (
+                  <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full font-medium">
+                    AI Problem - Stats Not Updated
+                  </span>
+                )}
               </div>
 
               {/* Test Cases Results */}
@@ -711,6 +692,12 @@ const CodeEditor = ({ testcases, problemId }) => {
                             <span className="font-medium">Got:</span>
                             <pre className="mt-1 p-2 bg-white rounded">{test.output}</pre>
                           </div>
+                          {test.error && (
+                            <div>
+                              <span className="font-medium text-red-700">Error:</span>
+                              <pre className="mt-1 p-2 bg-red-50 rounded text-red-700">{test.error}</pre>
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>

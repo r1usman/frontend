@@ -26,6 +26,26 @@ export const authApi = {
   }
 };
 
+export const userApi = {
+  // Fetch user stats by ID
+  getUserStats: async (userId) => {
+    const token = getAuthToken();
+
+    if (!token) {
+      throw new Error("AUTHENTICATION_REQUIRED");
+    }
+
+    const response = await fetch(`${API_BASE_URL}/user/stats/${userId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) throw new Error("Failed to fetch user stats");
+    return response.json();
+  },
+};
+
 export const problemsApi = {
   // Problem Statistics
   getProblemStats: async () => {
@@ -234,29 +254,57 @@ export const aiProblemsApi = {
     
     if (!response.ok) throw new Error("Failed to fetch AI problem");
     return response.json();
-  }
-};
+  },
 
-
-export const userApi = {
-  // Fetch user stats by ID
-  getUserStats: async (userId) => {
+  // Delete AI problem
+  deleteAiProblem: async (id) => {
     const token = getAuthToken();
+    if (!token) throw new Error("AUTHENTICATION_REQUIRED");
 
-    if (!token) {
-      throw new Error("AUTHENTICATION_REQUIRED");
-    }
-
-    const response = await fetch(`${API_BASE_URL}/user/stats/${userId}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
+    const response = await fetch(`${API_BASE_URL}/ai-problems/${id}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` }
     });
 
-    if (!response.ok) throw new Error("Failed to fetch user stats");
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Failed to delete AI problem");
+    }
     return response.json();
   },
+
+  // Accept AI problem
+  acceptAiProblem: async (id) => {
+    const token = getAuthToken();
+    if (!token) throw new Error("AUTHENTICATION_REQUIRED");
+
+    const response = await fetch(`${API_BASE_URL}/ai-problems/accept/${id}`, {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Failed to accept AI problem");
+    }
+    return response.json();
+  },
+
+  // Fetch all AI problems created by the user
+getMyAiProblems: async () => {
+  const token = getAuthToken();
+  if (!token) throw new Error("AUTHENTICATION_REQUIRED");
+
+  const response = await fetch(`${API_BASE_URL}/ai-problems`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
+  if (!response.ok) throw new Error("Failed to fetch AI problems");
+  return response.json();
+}
+
 };
+
 
 
 export const badgesApi = {
