@@ -1,50 +1,49 @@
-import React, { useEffect, useState } from "react";
+import { LucideCirclePlus } from "lucide-react";
+import moment from "moment";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_PATH } from "../../Utility/ApiPath";
 import AxiosInstance from "../../Utility/AxiosInstances";
-import { LucideCirclePlus } from "lucide-react";
-import moment from "moment";
 
 import Modal from "../../Collaboration/Layouts/Modal";
-import CreateDefaultCourses from "./Components/CreateCourses";
 import AssinmentCard from "./Components/CourseCard";
 import CourseCardComponent from "./Components/CourseCardComponent";
+import CreateDefaultCourses from "./Components/CreateCourses";
 
 const Courses = () => {
   const navigate = useNavigate();
+
   const [openCreateModal, setOpenCreateModal] = useState(false);
-  const [previewCourse, setpreviewCourse] = useState(false)
-  const [selectCourse, setselectCourse] = useState({})
+  const [previewCourse, setpreviewCourse] = useState(false);
+  const [selectCourse, setselectCourse] = useState({});
 
   const [allCourses, setallCourses] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-
   console.log("selectCourse", selectCourse);
-  
-  const FetchCourses = async()=>{
+
+  const FetchCourses = async () => {
     try {
-        const result = await AxiosInstance.get(API_PATH.PLATFORM_COURSES.COURSES);
-        setallCourses(result.data)
+      const result = await AxiosInstance.get(
+        "http://localhost:3000/courses/instructor"
+      );
+      console.log(result.data);
+      setallCourses(result.data);
     } catch (error) {
-        console.log(error);
-        
+      console.log(error);
     }
-  }
+  };
   console.log(allCourses);
-  
 
-  useEffect(()=>{
+  useEffect(() => {
     FetchCourses();
-  },[])
-
-  
+  }, []);
 
   return (
     <div className="relative">
       <div className="h-[110vh] font-urbanist grid grid-cols-1 md:grid-cols-3 md:gap-3 pt-1 pb-6 px-4 md:px-0 min-h-screen ">
-        <div
+        {/* <div
           className="h-[300px] flex flex-col gap-5 items-center justify-center border-2 border-dashed border-sky-500 rounded-md cursor-pointer"
           onClick={() => setOpenCreateModal(true)}
         >
@@ -52,7 +51,7 @@ const Courses = () => {
             <LucideCirclePlus className="text-xl text-sky-500" />
           </div>
           <h3 className="font-medium text-gray-800">Add New Course</h3>
-        </div>
+        </div> */}
 
         {allCourses?.map((challenge) => (
           <AssinmentCard
@@ -75,17 +74,17 @@ const Courses = () => {
         ))}
       </div>
 
-      
-      {/* <Modal
+      <Modal
         isOpen={openCreateModal}
         title={"Add Assingment"}
         onClose={() => setOpenCreateModal(false)}
         type="Banner"
       >
-        <CreateDefaultCourses openCreateModal={openCreateModal} setOpenCreateModal={setOpenCreateModal} />
-      </Modal> */}
-
-
+        <CreateDefaultCourses
+          openCreateModal={openCreateModal}
+          setOpenCreateModal={setOpenCreateModal}
+        />
+      </Modal>
 
       <Modal
         isOpen={previewCourse}
@@ -93,7 +92,12 @@ const Courses = () => {
         onClose={() => setpreviewCourse(false)}
         type="Print"
       >
-        <CourseCardComponent FetchCourses ={FetchCourses} data ={selectCourse} previewCourse ={previewCourse}  setpreviewCourse={setpreviewCourse}/>
+        <CourseCardComponent
+          FetchCourses={FetchCourses}
+          data={selectCourse}
+          previewCourse={previewCourse}
+          setpreviewCourse={setpreviewCourse}
+        />
       </Modal>
     </div>
   );

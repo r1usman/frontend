@@ -1,49 +1,48 @@
-import React, { useState } from 'react'
-import Input from "../../../Collaboration/Components/Inputs/Input"
+import React, { useState } from "react";
+import Input from "../../../Collaboration/Components/Inputs/Input";
 
-import { useNavigate } from 'react-router-dom'
-import AxiosInstance from '../../../Utility/AxiosInstances'
-import { API_PATH } from '../../../Utility/ApiPath'
-import { useEffect } from 'react'
+import { useNavigate } from "react-router-dom";
+import AxiosInstance from "../../../Utility/AxiosInstances";
+import { API_PATH } from "../../../Utility/ApiPath";
+import { useEffect } from "react";
 
-const CreateCourse = ({setOpenCreateModal , OpenCreateModal}) => {
-  const [Title, setTitle] = useState("")
-  const [error, seterror] = useState("")
- 
+const CreateCourse = ({ setOpenCreateModal, OpenCreateModal }) => {
+  const [Title, setTitle] = useState("");
+  const [error, seterror] = useState("");
+
   const navigate = useNavigate();
 
   const handleCreateChallenge = async (e) => {
-    try
-    {
-        e.preventDefault();
-        if (!Title) {
+    try {
+      e.preventDefault();
+      if (!Title) {
         seterror("Please enter a course title");
         return;
-        }
-        seterror("")
-        const response = await AxiosInstance.post(API_PATH.PLATFORM_COURSES.CREATE, { title: Title })
-        setOpenCreateModal(false)
+      }
+      seterror("");
+      const response = await AxiosInstance.post(
+        API_PATH.PLATFORM_COURSES.CREATE,
+        { title: Title }
+      );
+      setOpenCreateModal(false);
 
-        if (response.data?._id) {
+      if (response.data?._id) {
         navigate(`/Admin/Courses`);
-        }
+      }
+    } catch (error) {
+      seterror(error.response.data.message);
     }
-    catch(error)
-    {
-        seterror(error.response.data.message)
-    }
-  }
+  };
 
   useEffect(() => {
-    const timer = setTimeout(()=>{
-        seterror("");
-    }, 3000)
-  
+    const timer = setTimeout(() => {
+      seterror("");
+    }, 3000);
+
     return () => {
-      clearInterval(timer)
-    }
-  }, [error])
-  
+      clearInterval(timer);
+    };
+  }, [error]);
 
   return (
     <div className="font-urbanist w-[90vw] md:w-[39vw] px-6 flex flex-col justify-center ">
@@ -68,7 +67,7 @@ const CreateCourse = ({setOpenCreateModal , OpenCreateModal}) => {
         </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default CreateCourse
+export default CreateCourse;

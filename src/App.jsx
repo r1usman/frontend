@@ -98,8 +98,12 @@ function App() {
               </Protected>
             }
           >
-            <Route path="Dashboard" element={<AdminDashboard />} />
+            <Route path="Dashboard" element={<AdminDashboardCourses />} />
             <Route path="courses" element={<ShowCourses />} />
+            <Route path="content" element={<Courses />} />
+            <Route path="BlogPost" element={<BlogPost />} />
+            <Route path="CreateBlog" element={<EditBlog />} />
+            <Route path="edit/:postSlug" element={<EditBlog isEdit={true} />} />
             <Route path="course/:id" element={<CourseDetail />} />
           </Route>
 
@@ -257,10 +261,6 @@ function App() {
             path="/ai-problem-compare/:originalId/:generatedId"
             element={<AiProblemCompare />}
           />
-
-          <Route path="/ai-problems/compare/:originalId/:generatedId" element={<AiProblemCompare />} />
-
-
 
           {/* Not Found */}
           <Route path="*" element={<NoFound />} />

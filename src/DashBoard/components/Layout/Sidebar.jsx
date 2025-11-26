@@ -35,6 +35,18 @@ export const Sidebar = () => {
       tooltip: "Browse your courses",
     },
     {
+      label: "Content",
+      icon: <BookOpen size={18} />,
+      path: "/instructor/content",
+      tooltip: "Browse your courses",
+    },
+    {
+      label: "BlogPost",
+      icon: <BookOpen size={18} />,
+      path: "/instructor/BlogPost",
+      tooltip: "Browse your courses",
+    },
+    {
       label: "Assignments",
       icon: <FileText size={18} />,
       path: "/Instructor/Assingment",
@@ -67,7 +79,7 @@ export const Sidebar = () => {
       path: "/Student/Competition/Dashboard",
       tooltip: "See your tasks",
     },
-     {
+    {
       label: "Courses",
       icon: <BookOpen size={18} />,
       path: "/student/courses",
@@ -107,14 +119,17 @@ export const Sidebar = () => {
       path: "/Admin/Commemt",
       tooltip: "View your dashboard",
     },
-    
   ];
   const handleLogout = () => {
     navigate("/Login");
   };
 
   const navItems =
-    User.status === "Instructor" ? instructorNavItems :User.status === "Student"? studentNavItems : AdminNavItem; 
+    User.status === "Instructor"
+      ? instructorNavItems
+      : User.status === "Student"
+      ? studentNavItems
+      : AdminNavItem;
 
   return (
     <div className="z-50 min-h-screen fixed border w-[20%] font-urbanist border-gray-200/50 flex flex-col justify-between">
@@ -147,8 +162,16 @@ export const Sidebar = () => {
             className={({ isActive }) =>
               `flex items-center gap-4 w-full text-[15px] py-3 px-5 cursor-pointer transition-colors duration-200 ${
                 isActive
-                  ? `${ User.status == "Instructor" || User.status == "Student" ?"bg-purple-600/15 border-r-4 border-purple-600 text-purple-700":"bg-sky-600/15 border-r-4 border-sky-600 text-sky-700 font-medium tracking-wider"}`
-                  : `${ User.status == "Instructor" || User.status == "Student" ?"hover:bg-gray-50":"hover:bg-gray-50 tracking-wider"}`
+                  ? `${
+                      User.status == "Instructor" || User.status == "Student"
+                        ? "bg-purple-600/15 border-r-4 border-purple-600 text-purple-700"
+                        : "bg-sky-600/15 border-r-4 border-sky-600 text-sky-700 font-medium tracking-wider"
+                    }`
+                  : `${
+                      User.status == "Instructor" || User.status == "Student"
+                        ? "hover:bg-gray-50"
+                        : "hover:bg-gray-50 tracking-wider"
+                    }`
               }`
             }
           >
