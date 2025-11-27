@@ -27,7 +27,7 @@ function CourseCard({ course }) {
         <img
           src={course.image}
           alt={course.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-full  group-hover:scale-105 transition-transform duration-300"
         />
       </div>
 
@@ -36,17 +36,19 @@ function CourseCard({ course }) {
         {/* Level Badge */}
 
         {/* Course Title */}
-        <h3 className="text-xl font-semibold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">
-          {course.title}
-        </h3>
+        <div className="flex item-center justify-between mb-2">
+          <h3 className="text-xl font-semibold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">
+            {course.title}
+          </h3>
 
-        {/* Instructor */}
-        <p className="text-slate-600 mb-3">
-          by <span className="font-medium">{course.instructor}</span>
-        </p>
+          {/* Instructor */}
+          <p className="text-slate-600 mb-3">
+            by <span className="font-medium">{course.instructor}</span>
+          </p>
+        </div>
 
         {/* Description */}
-        <p className="text-slate-600 text-sm mb-4 leading-relaxed">
+        <p className="text-slate-600 text-sm mb-4 leading-relaxed line-clamp-3">
           {course.description}
         </p>
 

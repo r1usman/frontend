@@ -62,7 +62,7 @@ import BlogPost from "./AppCourses/Admin/BlogPost.jsx";
 import Courses from "./AppCourses/Admin/Courses.jsx";
 import EditBlog from "./AppCourses/Admin/EditBlog.jsx";
 import ShowDefaultCourses from "./AppCourses/Student/ShowDefaultCourses.jsx";
-import Comments from "./AppCourses/Admin/Components/Comments .jsx";
+import Comments from "./AppCourses/Admin/Components/Comments.jsx";
 
 function App() {
   // const { role } = useContext(UserContext);
@@ -105,6 +105,7 @@ function App() {
             <Route path="CreateBlog" element={<EditBlog />} />
             <Route path="edit/:postSlug" element={<EditBlog isEdit={true} />} />
             <Route path="course/:id" element={<CourseDetail />} />
+            <Route path="Comment" element={<Comments />} />
           </Route>
 
           <Route

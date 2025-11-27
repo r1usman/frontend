@@ -114,10 +114,10 @@ const EditBlog = ({ isEdit }) => {
       return;
     }
 
-    if (!postData.tags.length) {
-      setError("Please add some tags.");
-      return;
-    }
+    // if (!postData.tags.length) {
+    //   setError("Please add some tags.");
+    //   return;
+    // }
 
     if (!postData.BelongTo.trim()) {
       setError("Please Select the Category.");
