@@ -1,20 +1,26 @@
-import React from 'react';
-import { Code, Award, Users, Brain, Check } from 'lucide-react';
-import { motion } from 'framer-motion';
-import AnimatedSection from './AnimatedSection';
+import React from "react";
+import { Code, Award, Users, Brain, Check } from "lucide-react";
+import { motion } from "framer-motion";
+import AnimatedSection from "./AnimatedSection";
 
 const FeatureCard = ({ icon, title, description, index }) => (
   <motion.div
     initial={{ opacity: 0, y: 50 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5, delay: index * 0.1 }}
-    className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-slate-100 hover:scale-105"
+    className="bg-white/80 backdrop-blur-xl rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-5 md:p-6 border border-white/40 hover:-translate-y-1"
   >
-    <div className="w-12 h-12 rounded-lg bg-indigo-100 flex items-center justify-center mb-4">
-      {icon}
+    <div className="flex items-center gap-3 mb-2">
+      <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
+        {icon}
+      </div>
+      <h3 className="text-lg md:text-xl font-semibold text-slate-800">
+        {title}
+      </h3>
     </div>
-    <h3 className="text-xl font-semibold text-slate-800 mb-3">{title}</h3>
-    <p className="text-slate-600">{description}</p>
+    <p className="text-slate-600/90 text-sm md:text-[15px] leading-relaxed">
+      {description}
+    </p>
   </motion.div>
 );
 
@@ -23,34 +29,42 @@ const Features = () => {
     {
       icon: <Code className="h-6 w-6 text-indigo-600" />,
       title: "Interactive Courses",
-      description: "Learn by doing with our interactive coding exercises and real-time feedback to master programming concepts."
+      description:
+        "Learn by doing with our interactive coding exercises and real-time feedback to master programming concepts.",
     },
     {
       icon: <Award className="h-6 w-6 text-indigo-600" />,
       title: "Coding Competitions",
-      description: "Test your skills against peers in weekly challenges and climb the leaderboard to showcase your expertise."
+      description:
+        "Test your skills against peers in weekly challenges and climb the leaderboard to showcase your expertise.",
     },
     {
       icon: <Users className="h-6 w-6 text-indigo-600" />,
       title: "Team Collaboration",
-      description: "Work on projects with fellow learners in collaborative coding environments with version control."
+      description:
+        "Work on projects with fellow learners in collaborative coding environments with version control.",
     },
     {
       icon: <Brain className="h-6 w-6 text-indigo-600" />,
       title: "Personalized Learning",
-      description: "Our AI adapts to your learning style and pace, creating a custom curriculum just for you."
-    }
+      description:
+        "Our AI adapts to your learning style and pace, creating a custom curriculum just for you.",
+    },
   ];
 
   return (
-    <section id="features" className="py-20 bg-slate-50">
+    <section id="features" className="py-12 md:py-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <AnimatedSection className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-            Features Designed for <span className="text-indigo-600">Modern Learners</span>
+            Features Designed for{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-fuchsia-600 to-purple-600">
+              Modern Learners
+            </span>
           </h2>
           <p className="text-lg text-slate-600">
-            Our platform combines cutting-edge technology with proven learning methodologies to help you master coding efficiently.
+            Our platform combines cutting-edge technology with proven learning
+            methodologies to help you master coding efficiently.
           </p>
         </AnimatedSection>
 
@@ -61,7 +75,7 @@ const Features = () => {
         </div>
 
         <AnimatedSection className="mt-16" delay={0.4}>
-          <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl overflow-hidden shadow-xl">
+          <div className="bg-gradient-to-r from-indigo-600 via-fuchsia-600 to-purple-600 rounded-2xl overflow-hidden shadow-xl">
             <div className="grid grid-cols-1 lg:grid-cols-2">
               <div className="p-8 md:p-12">
                 <motion.h3
@@ -78,14 +92,15 @@ const Features = () => {
                   transition={{ duration: 0.5, delay: 0.3 }}
                   className="text-indigo-100 mb-6"
                 >
-                  Our platform is built by developers for developers, focusing on practical skills that employers actually value.
+                  Our platform is built by developers for developers, focusing
+                  on practical skills that employers actually value.
                 </motion.p>
                 <ul className="space-y-3">
                   {[
                     "Industry-relevant curriculum updated monthly",
                     "AI-powered code reviews and suggestions",
                     "1-on-1 mentorship with experienced developers",
-                    "Project-based learning with real-world applications"
+                    "Project-based learning with real-world applications",
                   ].map((item, index) => (
                     <motion.li
                       key={index}
@@ -102,17 +117,21 @@ const Features = () => {
                   ))}
                 </ul>
               </div>
-              <div className="bg-indigo-900 p-8 md:p-12 flex items-center justify-center">
+              <div className="bg-indigo-900/70 backdrop-blur-xl p-8 md:p-12 flex items-center justify-center">
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.6 }}
-                  className="bg-indigo-800 rounded-xl p-6 max-w-md w-full"
+                  className="bg-indigo-800/80 rounded-xl p-6 max-w-md w-full border border-white/10"
                 >
                   <div className="flex justify-between items-center mb-6">
                     <div>
-                      <div className="text-sm font-medium text-indigo-200">Your Progress</div>
-                      <div className="text-2xl font-bold text-white">87% Complete</div>
+                      <div className="text-sm font-medium text-indigo-200">
+                        Your Progress
+                      </div>
+                      <div className="text-2xl font-bold text-white">
+                        87% Complete
+                      </div>
                     </div>
                     <div className="h-16 w-16 rounded-full bg-indigo-600 flex items-center justify-center">
                       <Code className="h-8 w-8 text-white" />
@@ -122,7 +141,7 @@ const Features = () => {
                     {[
                       { name: "JavaScript Fundamentals", progress: 100 },
                       { name: "React Framework", progress: 80 },
-                      { name: "Backend Development", progress: 65 }
+                      { name: "Backend Development", progress: 65 },
                     ].map((course, index) => (
                       <motion.div
                         key={index}
@@ -132,13 +151,18 @@ const Features = () => {
                       >
                         <div className="flex justify-between text-sm mb-1">
                           <span className="text-indigo-100">{course.name}</span>
-                          <span className="text-indigo-200">{course.progress}%</span>
+                          <span className="text-indigo-200">
+                            {course.progress}%
+                          </span>
                         </div>
                         <div className="w-full h-2 bg-indigo-700 rounded-full overflow-hidden">
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${course.progress}%` }}
-                            transition={{ duration: 1, delay: 0.8 + index * 0.1 }}
+                            transition={{
+                              duration: 1,
+                              delay: 0.8 + index * 0.1,
+                            }}
                             className="bg-gradient-to-r from-blue-400 to-indigo-300 h-full rounded-full"
                           ></motion.div>
                         </div>
