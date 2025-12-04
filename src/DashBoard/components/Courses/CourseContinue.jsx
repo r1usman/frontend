@@ -15,7 +15,7 @@ const CourseCard = ({ course, img }) => {
 
   return (
     <div
-      className={` rounded-lg w-75 flex-shrink-0 transition-transform duration-200 hover:bg-opacity-80 hover:scale-[1.02] overflow-none  hover:shadow-lg cursor-pointer`}
+      className={` rounded-lg w-75 h-fit flex-shrink-0 transition-transform duration-200 hover:bg-opacity-80 hover:scale-[1.02] overflow-none  hover:shadow-lg cursor-pointer`}
       onClick={handleNavigate}
     >
       <img src={img} alt="" className="rounded-lg" />
@@ -54,7 +54,7 @@ const CourseContinue = () => {
         <h2 className="text-lg font-medium">Continue Courses</h2>
       </div>
 
-      <div className="flex gap-3  overflow-x-auto pb-4 pt-1 px-2">
+      <div className="flex gap-3 h-[35vh]  overflow-x-auto pt-1 px-2">
         {Courses.map((course) => {
           return <CourseCard img={course.image} course={course} />;
         })}
