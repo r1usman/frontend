@@ -137,7 +137,7 @@ function CourseDetail() {
         {/* Course Header Card */}
         <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden mb-8">
           <div className="relative p-8 bg-purple-500/70">
-            <div className="absolute size-72 rounded-full -right-6 -top-6 bg-purple-100/70" />
+            <div className="absolute size-82 rounded-full -right-10  -bottom-24 bg-purple-100/50" />
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <h2 className="text-3xl font-bold text-white mb-2">
@@ -163,7 +163,7 @@ function CourseDetail() {
                 <button
                   onClick={handleStartLiveClass}
                   disabled={isStartingClass}
-                  className="bg-[#6c63ff] backdrop-blur-sm hover:bg-white/30 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 flex items-center space-x-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="bg-[#6c63ff] backdrop-blur-sm hover:bg-white/30 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 flex items-center space-x-3 disabled:opacity-50 disabled:cursor-not-allowed translate-y-84"
                 >
                   {isStartingClass ? (
                     <>

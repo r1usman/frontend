@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Bell, ChevronDown } from 'lucide-react';
-import { UserContext } from '../../../GlobalContext/UserContext';
-import AxiosInstance from '../../../Utility/AxiosInstances';
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { Bell, ChevronDown } from "lucide-react";
+import { UserContext } from "../../../GlobalContext/UserContext";
+import AxiosInstance from "../../../Utility/AxiosInstances";
 import { FaRegFileAlt, FaRegCommentDots, FaCogs, FaBell } from "react-icons/fa";
+import { useNavigate } from "react-router";
 
 export const Header = () => {
   const { User } = useContext(UserContext);
@@ -12,19 +13,20 @@ export const Header = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const dropdownRef = useRef(null);
   const profileRef = useRef(null);
+  const navigate = useNavigate();
 
   const today = new Date();
-  const formattedDate = today.toLocaleDateString('en-US', {
-    weekday: 'long',
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric'
+  const formattedDate = today.toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
   });
 
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const { data } = await AxiosInstance.get('/Notifications');
+        const { data } = await AxiosInstance.get("/Notifications");
         setNotifications(data);
       } catch (err) {
         console.error(err);
@@ -33,14 +35,17 @@ export const Header = () => {
     fetchNotifications();
   }, []);
 
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   const handleDropdownToggle = () => {
     setShowDropdown(!showDropdown);
   };
+  const handleLogout = () => {
+    navigate("/Login");
+  };
 
   const handleMarkAllRead = async () => {
-    const unreadNotifications = notifications.filter(n => !n.read);
+    const unreadNotifications = notifications.filter((n) => !n.read);
     for (const n of unreadNotifications) {
       try {
         await AxiosInstance.put(`/Notifications/${n._id}/read`);
@@ -48,7 +53,7 @@ export const Header = () => {
         console.error(err);
       }
     }
-    setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
   };
 
   const handleClickOutside = (event) => {
@@ -61,9 +66,9 @@ export const Header = () => {
   };
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -80,11 +85,11 @@ export const Header = () => {
     }
   };
 
-  const userName = User?.name || 'User';
+  const userName = User?.name || "User";
 
   return (
     <header className="border-b border-gray-200 bg-white py-2 px-6 md:px-8 flex justify-between items-center">
-      <div className='flex gap-2 items-end'>
+      <div className="flex gap-2 items-end">
         <h2 className="text-sm text-gray-500">Welcome back</h2>
         <h1 className="text-xl font-semibold">{userName}</h1>
       </div>
@@ -107,9 +112,12 @@ export const Header = () => {
           {showDropdown && (
             <div className="absolute -right-1 mt-6 w-96 bg-white border border-gray-200 shadow-lg rounded-lg z-50 flex flex-col">
               <div className="p-4 border-b border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-800">Notifications</h3>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  Notifications
+                </h3>
                 <p className="text-sm text-gray-500">
-                  You have {unreadCount} new {unreadCount === 1 ? 'notification' : 'notifications'}.
+                  You have {unreadCount} new{" "}
+                  {unreadCount === 1 ? "notification" : "notifications"}.
                 </p>
               </div>
               <div className="flex-1 max-h-80 overflow-y-auto">
@@ -119,13 +127,21 @@ export const Header = () => {
                   notifications.map((n) => (
                     <div
                       key={n._id}
-                      className={`flex items-start gap-3 p-4 border-b border-gray-200 hover:bg-gray-50 transition ${!n.read ? 'bg-purple-50' : ''}`}
+                      className={`flex items-start gap-3 p-4 border-b border-gray-200 hover:bg-gray-50 transition ${
+                        !n.read ? "bg-purple-50" : ""
+                      }`}
                     >
                       <div className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 text-lg">
                         {getNotificationIcon(n.type)}
                       </div>
                       <div className="flex-1">
-                        <p className={`text-sm font-semibold ${!n.read ? '' : 'text-gray-800'}`}>{n.title}</p>
+                        <p
+                          className={`text-sm font-semibold ${
+                            !n.read ? "" : "text-gray-800"
+                          }`}
+                        >
+                          {n.title}
+                        </p>
                         <p className="text-sm text-gray-600">{n.message}</p>
                       </div>
                     </div>
@@ -146,7 +162,6 @@ export const Header = () => {
           )}
         </div>
 
-
         <div className="relative" ref={profileRef}>
           <button
             onClick={() => setIsProfileOpen(!isProfileOpen)}
@@ -157,11 +172,13 @@ export const Header = () => {
                 {userName.charAt(0).toUpperCase()}
               </span>
             </div>
-            <span className="text-gray-700 text-sm font-medium hidden sm:block">{userName}</span>
+            <span className="text-gray-700 text-sm font-medium hidden sm:block">
+              {userName}
+            </span>
             <ChevronDown
               size={16}
               className={`text-gray-500 transition-transform duration-200 ${
-                isProfileOpen ? 'rotate-180' : ''
+                isProfileOpen ? "rotate-180" : ""
               } hidden sm:block`}
             />
           </button>
@@ -182,7 +199,7 @@ export const Header = () => {
               </a>
               <hr className="my-1" />
               <a
-                href="#"
+                onClick={handleLogout}
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 Sign out

@@ -29,11 +29,12 @@ function ShowCourses() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/courses", {
+      const response = await fetch("http://localhost:3000/courses/instructor", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({
           ...formData,
           instructor: User.name,

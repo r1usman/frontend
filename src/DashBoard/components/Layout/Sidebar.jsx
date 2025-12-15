@@ -12,9 +12,16 @@ import {
   Settings,
   Trophy,
 } from "lucide-react";
-import { FaBlogger, FaBloggerB, FaComment, FaUser } from "react-icons/fa";
+import {
+  FaBlogger,
+  FaBloggerB,
+  FaComment,
+  FaCommentAlt,
+  FaUser,
+} from "react-icons/fa";
 import { UserContext } from "../../../GlobalContext/UserContext";
 import Modal from "../../Modals/Modal.jsx";
+import { LuCommand } from "react-icons/lu";
 
 export const Sidebar = () => {
   const { User } = useContext(UserContext);
@@ -32,6 +39,12 @@ export const Sidebar = () => {
       label: "Courses",
       icon: <BookOpen size={18} />,
       path: "/instructor/courses",
+      tooltip: "Browse your courses",
+    },
+    {
+      label: "Comments",
+      icon: <LuCommand size={18} />,
+      path: "/instructor/comment",
       tooltip: "Browse your courses",
     },
     {

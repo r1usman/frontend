@@ -87,7 +87,9 @@ const Header = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white shadow-md py-2" : "bg-transparent py-4"
+        isScrolled
+          ? "backdrop-blur-xl bg-white/70 shadow-md py-2"
+          : "bg-transparent py-4"
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -95,7 +97,7 @@ const Header = () => {
           {/* Logo */}
           <div className="flex items-center">
             <Code className="h-8 w-8 text-indigo-600" />
-            <span className="ml-2 text-xl font-bold text-slate-800">
+            <span className="ml-2 text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
               Code Ascend
             </span>
           </div>
@@ -113,7 +115,7 @@ const Header = () => {
             </button>
             <button
               onClick={NavigateToSignup}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+              className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:opacity-90 transition shadow-md"
             >
               Get Started
             </button>
@@ -136,7 +138,7 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden pt-4 pb-3 border-t border-gray-200 mt-3">
+          <div className="md:hidden pt-4 pb-3 border-t border-gray-200 mt-3 backdrop-blur-lg bg-white/60 rounded-xl">
             <nav className="flex flex-col space-y-3">
               {renderNavLinks(true)}
               <div className="flex flex-col space-y-2 pt-3">
@@ -148,7 +150,7 @@ const Header = () => {
                 </button>
                 <button
                   onClick={NavigateToSignup}
-                  className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition w-full"
+                  className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:opacity-90 transition w-full shadow"
                 >
                   Get Started
                 </button>

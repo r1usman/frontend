@@ -1,22 +1,42 @@
-import React from 'react'
-import Pic1 from "../../assets/NoFound.svg"
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const NoFound = ({title}) => {
+function NoFound() {
+  const navigate = useNavigate();
+
+  // If you have helper functions, CALL them and render their result,
+  // do NOT return or render the function itself.
+  const renderTip = () => (
+    <p className="text-sm text-gray-500 mt-2">
+      Check the URL or go back to the dashboard.
+    </p>
+  );
+
   return (
-    <div className='font-poppins min-h-screen flex flex-col w-full items-center justify-center'>
-        <div className='size-48 -translate-y-20 -translate-x-4'>
-            <img src={Pic1} alt="No Data Found" />
-        </div>
-        <div className="text-center -translate-y-16">
-        <h1 className="text-lg font-bold text-violet-600">No {title || "Assingment"} Available</h1>
-        <p className="text-sm font-medium text-gray-500 mt-1">
-          You currently don’t have any {String({title}).toLowerCase || "assingments"} assigned to you.
-          <br />
-         
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="max-w-md w-full bg-white shadow-sm rounded-lg p-6 text-center">
+        <h1 className="text-2xl font-semibold text-gray-900">Page not found</h1>
+        <p className="text-gray-600 mt-2">
+          We couldn’t find the page you were looking for.
         </p>
+        {renderTip()}
+        <div className="mt-4 flex justify-center gap-3">
+          <button
+            onClick={() => navigate(-1)}
+            className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm"
+          >
+            Go Back
+          </button>
+          <button
+            onClick={() => navigate("/")}
+            className="px-4 py-2 rounded bg-purple-600 hover:bg-purple-700 text-white text-sm"
+          >
+            Home
+          </button>
+        </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default NoFound
+export default NoFound;

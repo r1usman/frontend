@@ -1,7 +1,7 @@
-import { BookOpen, Clock, Users, Video } from "lucide-react";
+import { BookOpen, Clock, Users, Video, Eye, Heart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-function CourseCard({ course, showJoinButton = false }) {
+function RecommendedCard({ course, showJoinButton = false }) {
   const navigate = useNavigate();
 
   const getLevelColor = (level) => {
@@ -41,32 +41,23 @@ function CourseCard({ course, showJoinButton = false }) {
           by <span className="font-medium">{course.instructor}</span>
         </p>
 
-        <p className="text-slate-600 text-sm mb-4 leading-relaxed flex-grow line-clamp-2">
+        <p className="text-slate-600 text-sm mb-4 leading-relaxed flex-grow line-clamp-3">
           {course.description}
         </p>
 
-        {showJoinButton && course?.live === true && (
-          <div className="mt-auto">
-            <button
-              onClick={handleJoinLiveClass}
-              className="w-full bg-purple-500/70 hover:bg-purple-500 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center space-x-2"
-            >
-              <Video className="w-4 h-4" />
-              <span>Join Live Class</span>
-            </button>
-          </div>
-        )}
-
-        {!course?.live && showJoinButton && (
-          <div className="mt-auto">
-            <div className="w-full px-4 py-2 rounded-lg border border-slate-200 text-xs text-slate-500 text-center">
-              Live not started
-            </div>
-          </div>
-        )}
+        <div className="mt-auto flex items-center gap-4 text-sm text-slate-600">
+          <span className="inline-flex items-center gap-1">
+            <Eye className="w-4 h-4 text-slate-500" />
+            {course.totalViews ?? 0} views
+          </span>
+          <span className="inline-flex items-center gap-1">
+            <Heart className="w-4 h-4 text-rose-500" />
+            {course.totalLikes ?? 0} likes
+          </span>
+        </div>
       </div>
     </div>
   );
 }
 
-export default CourseCard;
+export default RecommendedCard;

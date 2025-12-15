@@ -32,13 +32,16 @@ function LandingPage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="relative min-h-screen bg-slate-50 text-slate-800"
+      className="relative min-h-screen text-slate-800 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-50 via-white to-purple-50"
     >
       <Header />
       <main>
         <Hero />
         <Features />
-        <Courses />
+        <div className="relative">
+          <div className="pointer-events-none absolute inset-x-0 -top-6 h-6 bg-gradient-to-b from-transparent to-white/60"></div>
+          <Courses />
+        </div>
         <Competition />
         <LiveClasses />
       </main>
@@ -56,7 +59,7 @@ function LandingPage() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 50 }}
           transition={{ duration: 0.4, type: "spring", stiffness: 300 }}
-          className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-indigo-600 text-white shadow-lg hover:bg-indigo-700 transition-colors duration-300"
+          className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg hover:opacity-90 transition-all duration-300"
           aria-label="Scroll to top"
         >
           <ArrowUp className="w-5 h-5 mx-auto" />

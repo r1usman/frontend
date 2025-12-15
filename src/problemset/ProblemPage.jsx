@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
-import CodeEditor from './codeEditor/CodeEditor';
-import { problemsApi, aiProblemsApi } from '../services/api';
+import React, { useState, useEffect } from "react";
+import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
+import CodeEditor from "./codeEditor/CodeEditor";
+import { problemsApi, aiProblemsApi } from "../services/api";
 
 const ProblemPage = () => {
   const { id } = useParams();
@@ -25,7 +25,10 @@ const ProblemPage = () => {
       // If we were navigated here with an accepted AI problem in location.state, use that
       const aiFromState = location.state && location.state.aiProblem;
       if (aiFromState) {
-        console.log('Using accepted AI problem passed via location.state', aiFromState);
+        console.log(
+          "Using accepted AI problem passed via location.state",
+          aiFromState
+        );
         // Use the AI problem object directly
         setProblem(aiFromState);
         setLoading(false);
@@ -33,49 +36,49 @@ const ProblemPage = () => {
       }
 
       // Otherwise, fetch the original problem from the API
-      console.log('Fetching problem with ID (API):', id);
+      console.log("Fetching problem with ID (API):", id);
       const data = await problemsApi.getProblemById(id);
-      console.log('Received data:', data);
+      console.log("Received data:", data);
       setProblem(data);
       setLoading(false);
     } catch (err) {
-      console.error('Full error:', err);
-      setError(err.message || 'Failed to load problem');
+      console.error("Full error:", err);
+      setError(err.message || "Failed to load problem");
       setLoading(false);
     }
   };
-  
+
   // ProblemPage.jsx - Update the handleGenerateAIProblem function
-const handleGenerateAIProblem = async () => {
-  try {
-    setGeneratingAI(true);
-    console.log('🚀 Generating AI problem for ID:', id);
-    
-    const response = await aiProblemsApi.generateAiProblem(id);
-    console.log('✅ AI Problem generated response:', response);
-    
-    // Fix: Use response.problem instead of response.data
-    if (response.problem && response.problem._id) {
-      console.log('🆕 AI Problem ID:', response.problem._id);
-      // Navigate to the comparison page with both original and AI problem
-      navigate(`/ai-problem-compare/${id}/${response.problem._id}`);
-    } else {
-      console.error('❌ Invalid response structure:', response);
-      throw new Error('Invalid response from server - missing problem data');
+  const handleGenerateAIProblem = async () => {
+    try {
+      setGeneratingAI(true);
+      console.log("🚀 Generating AI problem for ID:", id);
+
+      const response = await aiProblemsApi.generateAiProblem(id);
+      console.log("✅ AI Problem generated response:", response);
+
+      // Fix: Use response.problem instead of response.data
+      if (response.problem && response.problem._id) {
+        console.log("🆕 AI Problem ID:", response.problem._id);
+        // Navigate to the comparison page with both original and AI problem
+        navigate(`/ai-problem-compare/${id}/${response.problem._id}`);
+      } else {
+        console.error("❌ Invalid response structure:", response);
+        throw new Error("Invalid response from server - missing problem data");
+      }
+    } catch (err) {
+      console.error("❌ Error generating AI problem:", err);
+
+      if (err.message === "AUTHENTICATION_REQUIRED") {
+        alert("Please login to generate AI problems");
+        navigate("/login");
+      } else {
+        alert("Failed to generate AI problem: " + err.message);
+      }
+    } finally {
+      setGeneratingAI(false);
     }
-  } catch (err) {
-    console.error('❌ Error generating AI problem:', err);
-    
-    if (err.message === 'AUTHENTICATION_REQUIRED') {
-      alert('Please login to generate AI problems');
-      navigate('/login');
-    } else {
-      alert('Failed to generate AI problem: ' + err.message);
-    }
-  } finally {
-    setGeneratingAI(false);
-  }
-};
+  };
 
   if (loading) {
     return (
@@ -92,12 +95,27 @@ const handleGenerateAIProblem = async () => {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full text-center">
-          <svg className="w-16 h-16 text-red-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <svg
+            className="w-16 h-16 text-red-500 mx-auto mb-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
           </svg>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Error Loading Problem</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">
+            Error Loading Problem
+          </h2>
           <p className="text-gray-600 mb-6">{error}</p>
-          <Link to="/problemset" className="inline-block bg-gradient-to-r from-[#5737F6] to-[#9612FA] text-white px-6 py-2 rounded-lg hover:opacity-90 transition-opacity">
+          <Link
+            to="/problemset"
+            className="inline-block bg-gradient-to-r from-[#5737F6] to-[#9612FA] text-white px-6 py-2 rounded-lg hover:opacity-90 transition-opacity"
+          >
             Back to Problems
           </Link>
         </div>
@@ -109,12 +127,29 @@ const handleGenerateAIProblem = async () => {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full text-center">
-          <svg className="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <svg
+            className="w-16 h-16 text-gray-400 mx-auto mb-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
           </svg>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Problem Not Found</h2>
-          <p className="text-gray-600 mb-6">The problem you're looking for doesn't exist.</p>
-          <Link to="/problemset" className="inline-block bg-gradient-to-r from-[#5737F6] to-[#9612FA] text-white px-6 py-2 rounded-lg hover:opacity-90 transition-opacity">
+          <h2 className="text-xl font-bold text-gray-900 mb-2">
+            Problem Not Found
+          </h2>
+          <p className="text-gray-600 mb-6">
+            The problem you're looking for doesn't exist.
+          </p>
+          <Link
+            to="/problemset"
+            className="inline-block bg-gradient-to-r from-[#5737F6] to-[#9612FA] text-white px-6 py-2 rounded-lg hover:opacity-90 transition-opacity"
+          >
             Back to Problems
           </Link>
         </div>
@@ -127,9 +162,22 @@ const handleGenerateAIProblem = async () => {
       <div className=" px-4 sm:px-6 lg:px-8 py-8">
         {/* Back Navigation and AI Button */}
         <div className="flex items-center justify-between mb-6">
-          <Link to="/problemset" className="inline-flex items-center text-[#5737F6] hover:text-[#9612FA] font-medium transition-colors">
-            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          <Link
+            to="/problemset"
+            className="inline-flex items-center text-[#5737F6] hover:text-[#9612FA] font-medium transition-colors"
+          >
+            <svg
+              className="w-5 h-5 mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              />
             </svg>
             Back to Problems
           </Link>
@@ -142,16 +190,42 @@ const handleGenerateAIProblem = async () => {
           >
             {generatingAI ? (
               <>
-                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <svg
+                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
                 </svg>
                 Generating AI Problem...
               </>
             ) : (
               <>
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                <svg
+                  className="w-5 h-5 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
                 </svg>
                 Generate Similar AI Problem
               </>
@@ -160,63 +234,82 @@ const handleGenerateAIProblem = async () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          
           {/* Left Side - Problem Details */}
           <div className="space-y-6">
-            
             {/* Header Card */}
             <div className="bg-white rounded-lg shadow-md p-6">
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">{problem.name}</h1>
-              
+              <h1 className="text-3xl font-bold text-gray-900 mb-4">
+                {problem.name}
+              </h1>
+
               <div className="flex flex-wrap gap-3 mb-4">
-                <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                  problem.difficulty === 'EASY' ? 'bg-green-100 text-green-800' :
-                  problem.difficulty === 'MEDIUM' ? 'bg-yellow-100 text-yellow-800' :
-                  problem.difficulty === 'MEDIUM_HARD' ? 'bg-orange-100 text-orange-800' :
-                  problem.difficulty === 'HARD' ? 'bg-red-100 text-red-800' :
-                  'bg-purple-100 text-purple-800'
-                }`}>
+                <span
+                  className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    problem.difficulty === "EASY"
+                      ? "bg-green-100 text-green-800"
+                      : problem.difficulty === "MEDIUM"
+                      ? "bg-yellow-100 text-yellow-800"
+                      : problem.difficulty === "MEDIUM_HARD"
+                      ? "bg-orange-100 text-orange-800"
+                      : problem.difficulty === "HARD"
+                      ? "bg-red-100 text-red-800"
+                      : "bg-purple-100 text-purple-800"
+                  }`}
+                >
                   {problem.difficulty}
                 </span>
               </div>
 
               <div className="flex flex-wrap gap-2 mb-4">
                 {problem.tags?.map((tag, index) => (
-                  <span key={index} className="px-2 py-1 bg-purple-50 text-[#5737F6] rounded-full text-xs font-medium">
+                  <span
+                    key={index}
+                    className="px-2 py-1 bg-purple-50 text-[#5737F6] rounded-full text-xs font-medium"
+                  >
                     {tag}
                   </span>
                 ))}
               </div>
-
-              
             </div>
 
             {/* Constraints Card */}
             <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Constraints</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">
+                Constraints
+              </h2>
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-gradient-to-br from-purple-50 to-blue-50 p-3 rounded-lg border border-purple-100">
                   <p className="text-xs text-gray-600 mb-1">Time Limit</p>
-                  <p className="font-semibold text-gray-900">{problem.time_limit}</p>
+                  <p className="font-semibold text-gray-900">
+                    {problem.time_limit}
+                  </p>
                 </div>
                 <div className="bg-gradient-to-br from-purple-50 to-blue-50 p-3 rounded-lg border border-purple-100">
                   <p className="text-xs text-gray-600 mb-1">Memory Limit</p>
-                  <p className="font-semibold text-gray-900">{problem.memory_limit}</p>
+                  <p className="font-semibold text-gray-900">
+                    {problem.memory_limit}
+                  </p>
                 </div>
                 <div className="bg-gradient-to-br from-purple-50 to-blue-50 p-3 rounded-lg border border-purple-100">
                   <p className="text-xs text-gray-600 mb-1">Time Complexity</p>
-                  <p className="font-semibold text-gray-900">{problem.expected_time_complexity}</p>
+                  <p className="font-semibold text-gray-900">
+                    {problem.expected_time_complexity}
+                  </p>
                 </div>
                 <div className="bg-gradient-to-br from-purple-50 to-blue-50 p-3 rounded-lg border border-purple-100">
                   <p className="text-xs text-gray-600 mb-1">Space Complexity</p>
-                  <p className="font-semibold text-gray-900">{problem.expected_auxiliary_space}</p>
+                  <p className="font-semibold text-gray-900">
+                    {problem.expected_auxiliary_space}
+                  </p>
                 </div>
               </div>
             </div>
 
             {/* Description Card */}
             <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Description</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">
+                Description
+              </h2>
               <div className="prose max-w-none text-gray-700 whitespace-pre-wrap leading-relaxed">
                 {problem.description}
               </div>
@@ -224,7 +317,9 @@ const handleGenerateAIProblem = async () => {
 
             {/* Input Format Card */}
             <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Input Format</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">
+                Input Format
+              </h2>
               <div className="bg-gray-50 p-4 rounded-lg font-mono text-sm text-gray-700 whitespace-pre-wrap border border-gray-200">
                 {problem.input}
               </div>
@@ -232,7 +327,9 @@ const handleGenerateAIProblem = async () => {
 
             {/* Output Format Card */}
             <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Output Format</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">
+                Output Format
+              </h2>
               <div className="bg-gray-50 p-4 rounded-lg font-mono text-sm text-gray-700 whitespace-pre-wrap border border-gray-200">
                 {problem.output}
               </div>
@@ -241,7 +338,9 @@ const handleGenerateAIProblem = async () => {
             {/* Examples Card */}
             {problem.examples?.length > 0 && (
               <div className="bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">Examples</h2>
+                <h2 className="text-xl font-bold text-gray-900 mb-4">
+                  Examples
+                </h2>
                 {problem.examples.map((example, index) => (
                   <div key={index} className="mb-6 last:mb-0">
                     <h3 className="font-semibold text-gray-900 mb-3 flex items-center">
@@ -252,17 +351,29 @@ const handleGenerateAIProblem = async () => {
                     </h3>
                     <div className="space-y-3">
                       <div>
-                        <p className="text-sm font-medium text-gray-600 mb-1">Input:</p>
-                        <pre className="bg-gray-900 text-green-400 p-3 rounded-lg text-sm overflow-x-auto border border-gray-700">{example.input}</pre>
+                        <p className="text-sm font-medium text-gray-600 mb-1">
+                          Input:
+                        </p>
+                        <pre className="bg-gray-900 text-green-400 p-3 rounded-lg text-sm overflow-x-auto border border-gray-700">
+                          {example.input}
+                        </pre>
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-gray-600 mb-1">Output:</p>
-                        <pre className="bg-gray-900 text-blue-400 p-3 rounded-lg text-sm overflow-x-auto border border-gray-700">{example.output}</pre>
+                        <p className="text-sm font-medium text-gray-600 mb-1">
+                          Output:
+                        </p>
+                        <pre className="bg-gray-900 text-blue-400 p-3 rounded-lg text-sm overflow-x-auto border border-gray-700">
+                          {example.output}
+                        </pre>
                       </div>
                       {example.explanation && (
                         <div>
-                          <p className="text-sm font-medium text-gray-600 mb-1">Explanation:</p>
-                          <p className="text-sm text-gray-700 bg-blue-50 p-3 rounded-lg border border-blue-100">{example.explanation}</p>
+                          <p className="text-sm font-medium text-gray-600 mb-1">
+                            Explanation:
+                          </p>
+                          <p className="text-sm text-gray-700 bg-blue-50 p-3 rounded-lg border border-blue-100">
+                            {example.explanation}
+                          </p>
                         </div>
                       )}
                     </div>
@@ -275,12 +386,24 @@ const handleGenerateAIProblem = async () => {
             {problem.note && (
               <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-l-4 border-[#5737F6] rounded-lg p-6">
                 <h2 className="text-lg font-bold text-gray-900 mb-2 flex items-center">
-                  <svg className="w-5 h-5 mr-2 text-[#5737F6]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <svg
+                    className="w-5 h-5 mr-2 text-[#5737F6]"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
                   </svg>
                   Note
                 </h2>
-                <p className="text-gray-800 whitespace-pre-wrap">{problem.note}</p>
+                <p className="text-gray-800 whitespace-pre-wrap">
+                  {problem.note}
+                </p>
               </div>
             )}
 
@@ -296,7 +419,7 @@ const handleGenerateAIProblem = async () => {
                   </h2>
                   <svg
                     className={`w-6 h-6 text-gray-600 transition-transform duration-200 ${
-                      showSolutions ? 'rotate-180' : ''
+                      showSolutions ? "rotate-180" : ""
                     }`}
                     fill="none"
                     stroke="currentColor"
@@ -310,13 +433,15 @@ const handleGenerateAIProblem = async () => {
                     />
                   </svg>
                 </button>
-                
+
                 {showSolutions && (
                   <div className="mt-4 space-y-4">
                     {problem.solutions.map((solution, index) => (
                       <div key={index} className="mb-4 last:mb-0">
                         <div className="flex items-center justify-between mb-2">
-                          <h3 className="font-semibold text-gray-900">Solution {index + 1}</h3>
+                          <h3 className="font-semibold text-gray-900">
+                            Solution {index + 1}
+                          </h3>
                           <span className="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 rounded-full text-xs font-medium">
                             {solution.language}
                           </span>
@@ -335,14 +460,18 @@ const handleGenerateAIProblem = async () => {
                 )}
               </div>
             )}
-
           </div>
 
           {/* Right Side - Code Editor */}
           <div className="lg:sticky lg:top-4 lg:self-start">
             <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Code Editor</h2>
-              <CodeEditor testcases={problem.examples || []} problemId={problem._id} />
+              <h2 className="text-xl font-bold text-gray-900 mb-4">
+                Code Editor
+              </h2>
+              <CodeEditor
+                testcases={problem.examples || []}
+                problemId={problem._id}
+              />
             </div>
           </div>
         </div>
@@ -353,26 +482,25 @@ const handleGenerateAIProblem = async () => {
 
 export default ProblemPage;
 
+// const fetchProblem = async () => {
+//   try {
+//     setLoading(true);
+//     setError(null);
 
-  // const fetchProblem = async () => {
-  //   try {
-  //     setLoading(true);
-  //     setError(null);
-      
-  //     console.log('Fetching problem with ID:', id);
-  //     console.log('Full URL:', `http://localhost:3000/api/problems/${id}`);
-      
-  //     const data = await problemsApi.getProblemById(id);
-  //     console.log('Received data:', data);
-      
-  //     setProblem(data);
-  //     setLoading(false);
-  //   } catch (err) {
-  //     console.error('Full error:', err);
-  //     setError(err.message);
-  //     setLoading(false);
-  //   }
-  // };
+//     console.log('Fetching problem with ID:', id);
+//     console.log('Full URL:', `http://localhost:3000/api/problems/${id}`);
+
+//     const data = await problemsApi.getProblemById(id);
+//     console.log('Received data:', data);
+
+//     setProblem(data);
+//     setLoading(false);
+//   } catch (err) {
+//     console.error('Full error:', err);
+//     setError(err.message);
+//     setLoading(false);
+//   }
+// };
 
 // import React, { useState, useEffect } from 'react';
 // import { useParams, Link } from 'react-router-dom';
@@ -395,13 +523,13 @@ export default ProblemPage;
 //     try {
 //       setLoading(true);
 //       setError(null);
-      
+
 //       console.log('Fetching problem with ID:', id);
 //       console.log('Full URL:', `http://localhost:3000/api/problems/${id}`);
-      
+
 //       const data = await problemsApi.getProblemById(id);
 //       console.log('Received data:', data);
-      
+
 //       setProblem(data);
 //       setLoading(false);
 //     } catch (err) {
@@ -495,7 +623,7 @@ export default ProblemPage;
 //               {/* Header */}
 //               <div>
 //                 <h1 className="text-3xl font-bold text-gray-900 mb-4">{problem.name}</h1>
-                
+
 //                 <div className="flex flex-wrap gap-3 mb-4">
 //                   <span className={`px-3 py-1 rounded-full text-sm font-medium ${
 //                     problem.difficulty === 'EASY' ? 'bg-green-100 text-green-800' :

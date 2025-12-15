@@ -1,7 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { UserContext } from "../../GlobalContext/UserContext";
-import CourseCard from "./S_CourseCard";
+import JoinedCard from "./JoinedCard";
+import RecommendedCard from "./RecommendedCard";
+// Add Swiper
+import { Swiper, SwiperSlide } from "swiper/react";
+import {
+  Navigation,
+  Pagination,
+  A11y,
+  Autoplay,
+  Keyboard,
+} from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 function S_ShowCourses() {
   const [courses, setCourses] = useState([]);
@@ -45,22 +58,34 @@ function S_ShowCourses() {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <Swiper
+              modules={[Navigation, Pagination, A11y, Autoplay, Keyboard]}
+              spaceBetween={16}
+              navigation
+              pagination={{ clickable: true }}
+              keyboard={{ enabled: true }}
+              autoplay={{ delay: 3500, disableOnInteraction: false }}
+              breakpoints={{
+                0: { slidesPerView: 1 },
+                640: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 },
+              }}
+            >
               {joined.map((course) => (
-                <CourseCard
-                  key={course._id}
-                  course={course}
-                  showJoinButton={true}
-                />
+                <SwiperSlide key={course._id}>
+                  <div className="h-full">
+                    <JoinedCard course={course} showJoinButton={true} />
+                  </div>
+                </SwiperSlide>
               ))}
-            </div>
+            </Swiper>
           )}
         </div>
 
-        {/* Available Courses */}
+        {/* Recommended Courses */}
         <div>
           <h2 className="text-2xl font-bold mb-6 text-slate-900">
-            Available Courses
+            Recommended Courses
           </h2>
           {notJoined.length === 0 ? (
             <div className="text-center py-8">
@@ -69,38 +94,51 @@ function S_ShowCourses() {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <Swiper
+              modules={[Navigation, Pagination, A11y, Autoplay, Keyboard]}
+              spaceBetween={16}
+              navigation
+              pagination={{ clickable: true }}
+              keyboard={{ enabled: true }}
+              autoplay={{ delay: 4000, disableOnInteraction: false }}
+              breakpoints={{
+                0: { slidesPerView: 1 },
+                640: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 },
+              }}
+            >
               {notJoined.map((course) => (
-                <div key={course._id} className="relative">
-                  <CourseCard course={course} showJoinButton={false} />
-                  <div className="absolute top-4 right-4">
-                    <button
-                      className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200 text-sm font-medium"
-                      onClick={async (e) => {
-                        e.stopPropagation();
-                        const res = await fetch(
-                          `http://localhost:3000/courses/join/${course._id}`,
-                          {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ studentId: User?._id }),
-                          }
-                        );
-                        if (res.ok) {
-                          // Move course from notJoined to joined
-                          setJoined((prev) => [...prev, course]);
-                          setNotJoined((prev) =>
-                            prev.filter((c) => c._id !== course._id)
+                <SwiperSlide key={course._id}>
+                  <div className="relative h-full">
+                    <RecommendedCard course={course} showJoinButton={false} />
+                    <div className="absolute top-4 right-4">
+                      <button
+                        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200 text-sm font-medium"
+                        onClick={async (e) => {
+                          e.stopPropagation();
+                          const res = await fetch(
+                            `http://localhost:3000/courses/join/${course._id}`,
+                            {
+                              method: "POST",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({ studentId: User?._id }),
+                            }
                           );
-                        }
-                      }}
-                    >
-                      Join Course
-                    </button>
+                          if (res.ok) {
+                            setJoined((prev) => [...prev, course]);
+                            setNotJoined((prev) =>
+                              prev.filter((c) => c._id !== course._id)
+                            );
+                          }
+                        }}
+                      >
+                        Join Course
+                      </button>
+                    </div>
                   </div>
-                </div>
+                </SwiperSlide>
               ))}
-            </div>
+            </Swiper>
           )}
         </div>
       </div>

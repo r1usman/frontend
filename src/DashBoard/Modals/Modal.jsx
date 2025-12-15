@@ -10,17 +10,28 @@ const Modal = ({
   actionBtnIcon = null,
   actionBtnText,
   onActionClick,
-  type
+  type,
 }) => {
   if (!isOpen) return null;
   console.log(title);
-  
 
   return (
     <div className="font-urbanist fixed inset-0 z-50 flex justify-center items-center w-full h-full round bg-black/40">
-      <div className={`relative bg-white  flex flex-col   shadow-lg rounded-lg  ${type == "Banner" ? "w-[35vw] h-[65vh] overflow-hiddn": type=="Confirmation"?"w-[45vw] h-[60vh] overflow-hiddn" : type ==="Groups" ?"w-[60vw] h-[95vh] overflow-y-scroll": type === "small"?"w-[60vw]  md:w-[45vw] lg:w-[39vw] sm:h-[43vh] overflow-hiddn" : type ==="BlogView"?"w-[75vw] h-[95vh] overflow-y-scroll" :"w-[75vw] h-[100vh] overflow-hiddn" } `}>
-
-        
+      <div
+        className={`relative bg-white  flex flex-col   shadow-lg rounded-lg  ${
+          type == "Banner"
+            ? "w-[35vw] h-[65vh] overflow-hiddn"
+            : type == "Confirmation"
+            ? "w-[45vw] h-[60vh] overflow-hiddn"
+            : type === "Groups"
+            ? "w-[60vw] h-[95vh] overflow-y-scroll"
+            : type === "small"
+            ? "w-[60vw]  md:w-[45vw] lg:w-[39vw] sm:h-[40vh] overflow-hiddn"
+            : type === "BlogView"
+            ? "w-[75vw] h-[95vh] overflow-y-scroll"
+            : "w-[75vw] h-[100vh] overflow-hiddn"
+        } `}
+      >
         {!hideHeader && (
           <div className="flex items-center justify-between p-4 border-b border-gray-200 ">
             <h3 className="md:text-lg font-medium text-gray-900">{title}</h3>
@@ -36,7 +47,6 @@ const Modal = ({
           </div>
         )}
 
-       
         <button
           onClick={onClose}
           type="button"
@@ -59,9 +69,7 @@ const Modal = ({
           </svg>
         </button>
 
-        <div className="flex-1 py-2">
-          {children}
-        </div>
+        <div className="flex-1 py-2">{children}</div>
       </div>
     </div>
   );
